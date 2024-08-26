@@ -12,7 +12,7 @@ class Database {
     private $password = 'root';
     public $conn;
 
-    public function get_connection() {
+    public function getConnection() {
         $this->conn = null;
 
         try {
