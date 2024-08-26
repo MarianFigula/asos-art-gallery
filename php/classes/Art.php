@@ -47,8 +47,8 @@ class Art {
                 description, price, art_creation_date FROM " . $this->table_name;
 
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
+
+        return $stmt->execute();
     }
 
     public function getArtById() {
@@ -59,8 +59,7 @@ class Art {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->id);
 
-        $stmt->execute();
-        return $stmt;
+        return $stmt->execute();
     }
     public function getArtByUserId() {
         $query = "SELECT id, user_id, img_src, title, 
