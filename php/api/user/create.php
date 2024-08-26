@@ -26,7 +26,7 @@ $user->setSecurityQuestion($data->security_question);
 $user->setSecurityAnswer($data->security_answer);
 
 if (!$user->createUser()) {
-    echo json_encode(["status" => http_response_code(),
+    echo json_encode(["status" => http_response_code(400),
         "message" => "Unable to create User"]);
     exit();
 }
