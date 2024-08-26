@@ -15,7 +15,7 @@ $data = json_decode(file_get_contents("php://input"));
 
 if (empty($data->email) || empty($data->password) ||
     empty($data->security_question) || empty($data->security_answer)) {
-    echo json_encode(["status" => http_response_code(400) ,
+    echo json_encode(["code" => http_response_code(400) ,
         "message" => "Incomplete data"]);
     exit();
 }
@@ -26,10 +26,10 @@ $user->setSecurityQuestion($data->security_question);
 $user->setSecurityAnswer($data->security_answer);
 
 if (!$user->createUser()) {
-    echo json_encode(["status" => http_response_code(400),
+    echo json_encode(["code" => http_response_code(400),
         "message" => "Unable to create User"]);
     exit();
 }
 
-echo json_encode(["status" => http_response_code(201),
+echo json_encode(["code" => http_response_code(201),
     "message" => "User created successfully"]);
