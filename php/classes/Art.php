@@ -31,12 +31,12 @@ class Art {
         $this->price = htmlspecialchars(strip_tags($this->price));
         $this->art_creation_date = htmlspecialchars(strip_tags($this->art_creation_date));
 
-        $stmt->bindParam(":email", $this->user_id);
-        $stmt->bindParam(":password", $this->img_src);
-        $stmt->bindParam(":security_question", $this->title);
-        $stmt->bindParam(":security_answer", $this->description);
-        $stmt->bindParam(":security_answer", $this->price);
-        $stmt->bindParam(":security_answer", $this->art_creation_date);
+        $stmt->bindParam(":user_id", $this->user_id);
+        $stmt->bindParam(":img_src", $this->img_src);
+        $stmt->bindParam(":title", $this->title);
+        $stmt->bindParam(":description", $this->description);
+        $stmt->bindParam(":price", $this->price);
+        $stmt->bindParam(":art_creation_date", $this->art_creation_date);
 
         return $stmt->execute();
 
