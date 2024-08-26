@@ -32,13 +32,14 @@ class User {
 
     }
 
-    public function getUsers() {
+    public function getUsers()
+    {
         $query = "SELECT id, email, security_question,
         security_answer FROM " . $this->table_name;
 
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
+
+        return $stmt->execute();
     }
 
     public function getUserById() {
@@ -48,9 +49,7 @@ class User {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->id);
 
-        $stmt->execute();
-
-        return $stmt;
+        return $stmt->execute();
     }
 
     public function getUserByEmail() {
@@ -73,10 +72,6 @@ class User {
         $this->id = htmlspecialchars(strip_tags($this->id));
         $stmt->bindParam(':id', $this->id);
 
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        return false;
+        return $stmt->execute();
     }
 }
