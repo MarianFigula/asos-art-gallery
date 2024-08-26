@@ -7,7 +7,24 @@ class Review {
     private $user_id;
     private $review_text;
     private $review_creation_date;
-
+    public function getTableName() {return $this->table_name;}
+    public function setTableName($table_name) {
+        $this->table_name = $table_name;
+    }
+    public function getId() {return $this->id;}
+    public function setId($id) {$this->id = $id;}
+    public function getUserId() {return $this->user_id;}
+    public function setUserId($user_id) {$this->user_id = $user_id;}
+    public function getReviewText() {return $this->review_text;}
+    public function setReviewText($review_text){
+        $this->review_text = $review_text;
+    }
+    public function getReviewCreationDate(){
+        return $this->review_creation_date;
+    }
+    public function setReviewCreationDate($review_creation_date) {
+        $this->review_creation_date = $review_creation_date;
+    }
     public function __construct($db) { $this->conn = $db;}
 
     public function createReview() {
@@ -22,7 +39,8 @@ class Review {
         // Sanitize input, TODO: unsanitize, zmenit to tak ze to dat do query
         $this->user_id = htmlspecialchars(strip_tags($this->user_id));
         $this->review_text = htmlspecialchars(strip_tags($this->review_text));
-        $this->review_creation_date = htmlspecialchars(strip_tags($this->review_creation_date));
+        $this->review_creation_date =
+            htmlspecialchars(strip_tags($this->review_creation_date));
 
         $stmt->bindParam(":user_id", $this->user_id);
         $stmt->bindParam(":review_text", $this->review_text);
