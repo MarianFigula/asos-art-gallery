@@ -11,6 +11,29 @@ class User {
 
     public function __construct($db) { $this->conn = $db; }
 
+    // Setters
+    public function setEmail($email) {
+        $this->email = htmlspecialchars(strip_tags($email));
+    }
+
+    public function setPassword($password) {
+        $this->password = htmlspecialchars(strip_tags($password));
+    }
+
+    public function setSecurityQuestion($security_question) {
+        $this->security_question = htmlspecialchars(strip_tags($security_question));
+    }
+
+    public function setSecurityAnswer($security_answer) {
+        $this->security_answer = htmlspecialchars(strip_tags($security_answer));
+    }
+    public function getTableName() {return $this->table_name;}
+    public function getId() {return $this->id;}
+    public function getEmail() {return $this->email;}
+    public function getPassword() {return $this->password;}
+    public function getSecurityQuestion() {return $this->security_question;}
+    public function getSecurityAnswer() {return $this->security_answer;}
+
     public function createUser() {
         $query = "INSERT INTO " . $this->table_name . " (email, password, security_question, security_answer)
                   VALUES (:email, :password, :security_question, :security_answer)";
