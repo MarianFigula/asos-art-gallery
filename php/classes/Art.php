@@ -13,6 +13,31 @@ class Art {
 
     public function __construct($db) { $this->conn = $db;}
 
+    public function getTableName() {return $this->table_name;}
+    public function setTableName($table_name) {
+        $this->table_name = $table_name;
+    }
+    public function getId() { return $this->id;}
+    public function setId($id) { $this->id = $id;}
+    public function getUserId() { return $this->user_id;}
+    public function setUserId($user_id) {$this->user_id = $user_id;}
+    public function getImgSrc() { return $this->img_src;}
+    public function setImgSrc($img_src) { $this->img_src = $img_src;}
+    public function getTitle() {return $this->title;}
+    public function setTitle($title) {$this->title = $title;}
+    public function getDescription() {return $this->description;}
+    public function setDescription($description) {
+        $this->description = $description;
+    }
+    public function getPrice() {return $this->price;}
+    public function setPrice($price) {$this->price = $price;}
+    public function getArtCreationDate() {return $this->art_creation_date;}
+    public function setArtCreationDate($art_creation_date) {
+        $this->art_creation_date = $art_creation_date;
+    }
+
+
+
     public function createArt() {
         $this->art_creation_date = date('Y-m-d H:i:s');
 
