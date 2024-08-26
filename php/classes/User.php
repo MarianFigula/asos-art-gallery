@@ -12,6 +12,9 @@ class User {
     public function __construct($db) { $this->conn = $db; }
 
     // Setters
+    public function setId($id){
+        $this->id = htmlspecialchars(strip_tags($id));
+    }
     public function setEmail($email) {
         $this->email = htmlspecialchars(strip_tags($email));
     }
