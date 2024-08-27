@@ -6,8 +6,12 @@ export function Register() {
     const [password, setPassword] = useState("")
     const [repeatedPassword, setRepeatedPassword] = useState("")
     const [securityQuestions] = useState([
-        "ds", "ds", "ds", "ds"
-    ])
+        "-- Choose --",
+        "What is your pet's name?",
+        "What was your first car?",
+        "What is your grandmother's name?",
+        "What was the name of your first school?"
+    ]);
     const [selectedSecurityQuestion, setSelectedSecurityQuestion] = useState("")
 
     const [securityAnswer, setSecurityAnswer] = useState("")
@@ -16,27 +20,34 @@ export function Register() {
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-    async function handleSubmit(event){
+    async function handleSubmit(event) {
         event.preventDefault()
 
+        if (password !== repeatedPassword){
+            setError("Password and Repeated password are not the same")
+            return;
+        }
+
         try {
-            const response = await fetch(`${serverUrl}/api/user/register.php`, {
+            const response = await fetch(
+                `${serverUrl}/api/user/register.php`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                        email,
-                        password,
-                        selectedSecurityQuestion,
-                        setSecurityAnswer
-                    })
+                    email,
+                    password,
+                    repeatedPassword,
+                    selectedSecurityQuestion,
+                    securityAnswer
+                })
             })
 
             const data = await response.json()
-            data.success ? navigate("/dasboard") : setError(data.message)
+            data.success ? navigate("/") : setError(data.message)
 
-        } catch (error){
+        } catch (error) {
             setError("Register failed. Please try again")
         }
 
@@ -78,13 +89,20 @@ export function Register() {
                 </div>
                 <div>
                     <label>Security question:</label>
-                    <select>
-                        {securityQuestions.map(securityQuestion =>
-                            <option value={securityQuestion}>
+                    <select
+                        value={selectedSecurityQuestion}
+                        onChange={(e) =>
+                            setSelectedSecurityQuestion(e.target.value)}>
+
+                        {securityQuestions.map((securityQuestion, index) =>
+                            <option
+                                key={index}
+                                value={index === 0 ? "" : securityQuestion}>
                                 {securityQuestion}
                             </option>)}
                     </select>
                 </div>
+                <p>{selectedSecurityQuestion}</p>
                 <div>
                     <label>Security Answer:</label>
                     <input
@@ -99,7 +117,6 @@ export function Register() {
                 <button type="submit">Register</button>
             </form>
         </div>
-
 
     )
 }
