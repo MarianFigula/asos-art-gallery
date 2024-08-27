@@ -49,6 +49,7 @@
 
 .links{
     margin-top: 1rem;
+    margin-bottom: 0!important;
     font-size: 0.8rem;
     display: flex;
     justify-content: space-between;
