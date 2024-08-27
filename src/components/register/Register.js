@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export function Register() {
     const [email, setEmail] = useState("")
@@ -64,6 +64,7 @@ export function Register() {
                         value={email}
                         onChange={(e) =>
                             setEmail(e.target.value)}
+                        className="input"
                         required
                     />
                 </div>
@@ -74,6 +75,7 @@ export function Register() {
                         value={password}
                         onChange={(e) =>
                             setPassword(e.target.value)}
+                        className="input"
                         required
                     />
                 </div>
@@ -84,6 +86,7 @@ export function Register() {
                         value={repeatedPassword}
                         onChange={(e) =>
                             setRepeatedPassword(e.target.value)}
+                        className="input"
                         required
                     />
                 </div>
@@ -92,7 +95,8 @@ export function Register() {
                     <select
                         value={selectedSecurityQuestion}
                         onChange={(e) =>
-                            setSelectedSecurityQuestion(e.target.value)}>
+                            setSelectedSecurityQuestion(e.target.value)}
+                    className="input">
 
                         {securityQuestions.map((securityQuestion, index) =>
                             <option
@@ -109,11 +113,15 @@ export function Register() {
                         value={securityAnswer}
                         onChange={(e) =>
                             setSecurityAnswer(e.target.value)}
+                        className="input"
                         required
                     />
                 </div>
                 {error && <p style={{color: 'red'}}>{error}</p>}
                 <button type="submit">Register</button>
+                <div className="links">
+                    <Link to={"/login"}>Already registered?</Link>
+                </div>
             </form>
         </div>
 
