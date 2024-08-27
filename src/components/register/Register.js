@@ -36,7 +36,7 @@ export function Register() {
             data.success ? navigate("/dasboard") : setError(data.message)
 
         } catch (error){
-            setError("Login failed. Please try again")
+            setError("Register failed. Please try again")
         }
 
     }
