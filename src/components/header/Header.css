@@ -14,30 +14,33 @@ header {
 nav {
     display: flex;
     align-items: center;
-}
+    ul {
+        list-style-type: none;
+        margin: 0 5%;
+        padding: 0;
+        display: flex;
+        align-content: center;
+        align-items: center;
+        &:nth-child(1) {
+            flex-grow: 3;
+        }
+        li {
+            margin: 0 15px;
+            &:first-child{
+                flex-grow: 2;
+            }
+            a {
+                color: white;
+                text-decoration: none;
+                font-size: 18px;
+                font-weight: bold;
+                display: flex;
 
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-content: center;
-    align-items: center;
-}
-
-nav ul li {
-    margin: 0 15px;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    display: flex;
-}
-
-nav ul li a:hover {
-    background: #28a745;
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+    }
 }
 
