@@ -7,12 +7,13 @@ export function Login() {
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
     const navigate = useNavigate()
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
 
     async function handleSubmit(event){
         event.preventDefault()
 
         try {
-            const response = await fetch("http://localhost:80/api/user/login.php", {
+            const response = await fetch(`${serverUrl}/api/user/login.php`, {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',

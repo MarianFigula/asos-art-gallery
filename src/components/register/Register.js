@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import "../login/Login.css"
 
 export function Register() {
     const [email, setEmail] = useState("")
@@ -15,11 +14,13 @@ export function Register() {
     const [error, setError] = useState("")
     const navigate = useNavigate()
 
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
+
     async function handleSubmit(event){
         event.preventDefault()
 
         try {
-            const response = await fetch("http://localhost:80/api/user/register.php", {
+            const response = await fetch(`${serverUrl}/api/user/register.php`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
