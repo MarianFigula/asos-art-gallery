@@ -89,7 +89,7 @@ class User {
     }
 
     // Update user
-    public function updateUser() {
+    public function updateUserById() {
         $query = "UPDATE " . $this->table_name . "
                   SET email = :email, password = :password, 
                   security_question = :security_question, 
