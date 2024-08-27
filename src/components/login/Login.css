@@ -32,7 +32,7 @@
     button {
         width: 100%;
         padding: 10px;
-        background-color: var(--input-focus-black);
+        background-color: var(--dark);
         color: var(--white);
         margin-top: 15px;
         border: none;
@@ -46,14 +46,18 @@
 .login-container button:hover {
     background-color: #495057;
 }
-/* Input focus style */
-.login-container .input:focus {
-    border: 1px solid red;
-}
 
 .links{
     margin-top: 1rem;
     font-size: 0.8rem;
     display: flex;
     justify-content: space-between;
+    a {
+        color: var(--grey);
+        transition: color 100ms ease-in;
+
+        &:hover {
+            color: var(--dark);
+        }
+    }
 }
