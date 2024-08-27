@@ -73,7 +73,8 @@ class Art {
 
         $stmt = $this->conn->prepare($query);
 
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt;
     }
 
     public function getArtById() {
@@ -84,7 +85,8 @@ class Art {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->id);
 
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt;
     }
     public function getArtByUserId() {
         $query = "SELECT id, user_id, img_src, title, 
@@ -94,7 +96,8 @@ class Art {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);
 
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt;
     }
 
     public function deleteArtById() {

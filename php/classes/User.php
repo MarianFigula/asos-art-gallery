@@ -65,7 +65,8 @@ class User {
 
         $stmt = $this->conn->prepare($query);
 
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt;
     }
 
     public function getUserById() {
@@ -75,7 +76,8 @@ class User {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->id);
 
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt;
     }
 
     public function getUserByEmail() {
@@ -85,7 +87,8 @@ class User {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":email", $this->email);
 
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt;
     }
 
     // Update user

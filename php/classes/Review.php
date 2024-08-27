@@ -57,7 +57,8 @@ class Review {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->id);
 
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt;
     }
 
     public function getReviewById(){
@@ -67,7 +68,8 @@ class Review {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);
 
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt;
     }
 
     public function getReviewByUserId() {
@@ -77,7 +79,8 @@ class Review {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $this->user_id);
 
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt;
     }
 
     public function deleteReviewById() {
