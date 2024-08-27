@@ -1,43 +1,59 @@
 /* src/App.css */
 .login-container {
-    width: 300px;
+    width: min(60%, 400px);
     margin: 100px auto;
-    padding: 20px;
+    padding: 20px 30px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 20px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    form div {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: var(--input-focus-black);
+        color: var(--white);
+        margin-top: 15px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 200ms ease-in;
+    }
 }
 
-.login-container h2 {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.login-container form div {
-    margin-bottom: 15px;
-}
-
-.login-container label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.login-container input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-}
-
-.login-container button {
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
 .login-container button:hover {
-    background-color: #218838;
+    background-color: #495057;
+}
+/* Input focus style */
+.login-container .input:focus {
+    border: 1px solid red;
+}
+
+.links{
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
 }

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import "./Login.css"
 
 export function Login() {
@@ -35,28 +35,34 @@ export function Login() {
             <h2>Login</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Email:</label>
+                    <label>Email</label>
                     <input
                         type="email"
                         value={email}
                         onChange={(e) =>
                             setEmail(e.target.value)}
+                        className="input"
                         required
                     />
                 </div>
                 <div>
-                    <label>Password:</label>
+                    <label>Password</label>
                     <input
                         type="password"
                         value={password}
                         onChange={(e) =>
                             setPassword(e.target.value)}
+                        className="input"
                         required
                     />
                 </div>
                 {error && <p style={{color: 'red'}}>{error}</p>}
-                <button type="submit">Login</button>
+                <button type="submit">Sign in</button>
             </form>
+            <div className="links">
+                <Link to="/register">Register</Link>
+                <Link to="/forgot-password">Forgot password</Link>
+            </div>
         </div>
 
 
