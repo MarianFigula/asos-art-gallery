@@ -1,7 +1,6 @@
 /* Header.css */
 
 header {
-    --header-background-color: #181935;
     background-color: var(--header-background-color);
     color: white;
     padding: 30px 0;
