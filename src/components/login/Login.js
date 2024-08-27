@@ -61,7 +61,7 @@ export function Login() {
             </form>
             <div className="links">
                 <Link to="/register">Register</Link>
-                <Link to="/forgot-password">Forgot password</Link>
+                <Link to="/forgot-password">Forgot password?</Link>
             </div>
         </div>
 
