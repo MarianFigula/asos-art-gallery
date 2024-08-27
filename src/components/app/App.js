@@ -1,16 +1,19 @@
 import './App.css';
 import {Route, Routes} from "react-router-dom";
 import {Login} from "../login/Login";
+import {MainSite} from "../mainSite/MainSite";
+import {Register} from "../register/Register";
 
 function App() {
-  return (
+    return (
 
-   <Routes>
-     <Route path={"/"} element={<Login />} />
-     {/*<Route path={"/dashboard"} element={<Dashboard />} />*/}
-   </Routes>
+        <Routes>
+            <Route path={"/"} element={<MainSite/>}/>
+            <Route path={"/login"} element={<Login/>}/>
+            <Route path={"/register"} element={<Register/>}/>
+        </Routes>
 
-  );
+    );
 }
 
 export default App;
