@@ -44,15 +44,15 @@ class User {
         $stmt = $this->conn->prepare($query);
 
         // Sanitize input, TODO: unsanitize, zmenit to tak ze to dat do query
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->password = htmlspecialchars(strip_tags($this->password));
-        $this->security_question = htmlspecialchars(strip_tags($this->security_question));
-        $this->security_answer = htmlspecialchars(strip_tags($this->security_answer));
+        $this->setEmail($this->email);
+        $this->setPassword($this->password);
+        $this->setSecurityQuestion($this->security_question);
+        $this->setSecurityAnswer($this->security_answer);
 
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":password", $this->password);
-        $stmt->bindParam(":security_question", $this->security_question);
-        $stmt->bindParam(":security_answer", $this->security_answer);
+        $stmt->bindParam(':email', $this->getEmail());
+        $stmt->bindParam(':password', $this->getPassword());
+        $stmt->bindParam(':security_question', $this->getSecurityQuestion());
+        $stmt->bindParam(':security_answer', $this->getSecurityAnswer());
 
         return $stmt->execute();
 
@@ -85,11 +85,33 @@ class User {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":email", $this->email);
 
-        $stmt->execute();
-
-        return $stmt;
+        return $stmt->execute();
     }
 
+    // Update user
+    public function updateUser() {
+        $query = "UPDATE " . $this->table_name . "
+                  SET email = :email, password = :password, 
+                  security_question = :security_question, 
+                  security_answer = :security_answer
+                  WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->setEmail($this->email);
+        $this->setPassword($this->password);
+        $this->setSecurityQuestion($this->security_question);
+        $this->setSecurityAnswer($this->security_answer);
+        $this->setId($this->id);
+
+        $stmt->bindParam(':email', $this->getEmail());
+        $stmt->bindParam(':password', $this->getPassword());
+        $stmt->bindParam(':security_question', $this->getSecurityQuestion());
+        $stmt->bindParam(':security_answer', $this->getSecurityAnswer());
+        $stmt->bindParam(':id', $this->getId());
+
+        return $stmt->execute();
+    }
     public function deleteUserById() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
 
