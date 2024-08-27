@@ -70,7 +70,7 @@ class User {
     }
 
     public function getUserById() {
-        $query = "SELECT id, email, security_question,
+        $query = "SELECT id, email, password, security_question,
         security_answer FROM " . $this->table_name .  " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -81,7 +81,7 @@ class User {
     }
 
     public function getUserByEmail() {
-        $query = "SELECT id, email, security_question,
+        $query = "SELECT id, email, password, security_question,
         security_answer FROM " . $this->table_name .  " WHERE email = :email";
 
         $stmt = $this->conn->prepare($query);
