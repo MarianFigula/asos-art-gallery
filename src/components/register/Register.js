@@ -43,7 +43,7 @@ export function Register() {
 
     return (
         <div className="login-container">
-            <h2>Login</h2>
+            <h2>Register</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Email:</label>
