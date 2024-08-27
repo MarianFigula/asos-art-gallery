@@ -22,7 +22,7 @@ export function Login() {
                 })
 
             const data = await response.json()
-            data.success ? navigate("/dasboard") : setError(data.message)
+            data.success ? navigate("/") : setError(data.message)
 
         } catch (error){
             setError("Login failed. Please try again")
