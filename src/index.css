@@ -3,7 +3,8 @@
 :root{
   --white: #fff;
   --background-color: #e9ecef;
-  --input-focus-black: #212529;
+  --dark: #212529;
+  --grey: #495057;
   --header-background-color: #181935;
 }
 
