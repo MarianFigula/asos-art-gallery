@@ -85,7 +85,7 @@ export function Register() {
                     </select>
                 </div>
                 <div>
-                    <label>Password:</label>
+                    <label>Security Answer:</label>
                     <input
                         type="text"
                         value={securityAnswer}
@@ -95,7 +95,7 @@ export function Register() {
                     />
                 </div>
                 {error && <p style={{color: 'red'}}>{error}</p>}
-                <button type="submit">Login</button>
+                <button type="submit">Register</button>
             </form>
         </div>
 
