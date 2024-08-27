@@ -102,7 +102,6 @@ export function Register() {
                             </option>)}
                     </select>
                 </div>
-                <p>{selectedSecurityQuestion}</p>
                 <div>
                     <label>Security Answer:</label>
                     <input
