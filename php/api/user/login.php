@@ -4,6 +4,8 @@ include_once '../../config/Database.php';
 include_once '../../classes/User.php';
 include_once '../../config/cors.php';
 
+session_start(); // Start the session
+
 $database = new Database();
 $db = $database->getConnection();
 $method = $_SERVER['REQUEST_METHOD'];
@@ -50,6 +52,9 @@ if (!password_verify($data->password, $row['password'])){
     ]);
     exit();
 }
+
+$_SESSION['email'] = $row['email'];
+$_SESSION['logged_in'] = true;
 
 http_response_code(200);
 echo json_encode([
