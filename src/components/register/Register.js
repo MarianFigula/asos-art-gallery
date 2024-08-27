@@ -58,7 +58,7 @@ export function Register() {
             <h2>Register</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Email:</label>
+                    <label>Email</label>
                     <input
                         type="email"
                         value={email}
@@ -69,7 +69,7 @@ export function Register() {
                     />
                 </div>
                 <div>
-                    <label>Password:</label>
+                    <label>Password</label>
                     <input
                         type="password"
                         value={password}
@@ -80,7 +80,7 @@ export function Register() {
                     />
                 </div>
                 <div>
-                    <label>Repeat password:</label>
+                    <label>Repeat password</label>
                     <input
                         type="password"
                         value={repeatedPassword}
@@ -91,7 +91,7 @@ export function Register() {
                     />
                 </div>
                 <div>
-                    <label>Security question:</label>
+                    <label>Security question</label>
                     <select
                         value={selectedSecurityQuestion}
                         onChange={(e) =>
@@ -107,7 +107,7 @@ export function Register() {
                     </select>
                 </div>
                 <div>
-                    <label>Security Answer:</label>
+                    <label>Security Answer</label>
                     <input
                         type="text"
                         value={securityAnswer}
