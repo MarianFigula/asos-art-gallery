@@ -8,6 +8,7 @@ class User {
     private $password;
     private $security_question;
     private $security_answer;
+    private $role;
 
     public function __construct($db) { $this->conn = $db; }
 
@@ -30,6 +31,10 @@ class User {
     public function setSecurityAnswer($security_answer) {
         $this->security_answer = htmlspecialchars(strip_tags($security_answer));
     }
+
+    public function getRole(){return $this->role;}
+
+    public function setRole($role){$this->role = $role;}
     public function getTableName() {return $this->table_name;}
     public function getId() {return $this->id;}
     public function getEmail() {return $this->email;}
