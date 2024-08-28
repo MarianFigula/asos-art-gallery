@@ -55,7 +55,7 @@ export function Register() {
 
     return (
         <div className="login-container">
-            <h2>Register</h2>
+            <h2>Sign up</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Email</label>
@@ -118,7 +118,7 @@ export function Register() {
                     />
                 </div>
                 {error && <p style={{color: 'red'}}>{error}</p>}
-                <button type="submit">Register</button>
+                <button type="submit">Sign up</button>
                 <div className="links">
                     <Link to={"/login"}>Already registered?</Link>
                 </div>
