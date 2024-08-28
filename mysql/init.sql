@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS `user`
     `email` VARCHAR(256) NOT NULL,
     `password` VARCHAR(512) NOT NULL,
     `security_question` VARCHAR(512) NOT NULL,
-    `security_answer` VARCHAR(512) NOT NULL
+    `security_answer` VARCHAR(512) NOT NULL,
+    `role` VARCHAR(2) NOT NULL,
     );
 
 -- Insert sample data into `user` table
