@@ -4,6 +4,7 @@ import {Login} from "../login/Login";
 import {MainSite} from "../mainSite/MainSite";
 import {Register} from "../register/Register";
 import {Header} from "../header/Header";
+import {AdminSite} from "../adminSite/AdminSite";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <Route path={"/"} element={<MainSite/>}/>
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path={"/register"} element={<Register/>}/>
+                <Route path={"/admin"} element={<AdminSite/>}/>
             </Routes>
         </>
     );
