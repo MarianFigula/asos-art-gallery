@@ -12,11 +12,11 @@ CREATE TABLE IF NOT EXISTS `user`
     );
 
 -- Insert sample data into `user` table
-INSERT INTO `user` (`id`, `email`, `password`, `security_question`, `security_answer`)
+INSERT INTO `user` (`id`, `email`, `password`, `security_question`, `security_answer`, `role`)
 VALUES
-    ('1', 'adminGallery@admin.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b'), /*ZE47ZX0aCntutXiTc2NU+*/
-    ('2', 'alicebobova@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b'),/*0QkbFaa3WbyWFCLLFdAT+*/
-    ('3', 'bobalicovy@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b');/*Zgyv8tvUgZt7fGr4mQ6Q+*/
+    ('1', 'adminGallery@admin.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b', 'S'), /*ZE47ZX0aCntutXiTc2NU+*/
+    ('2', 'alicebobova@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b', 'U'),/*0QkbFaa3WbyWFCLLFdAT+*/
+    ('3', 'bobalicovy@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b', 'U');/*Zgyv8tvUgZt7fGr4mQ6Q+*/
 
 -- Create the `art` table
 CREATE TABLE IF NOT EXISTS `art`
