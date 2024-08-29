@@ -51,6 +51,12 @@ button {
     background-color: #495057;
 }
 
+.button-confirm {
+    padding: 10px;
+    background-color: var(--green);
+    color: white;
+}
+
 
 .button-edit {
     padding: 5px;
