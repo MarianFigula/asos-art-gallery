@@ -38,8 +38,8 @@ export function AdminSite() {
                     })
 
                 const result = await response.json();
-                setData(result.data);    // Store fetched data in `data`
-                setRecords(result.data); // Initialize `records` with fetched data
+                setData(result.data);
+                setRecords(result.data);
             }catch (error) {
                 console.log(error)
             }
@@ -47,12 +47,11 @@ export function AdminSite() {
         fetchData()
     }, [dependency])
 
-    // If you want to manually trigger data refresh
+
     const refreshData = () => {
-        setDependency(prev => !prev); // Toggle or change dependency to trigger useEffect
+        setDependency(prev => !prev);
     }
     const handleChange = ({selectedRows}) => {
-        // You can set state or dispatch with something like Redux so we can use the retrieved data
         console.log('Selected Rows: ', selectedRows);
     };
 
