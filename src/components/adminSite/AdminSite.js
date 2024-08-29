@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import DataTable from "react-data-table-component";
 import SearchIcon from "../../assets/icons/search.svg"
+import RefreshIcon from "../../assets/icons/arrow-repeat.svg"
 import "../../table.css"
 
 export function AdminSite() {
@@ -84,9 +85,14 @@ export function AdminSite() {
                 <label htmlFor="search" className="label">
                     <input type="search" id="search" className="input border-15" onChange={handleFilter}
                            placeholder="Search"/>
-                    <img src={SearchIcon} alt="Refresh Icon" className="search-icon"/>
+                    <img src={SearchIcon} alt="Search Icon" className="search-icon"/>
                 </label>
-                <button onClick={refreshData}>Refresh</button>
+                <button
+                    onClick={refreshData}
+                    className="button-refresh">
+
+                    <img src={RefreshIcon} alt="Refresh Icon"/>
+                </button>
             </div>
 
             <DataTable
