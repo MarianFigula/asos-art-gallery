@@ -11,12 +11,13 @@
         margin-bottom: 20px;
         text-align: center;
     }
-
-    form div {
-        margin-bottom: 20px;
-    }
-
 }
+
+form div {
+    margin-bottom: 20px;
+}
+
+
 button {
     cursor: pointer;
     border: none;
@@ -91,4 +92,5 @@ button {
     padding: 5px;
     border-radius: 5px;
     background-color: var(--orange);
+    color: var(--white);
 }
