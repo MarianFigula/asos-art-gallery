@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import DataTable from "react-data-table-component";
 import SearchIcon from "../../assets/icons/search.svg"
 import RefreshIcon from "../../assets/icons/arrow-repeat.svg"
+import EditIcon from "../../assets/icons/edit.svg"
 import "../../table.css"
 
 export function AdminSite() {
@@ -25,6 +26,12 @@ export function AdminSite() {
             name: "Security Answer",
             selector: row => row.security_answer,
             sortable: true
+        },
+        {
+            name: "Edit User",
+            cell: (row) => <button className="button-edit">
+                <img src={EditIcon} alt="Edit Icon"/>
+            </button>
         }
     ]
 
@@ -100,6 +107,7 @@ export function AdminSite() {
                 <DataTable
                     columns={columns}
                     data={records}
+                    className="table"
                     selectableRows
                     onSelectedRowsChange={handleChange}
                     pagination
