@@ -12,6 +12,7 @@ function App() {
             <Header/>
             <Routes>
                 <Route path={"/"} element={<MainSite/>}/>
+                <Route path={"/user-profile"} element={<UserProfile/>}/>
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path={"/register"} element={<Register/>}/>
                 <Route path={"/admin"} element={<AdminSite/>}/>
