@@ -81,11 +81,13 @@ export function AdminSite() {
     return (
         <div className='table-wrapper'>
             <div className="search-wrapper">
-                <input type="search" id="search" className="input border-15" onChange={handleFilter}
-                       placeholder="Search"/>
-                <img src={SearchIcon} alt="Refresh Icon" className="search-icon"/>
+                <label htmlFor="search" className="label">
+                    <input type="search" id="search" className="input border-15" onChange={handleFilter}
+                           placeholder="Search"/>
+                    <img src={SearchIcon} alt="Refresh Icon" className="search-icon"/>
+                </label>
+                <button onClick={refreshData}>Refresh</button>
             </div>
-            <button onClick={refreshData}>Refresh</button>
 
             <DataTable
                 columns={columns}
