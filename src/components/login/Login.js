@@ -36,7 +36,7 @@ export function Login() {
             <h2>Sign in</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label className="label mb-5">Email</label>
+                    <label className="label mb-0-25">Email</label>
                     <input
                         type="email"
                         value={email}
@@ -47,7 +47,7 @@ export function Login() {
                     />
                 </div>
                 <div>
-                    <label className="label mb-5">Password</label>
+                    <label className="label mb-0-25">Password</label>
                     <input
                         type="password"
                         value={password}

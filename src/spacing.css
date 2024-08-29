@@ -1,8 +1,16 @@
 
-.mb-5{
-    margin-bottom: 5px;
+.mb-0-25{
+    margin-bottom: 0.25rem;
 }
 
-.mb-15 {
-    margin-bottom: 15px;
+.mb-5{
+    margin-bottom: 5rem;
+}
+
+.mb-4{
+    margin-bottom: 4rem;
+}
+
+.mb-1 {
+    margin-bottom: 1rem;
 }

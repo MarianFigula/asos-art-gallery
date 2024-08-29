@@ -80,31 +80,34 @@ export function AdminSite() {
     };
 
     return (
-        <div className='table-wrapper'>
-            <div className="search-wrapper mb-15">
-                <label htmlFor="search" className="label">
-                    <input type="search" id="search" className="input border-15" onChange={handleFilter}
-                           placeholder="Search"/>
-                    <img src={SearchIcon} alt="Search Icon" className="search-icon"/>
-                </label>
-                <button
-                    onClick={refreshData}
-                    className="button-refresh">
+        <>
+            <h1 className="text-center mb-4">Administration - Users</h1>
+            <div className='table-wrapper'>
+                <div className="search-wrapper mb-1">
+                    <label htmlFor="search" className="label">
+                        <input type="search" id="search" className="input border-15" onChange={handleFilter}
+                               placeholder="Search"/>
+                        <img src={SearchIcon} alt="Search Icon" className="search-icon"/>
+                    </label>
+                    <button
+                        onClick={refreshData}
+                        className="button-refresh">
 
-                    <img src={RefreshIcon} alt="Refresh Icon"/>
-                </button>
+                        <img src={RefreshIcon} alt="Refresh Icon"/>
+                    </button>
+                </div>
+
+                <DataTable
+                    columns={columns}
+                    data={records}
+                    selectableRows
+                    onSelectedRowsChange={handleChange}
+                    pagination
+                    fixedHeader
+                    persistTableHead
+                />
             </div>
-
-            <DataTable
-                columns={columns}
-                data={records}
-                selectableRows
-                onSelectedRowsChange={handleChange}
-                pagination
-                fixedHeader
-                persistTableHead
-            />
-        </div>
+        </>
     )
 }
 
