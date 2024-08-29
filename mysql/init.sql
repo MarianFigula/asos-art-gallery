@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `review`
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT UNSIGNED NOT NULL,
     `review_text` VARCHAR(1024) NOT NULL,
+    `rating` INT NOT NULL,
     `review_creation_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
 
