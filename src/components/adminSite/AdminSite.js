@@ -81,7 +81,7 @@ export function AdminSite() {
 
     return (
         <div className='table-wrapper'>
-            <div className="search-wrapper">
+            <div className="search-wrapper mb-15">
                 <label htmlFor="search" className="label">
                     <input type="search" id="search" className="input border-15" onChange={handleFilter}
                            placeholder="Search"/>
