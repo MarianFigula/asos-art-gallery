@@ -64,9 +64,9 @@
 .search-wrapper{
     width: min(50%, 350px);
     display: flex;
-    margin: 0 auto;
-    justify-content: center;
+    justify-content: flex-end; /* Aligns content to the right */
     position: relative;
+    margin-left: auto; /* Moves the wrapper to the right */
     .search-icon{
         position: absolute;
         right: 10px;
