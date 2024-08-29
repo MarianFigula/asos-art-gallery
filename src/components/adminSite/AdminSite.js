@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import DataTable from "react-data-table-component";
+import SearchIcon from "../../assets/icons/search.svg"
 
 export function AdminSite() {
     const columns = [
@@ -77,10 +78,14 @@ export function AdminSite() {
     };
 
     return (
-        <div className=''>
-            <button onClick={refreshData}>RefreshData</button>
-            <div className='input'>
-                <input type="text" onChange={handleFilter}/></div>
+        <div className='table-wrapper'>
+            <div className="search-wrapper">
+                <input type="search" id="search" className="input border-15" onChange={handleFilter}
+                       placeholder="Search"/>
+                <img src={SearchIcon} alt="Refresh Icon" className="search-icon"/>
+            </div>
+            <button onClick={refreshData}>Refresh</button>
+
             <DataTable
                 columns={columns}
                 data={records}
@@ -88,7 +93,11 @@ export function AdminSite() {
                 onSelectedRowsChange={handleChange}
                 pagination
                 fixedHeader
+                persistTableHead
             />
         </div>
     )
 }
+
+
+// TODO: rewrite to administartion
