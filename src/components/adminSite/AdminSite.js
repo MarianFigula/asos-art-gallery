@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import DataTable from "react-data-table-component";
 import SearchIcon from "../../assets/icons/search.svg"
+import "../../table.css"
 
 export function AdminSite() {
     const columns = [
