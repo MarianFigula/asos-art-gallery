@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `user`
     `password` VARCHAR(512) NOT NULL,
     `security_question` VARCHAR(512) NOT NULL,
     `security_answer` VARCHAR(512) NOT NULL,
-    `role` VARCHAR(2) NOT NULL,
+    `role` CHAR(1) NOT NULL
     );
 
 -- Insert sample data into `user` table
