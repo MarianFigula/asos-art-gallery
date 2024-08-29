@@ -4,6 +4,11 @@ import DataTable from "react-data-table-component";
 export function AdminSite() {
     const columns = [
         {
+            name: "Id",
+            selector: row => row.id,
+            sortable: true,
+        },
+        {
             name: 'Email',
             selector: row => row.email,
             sortable: true,
@@ -40,7 +45,7 @@ export function AdminSite() {
                 const result = await response.json();
                 setData(result.data);
                 setRecords(result.data);
-            }catch (error) {
+            } catch (error) {
                 console.log(error)
             }
         }
@@ -57,13 +62,16 @@ export function AdminSite() {
 
     const handleFilter = (event) => {
         console.log(data)
+        const eventValue = event.target.value
         const newData = data.filter(row => {
-            return row.email.toLowerCase()
-                    .includes(event.target.value.toLowerCase()) ||
+            return row.id.toString().toLowerCase()
+                    .includes(eventValue) ||
+                row.email.toLowerCase()
+                    .includes(eventValue.toLowerCase()) ||
                 row.security_question.toLowerCase()
-                    .includes(event.target.value.toLowerCase()) ||
+                    .includes(eventValue.toLowerCase()) ||
                 row.security_answer.toLowerCase()
-                    .includes(event.target.value.toLowerCase());
+                    .includes(eventValue.toLowerCase());
         });
         setRecords(newData);
     };
