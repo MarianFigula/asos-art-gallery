@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
 
+/* TODO potom premenovat hover farby asi na farba-hover*/
 :root{
   --white: #fff;
   --background-color: #e9ecef;
@@ -8,6 +9,9 @@
   --header-background-color: #181935;
   --blue: #118ab2;
   --orange: #ffbc42;
+  --green: #2a9d8f;
+  --dark-green: #287271;
+
 }
 
 html {
