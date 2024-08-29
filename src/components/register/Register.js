@@ -118,7 +118,7 @@ export function Register() {
                     />
                 </div>
                 {error && <p style={{color: 'red'}}>{error}</p>}
-                <button type="submit">Sign up</button>
+                <button type="submit" className="button-dark">Sign up</button>
                 <div className="links">
                     <Link to={"/login"}>Already registered?</Link>
                 </div>

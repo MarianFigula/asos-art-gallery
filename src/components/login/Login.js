@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import "./Login.css"
+import "../../form.css"
 
 export function Login() {
     const [email, setEmail] = useState("")
@@ -57,7 +57,7 @@ export function Login() {
                     />
                 </div>
                 {error && <p style={{color: 'red'}}>{error}</p>}
-                <button type="submit">Sign in</button>
+                <button type="submit" className="button-dark">Sign in</button>
             </form>
             <div className="links">
                 <Link to="/register">Register</Link>
