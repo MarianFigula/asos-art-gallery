@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
+import "../../form.css"
+import "../../spacing.css"
 
 export function Register() {
     const [email, setEmail] = useState("")
@@ -58,7 +60,7 @@ export function Register() {
             <h2>Sign up</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Email</label>
+                    <label className="label mb-5">Email</label>
                     <input
                         type="email"
                         value={email}
@@ -69,7 +71,7 @@ export function Register() {
                     />
                 </div>
                 <div>
-                    <label>Password</label>
+                    <label className="label mb-5">Password</label>
                     <input
                         type="password"
                         value={password}
@@ -80,7 +82,7 @@ export function Register() {
                     />
                 </div>
                 <div>
-                    <label>Repeat password</label>
+                    <label className="label mb-5">Repeat password</label>
                     <input
                         type="password"
                         value={repeatedPassword}
@@ -91,7 +93,7 @@ export function Register() {
                     />
                 </div>
                 <div>
-                    <label>Security question</label>
+                    <label className="label mb-5">Security question</label>
                     <select
                         value={selectedSecurityQuestion}
                         onChange={(e) =>
@@ -107,7 +109,7 @@ export function Register() {
                     </select>
                 </div>
                 <div>
-                    <label>Security Answer</label>
+                    <label className="label mb-5">Security Answer</label>
                     <input
                         type="text"
                         value={securityAnswer}

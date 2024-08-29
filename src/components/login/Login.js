@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import "../../form.css"
+import "../../spacing.css"
 
 export function Login() {
     const [email, setEmail] = useState("")
@@ -35,7 +36,7 @@ export function Login() {
             <h2>Sign in</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Email</label>
+                    <label className="label mb-5">Email</label>
                     <input
                         type="email"
                         value={email}
@@ -46,7 +47,7 @@ export function Login() {
                     />
                 </div>
                 <div>
-                    <label>Password</label>
+                    <label className="label mb-5">Password</label>
                     <input
                         type="password"
                         value={password}
