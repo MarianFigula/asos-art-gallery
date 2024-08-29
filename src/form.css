@@ -24,7 +24,7 @@
 
 .input {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -58,5 +58,21 @@
         &:hover {
             color: var(--dark);
         }
+    }
+}
+
+.search-wrapper{
+    width: min(50%, 350px);
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    position: relative;
+    .search-icon{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+    .border-15 {
+        border-radius: 15px;
     }
 }
