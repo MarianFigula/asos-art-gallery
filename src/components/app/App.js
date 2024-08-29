@@ -5,6 +5,8 @@ import {MainSite} from "../mainSite/MainSite";
 import {Register} from "../register/Register";
 import {Header} from "../header/Header";
 import {AdminSite} from "../adminSite/AdminSite";
+import {UserProfile} from "../user-profile/UserProfile";
+
 
 function App() {
     return (
