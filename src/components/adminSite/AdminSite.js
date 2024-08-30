@@ -57,6 +57,8 @@ export function AdminSite() {
         const newData = data.filter(row => {
             return row.id.toString().toLowerCase()
                     .includes(eventValue) ||
+                row.username.toLowerCase()
+                    .includes(eventValue.toLowerCase()) ||
                 row.email.toLowerCase()
                     .includes(eventValue.toLowerCase()) ||
                 row.security_question.toLowerCase()
