@@ -1,7 +1,7 @@
 // src/components/tableColumns.js
 import EditIcon from "./assets/icons/edit.svg";
 
-export const getColumns = (editHandler) => [
+export const getUserColumns = (editHandler) => [
     {
         name: "Id",
         selector: row => row.id,

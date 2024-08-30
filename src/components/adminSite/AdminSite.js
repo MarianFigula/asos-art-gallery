@@ -4,7 +4,7 @@ import SearchIcon from "../../assets/icons/search.svg"
 import RefreshIcon from "../../assets/icons/arrow-repeat.svg"
 import EditIcon from "../../assets/icons/edit.svg"
 import "../../table.css"
-import {getColumns} from "../../tableColumns";
+import {getUserColumns} from "../../tableColumns";
 import {useNavigate} from "react-router-dom";
 
 export function AdminSite() {
@@ -19,7 +19,7 @@ export function AdminSite() {
         navigate(`/user/${row.id}`); // Redirect to the user details page
     };
 
-    const columns = getColumns(editHandler);
+    const columns = getUserColumns(editHandler);
 
     useEffect(() => {
         const serverUrl = process.env.REACT_APP_SERVER_URL
