@@ -15,6 +15,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $data = json_decode(file_get_contents("php://input"));
 
+// TODO: mozno sa to bude posielat cez URL (GET)
 
 if ($method == "GET"){
     http_response_code(405);
