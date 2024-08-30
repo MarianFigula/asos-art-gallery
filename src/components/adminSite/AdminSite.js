@@ -6,7 +6,6 @@ import {Table} from "../table/Table";
 
 export function AdminSite() {
     const [data, setData] = useState([])
-    const [dependency, setDependency] = useState(false);
     const [records, setRecords] = useState(data)
 
     const navigate = useNavigate();
@@ -17,31 +16,32 @@ export function AdminSite() {
 
     const columns = getUserColumns(editHandler);
 
-    useEffect(() => {
+    const fetchData = async () => {
         const serverUrl = process.env.REACT_APP_SERVER_URL
-        const fetchData = async () => {
-            try {
-                const response =
-                    await fetch(`${serverUrl}/api/user/read.php`, {
-                        method: "POST",
-                        headers: {
-                            'Content-Type': 'application/json',
-                        }
-                    })
+        try {
+            const response =
+                await fetch(`${serverUrl}/api/user/read.php`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
 
-                const result = await response.json();
-                setData(result.data);
-                setRecords(result.data);
-            } catch (error) {
-                console.log(error)
-            }
+            const result = await response.json();
+            setData(result.data);
+            setRecords(result.data);
+        } catch (error) {
+            console.log(error)
         }
+    }
+
+    useEffect(() => {
         fetchData()
-    }, [dependency])
+    }, [])
 
 
     const refreshData = () => {
-        setDependency(prev => !prev);
+        fetchData()
     }
     const handleChange = ({selectedRows}) => {
         console.log('Selected Rows: ', selectedRows);
