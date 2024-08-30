@@ -1,8 +1,9 @@
 
 .footer{
     width: 100%;
+    font-size: 12px;
     padding: 20px 0;
-    background-color: var(--header-background-color);
+    background-color: var(--dark);
     color: var(--white);
 }
 
