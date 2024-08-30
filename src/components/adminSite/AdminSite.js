@@ -4,46 +4,22 @@ import SearchIcon from "../../assets/icons/search.svg"
 import RefreshIcon from "../../assets/icons/arrow-repeat.svg"
 import EditIcon from "../../assets/icons/edit.svg"
 import "../../table.css"
+import {getColumns} from "../../tableColumns";
+import {useNavigate} from "react-router-dom";
 
 export function AdminSite() {
-    const columns = [
-        {
-            name: "Id",
-            selector: row => row.id,
-            sortable: true,
-        },
-        {
-            name: "Username",
-            selector: row => row.username,
-            sortable: true,
-        },
-        {
-            name: 'Email',
-            selector: row => row.email,
-            sortable: true,
-        },
-        {
-            name: 'Security Question',
-            selector: row => row.security_question,
-            sortable: true
-        },
-        {
-            name: "Security Answer",
-            selector: row => row.security_answer,
-            sortable: true
-        },
-        {
-            name: "Edit User",
-            cell: (row) => <button className="button-edit">
-                <img src={EditIcon} alt="Edit Icon"/>
-            </button>
-        }
-    ]
-
     const [data, setData] = useState([])
     const [dependency, setDependency] = useState(false);
 
     const [records, setRecords] = useState(data)
+
+    const navigate = useNavigate();
+
+    const editHandler = (row) => {
+        navigate(`/user/${row.id}`); // Redirect to the user details page
+    };
+
+    const columns = getColumns(editHandler);
 
     useEffect(() => {
         const serverUrl = process.env.REACT_APP_SERVER_URL
