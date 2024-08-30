@@ -1,16 +1,12 @@
 import React, {useEffect, useState} from "react";
-import DataTable from "react-data-table-component";
-import SearchIcon from "../../assets/icons/search.svg"
-import RefreshIcon from "../../assets/icons/arrow-repeat.svg"
-import EditIcon from "../../assets/icons/edit.svg"
 import "../../table.css"
 import {getUserColumns} from "../../tableUserColumns";
 import {useNavigate} from "react-router-dom";
+import {Table} from "../table/Table";
 
 export function AdminSite() {
     const [data, setData] = useState([])
     const [dependency, setDependency] = useState(false);
-
     const [records, setRecords] = useState(data)
 
     const navigate = useNavigate();
@@ -52,7 +48,6 @@ export function AdminSite() {
     };
 
     const handleFilter = (event) => {
-        console.log(data)
         const eventValue = event.target.value
         const newData = data.filter(row => {
             return row.id.toString().toLowerCase()
@@ -72,35 +67,13 @@ export function AdminSite() {
     return (
         <>
             <h1 className="text-center mb-4">Administration - Users</h1>
-            <div className='table-wrapper'>
-                <div className="search-wrapper mb-1">
-                    <label htmlFor="search" className="label">
-                        <input type="search" id="search" className="input border-15" onChange={handleFilter}
-                               placeholder="Search"/>
-                        <img src={SearchIcon} alt="Search Icon" className="search-icon"/>
-                    </label>
-                    <button
-                        onClick={refreshData}
-                        className="button-refresh">
-
-                        <img src={RefreshIcon} alt="Refresh Icon"/>
-                    </button>
-                </div>
-
-                <DataTable
-                    columns={columns}
-                    data={records}
-                    className="table"
-                    selectableRows
-                    onSelectedRowsChange={handleChange}
-                    pagination
-                    fixedHeader
-                    persistTableHead
-                />
-            </div>
+            <Table
+                columns={columns}
+                records={records}
+                handleFilter={handleFilter}
+                handleChange={handleChange}
+                refreshData={refreshData}
+            />
         </>
     )
 }
-
-
-// TODO: rewrite to administartion
