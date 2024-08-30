@@ -6,6 +6,7 @@ import {Register} from "../register/Register";
 import {Header} from "../header/Header";
 import {AdminSite} from "../adminSite/AdminSite";
 import {UserProfile} from "../user-profile/UserProfile";
+import {Footer} from "../footer/Footer";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
                 <Route path={"/register"} element={<Register/>}/>
                 <Route path={"/admin"} element={<AdminSite/>}/>
             </Routes>
+            <Footer />
         </>
     );
 }
