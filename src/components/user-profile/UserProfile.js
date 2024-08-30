@@ -18,7 +18,7 @@ import AdminPhoto from "../../assets/user-pictures/21.png"
 export function UserProfile() {
     return (
         <>
-            <div className="profile-wrapper mt">
+            <div className="profile-wrapper mb-5">
                 <div className="profile-picture">
                     <img src={UserPhoto} alt="ProfilePicture"/>
                 </div>
