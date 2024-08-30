@@ -1,29 +1,24 @@
 // src/components/tableUserColumns.js
 import EditIcon from "./assets/icons/edit.svg";
 
-export const getArtColumns = (editHandler) => [
+export const getReviewColumns = (editHandler) => [
     {
         name: "Id",
         selector: row => row.id,
         sortable: true,
     },
     {
-        name: "Title",
-        selector: row => row.title,
+        name: "Review Text",
+        selector: row => row.review_text,
         sortable: true,
     },
     {
-        name: 'Description',
-        selector: row => row.description,
+        name: 'Rating',
+        selector: row => row.rating,
         sortable: true,
     },
     {
-        name: 'Price (€)',
-        selector: row => row.price,
-        sortable: true
-    },
-    {
-        name: "Date",
+        name: 'Date',
         selector: row => row.date,
         sortable: true
     },
