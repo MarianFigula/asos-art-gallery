@@ -12,7 +12,7 @@ export function AdminSite() {
     const navigate = useNavigate();
 
     const editHandler = (row) => {
-        navigate(`/user/${row.id}`); // Redirect to the user details page
+        navigate(`/edit-user/${row.id}`); // Redirect to the user details page
     };
 
     const columns = getUserColumns(editHandler);
