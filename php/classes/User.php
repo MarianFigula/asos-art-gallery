@@ -4,6 +4,7 @@ class User {
     private $conn;
     private $table_name = "user";
     private $id;
+    private $username;
     private $email;
     private $password;
     private $security_question;
@@ -19,6 +20,7 @@ class User {
     public function setEmail($email) {
         $this->email = htmlspecialchars(strip_tags($email));
     }
+    public function setUsername($username) { $this->username = htmlspecialchars(strip_tags($username)); }
 
     public function setPassword($password) {
         $this->password = htmlspecialchars(strip_tags($password));
@@ -37,25 +39,29 @@ class User {
     public function setRole($role){$this->role = $role;}
     public function getTableName() {return $this->table_name;}
     public function getId() {return $this->id;}
+
+    public function getUsername(){return $this->username;}
     public function getEmail() {return $this->email;}
     public function getPassword() {return $this->password;}
     public function getSecurityQuestion() {return $this->security_question;}
     public function getSecurityAnswer() {return $this->security_answer;}
 
     public function createUser() {
-        $query = "INSERT INTO " . $this->table_name . " (email, password, security_question, security_answer)
-                  VALUES (:email, :password, :security_question, :security_answer)";
+        $query = "INSERT INTO " . $this->table_name . " (email, username, password, security_question, security_answer)
+                  VALUES (:email,:username, :password, :security_question, :security_answer)";
 
         $stmt = $this->conn->prepare($query);
 
         // Sanitize input, TODO: unsanitize, zmenit to tak ze to dat do query
         $this->setEmail($this->email);
+        $this->setUsername($this->username);
         $this->setPassword($this->password);
         $this->setSecurityQuestion($this->security_question);
         $this->setSecurityAnswer($this->security_answer);
 
         $stmt->bindParam(':email', $this->getEmail());
         $stmt->bindParam(':password', $this->getPassword());
+        $stmt->bindParam(':username', $this->getUsername());
         $stmt->bindParam(':security_question', $this->getSecurityQuestion());
         $stmt->bindParam(':security_answer', $this->getSecurityAnswer());
 
@@ -65,7 +71,7 @@ class User {
 
     public function getUsers()
     {
-        $query = "SELECT id, email, security_question,
+        $query = "SELECT id, username, email, security_question,
         security_answer FROM " . $this->table_name;
 
         $stmt = $this->conn->prepare($query);
@@ -75,7 +81,7 @@ class User {
     }
 
     public function getUserById() {
-        $query = "SELECT id, email, password, security_question,
+        $query = "SELECT id, username, email, password, security_question,
         security_answer FROM " . $this->table_name .  " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -86,7 +92,7 @@ class User {
     }
 
     public function getUserByEmail() {
-        $query = "SELECT id, email, password, security_question,
+        $query = "SELECT id, username, email, password, security_question,
         security_answer FROM " . $this->table_name .  " WHERE email = :email";
 
         $stmt = $this->conn->prepare($query);
@@ -100,6 +106,7 @@ class User {
     public function updateUserById() {
         $query = "UPDATE " . $this->table_name . "
                   SET email = :email, password = :password, 
+                  username = :username,
                   security_question = :security_question, 
                   security_answer = :security_answer
                   WHERE id = :id";
@@ -107,12 +114,14 @@ class User {
         $stmt = $this->conn->prepare($query);
 
         $this->setEmail($this->email);
+        $this->setUsername($this->username);
         $this->setPassword($this->password);
         $this->setSecurityQuestion($this->security_question);
         $this->setSecurityAnswer($this->security_answer);
         $this->setId($this->id);
 
         $stmt->bindParam(':email', $this->getEmail());
+        $stmt->bindParam(':username', $this->getUsername());
         $stmt->bindParam(':password', $this->getPassword());
         $stmt->bindParam(':security_question', $this->getSecurityQuestion());
         $stmt->bindParam(':security_answer', $this->getSecurityAnswer());

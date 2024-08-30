@@ -5,6 +5,7 @@ USE `pkrim-art-gallery`;
 CREATE TABLE IF NOT EXISTS `user`
 (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `username` VARCHAR(36) NOT NULL,
     `email` VARCHAR(256) NOT NULL,
     `password` VARCHAR(512) NOT NULL,
     `security_question` VARCHAR(512) NOT NULL,
@@ -13,11 +14,11 @@ CREATE TABLE IF NOT EXISTS `user`
     );
 
 -- Insert sample data into `user` table
-INSERT INTO `user` (`id`, `email`, `password`, `security_question`, `security_answer`, `role`)
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `security_question`, `security_answer`, `role`)
 VALUES
-    ('1', 'adminGallery@admin.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b', 'S'), /*ZE47ZX0aCntutXiTc2NU+*/
-    ('2', 'alicebobova@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b', 'U'),/*0QkbFaa3WbyWFCLLFdAT+*/
-    ('3', 'bobalicovy@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b', 'U');/*Zgyv8tvUgZt7fGr4mQ6Q+*/
+    ('1', 'admin', 'adminGallery@admin.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b', 'S'), /*ZE47ZX0aCntutXiTc2NU+*/
+    ('2', 'alice', 'alicebobova@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b', 'U'),/*0QkbFaa3WbyWFCLLFdAT+*/
+    ('3', 'bob', 'bobalicovy@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b', 'U');/*Zgyv8tvUgZt7fGr4mQ6Q+*/
 
 -- Create the `art` table
 CREATE TABLE IF NOT EXISTS `art`
