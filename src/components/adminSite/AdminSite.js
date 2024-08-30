@@ -4,7 +4,7 @@ import SearchIcon from "../../assets/icons/search.svg"
 import RefreshIcon from "../../assets/icons/arrow-repeat.svg"
 import EditIcon from "../../assets/icons/edit.svg"
 import "../../table.css"
-import {getUserColumns} from "../../tableColumns";
+import {getUserColumns} from "../../tableUserColumns";
 import {useNavigate} from "react-router-dom";
 
 export function AdminSite() {

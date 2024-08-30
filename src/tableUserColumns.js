@@ -1,4 +1,4 @@
-// src/components/tableColumns.js
+// src/components/tableUserColumns.js
 import EditIcon from "./assets/icons/edit.svg";
 
 export const getUserColumns = (editHandler) => [
