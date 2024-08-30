@@ -24,6 +24,7 @@ if ($method == "GET"){
 }
 
 if (empty($data->email) || empty($data->password) ||
+    empty($data->username) ||
     empty($data->repeatedPassword) ||
     empty($data->selectedSecurityQuestion) ||
     empty($data->securityAnswer)) {

@@ -5,6 +5,7 @@ import "../../spacing.css"
 
 export function Register() {
     const [email, setEmail] = useState("")
+    const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [repeatedPassword, setRepeatedPassword] = useState("")
     const [securityQuestions] = useState([
@@ -39,6 +40,7 @@ export function Register() {
                 },
                 body: JSON.stringify({
                     email,
+                    username,
                     password,
                     repeatedPassword,
                     selectedSecurityQuestion,
@@ -59,6 +61,17 @@ export function Register() {
         <div className="login-container">
             <h2>Sign up</h2>
             <form onSubmit={handleSubmit}>
+                <div>
+                    <label className="label mb-0-25">Username</label>
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) =>
+                            setUsername(e.target.value)}
+                        className="input"
+                        required
+                    />
+                </div>
                 <div>
                     <label className="label mb-0-25">Email</label>
                     <input
@@ -98,7 +111,7 @@ export function Register() {
                         value={selectedSecurityQuestion}
                         onChange={(e) =>
                             setSelectedSecurityQuestion(e.target.value)}
-                    className="input">
+                        className="input">
 
                         {securityQuestions.map((securityQuestion, index) =>
                             <option
