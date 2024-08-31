@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getArtColumns} from "../../assets/table-columns/tableArtColumns";
 import {getReviewColumns} from "../../assets/table-columns/tableReviewColumns";
 import {Table} from "../table/Table";
@@ -6,9 +6,13 @@ import {Form} from "../form/Form";
 import {FormInput} from "../formInput/FormInput";
 import "./AdminEditUser.css"
 import {Modal} from "../modal/Modal";
+import {useLocation} from "react-router-dom";
 
 // admin page
 export function AdminEditUser() {
+    const location = useLocation();
+    const { id, username: initialUsername, email: initialEmail } = location.state || {};
+
 
     const [artData, setArtData] = useState([])
     const [artRecords, setArtRecords] = useState(artData)
@@ -16,8 +20,8 @@ export function AdminEditUser() {
     const [reviewData, setReviewData] = useState([])
     const [reviewRecords, setReviewRecords] = useState(reviewData)
     const [error, setError] = useState("")
-    const [username, setUsername] = useState("")
-    const [email, setEmail] = useState("")
+    const [username, setUsername] = useState(initialUsername || "")
+    const [email, setEmail] = useState(initialEmail || "")
     const [isArtModalOpen, setIsArtModalOpen] = useState(false)
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
 
@@ -36,27 +40,16 @@ export function AdminEditUser() {
         }
     )
 
-    const editArtsHandler = (row) => {
-        console.log(row)
-        setArtEditData({
-            title: row.title,
-            description: row.description,
-            price: Number(row.price)
-        })
-        // display modal s formom pre upravu artov
-    }
-
-    const editReviewsHandler = (row) => {
-        // display modal s formom pre upravu reviews
-        console.log(row)
-    }
-
-    const columnsArts = getArtColumns(editArtsHandler)
-    const columnsReviews = getReviewColumns(editReviewsHandler)
 
     const fetchArtData = async () => {
         const serverUrl = process.env.REACT_APP_SERVER_URL;
-        const response = await fetch(`${serverUrl}/api/art/read.php`, {method: "POST"});
+        const response = await fetch(`${serverUrl}/api/art/read.php`,{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", // Ensure the server knows you're sending JSON
+            },
+            body: JSON.stringify({ id }), // Convert the id to a JSON string
+        });
         const result = await response.json();
         setArtData(result.data);
         setArtRecords(result.data)
@@ -64,11 +57,52 @@ export function AdminEditUser() {
 
     const fetchReviewData = async () => {
         const serverUrl = process.env.REACT_APP_SERVER_URL;
-        const response = await fetch(`${serverUrl}/api/review/read.php`, {method: "POST"});
+        const response = await fetch(`${serverUrl}/api/review/read.php`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", // Ensure the server knows you're sending JSON
+            },
+            body: JSON.stringify({ id }), // Convert the id to a JSON string
+        });
         const result = await response.json();
         setReviewData(result.data);
         setReviewRecords(result.data)
     };
+
+    useEffect(() => {
+        if (id) {
+            // Fetch user-specific data if needed based on the `id`.
+            fetchArtData();
+            fetchReviewData();
+        } else {
+            setError("No id provided")
+        }
+    }, [id]);
+
+
+    const editArtsHandler = (row) => {
+        console.log(row)
+        setArtEditData({
+            title: row.title,
+            description: row.description,
+            price: Number(row.price)
+        })
+        setIsArtModalOpen(true)
+    }
+
+    const editReviewsHandler = (row) => {
+        console.log(row);
+        setReviewEditData({
+            review_text: row.review_text,
+            rating: row.rating,
+        });
+        setIsReviewModalOpen(true);
+    }
+
+    const columnsArts = getArtColumns(editArtsHandler)
+    const columnsReviews = getReviewColumns(editReviewsHandler)
+
+
     const handleChange = ({selectedRows}) => {
         console.log('Selected Rows: ', selectedRows);
     };
