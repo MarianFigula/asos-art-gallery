@@ -7,6 +7,7 @@ import {Header} from "../header/Header";
 import {AdminSite} from "../adminSite/AdminSite";
 import {UserProfile} from "../userProfile/UserProfile";
 import {Footer} from "../footer/Footer";
+import {EditUserAdmin} from "../editUserAdmin/EditUserAdmin";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path={"/register"} element={<Register/>}/>
                 <Route path={"/admin"} element={<AdminSite/>}/>
+                <Route path={"/adminEditUser"} element={<EditUserAdmin/>}/>
             </Routes>
             <Footer />
         </>
