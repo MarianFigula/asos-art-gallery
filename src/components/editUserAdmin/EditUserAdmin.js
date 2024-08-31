@@ -29,6 +29,13 @@ export function EditUserAdmin() {
         }
     )
 
+    const [reviewEditData, setReviewEditData] = useState(
+        {
+            review_text: "",
+            rating: ""
+        }
+    )
+
     const editArtsHandler = (row) => {
         console.log(row)
         setArtEditData({
@@ -161,6 +168,47 @@ export function EditUserAdmin() {
 
                 </Form>
 
+            </Modal>
+
+
+            <Modal
+                isOpen={isReviewModalOpen}
+                onClose={() => setIsReviewModalOpen(false)}
+                title="Edit Review"
+            >
+                <Form
+                    onSubmit={handleEditReviewSubmit}
+                    error={error}
+                    submitLabel="Apply changes"
+                    buttonClassName="button-confirm"
+                >
+                    <FormInput
+                        label="Title"
+                        type="text"
+                        value={reviewEditData.review_text}
+                        onChange={(e) => setReviewEditData(
+                            {
+                                ...reviewEditData,
+                                review_text: e.target.value
+                            }
+                        )}
+                        required
+                    />
+
+                    <FormInput
+                        label="Rating"
+                        type="number"
+                        value={reviewEditData.rating}
+                        onChange={(e) => setReviewEditData(
+                            {
+                                ...reviewEditData,
+                                rating: Number(e.target.value)
+                            }
+                        )}
+                        required
+                    />
+
+                </Form>
             </Modal>
             <h1 className="text-center mb-2">User - email</h1>
             <div className="edit-user-wrapper mb-4">
