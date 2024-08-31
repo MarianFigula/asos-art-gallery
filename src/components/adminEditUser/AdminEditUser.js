@@ -6,12 +6,13 @@ import {Form} from "../form/Form";
 import {FormInput} from "../formInput/FormInput";
 import "./AdminEditUser.css"
 import {Modal} from "../modal/Modal";
-import {useLocation} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 
 // admin page
 export function AdminEditUser() {
+    const { id } = useParams();
     const location = useLocation();
-    const { id, username: initialUsername, email: initialEmail } = location.state || {};
+    const {username: initialUsername, email: initialEmail } = location.state || {};
 
 
     const [artData, setArtData] = useState([])

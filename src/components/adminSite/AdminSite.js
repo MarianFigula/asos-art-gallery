@@ -11,7 +11,9 @@ export function AdminSite() {
     const navigate = useNavigate();
 
     const editHandler = (row) => {
-        navigate(`/admin-edit-user/${row.id}`); // Redirect to the user details page
+        navigate(`/admin-edit-user/${row.id}`, {
+            state: { username: row.username, email: row.email }
+        });
     };
 
     const columns = getUserColumns(editHandler);
