@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import "../form/form.css"
 import "../../spacing.css"
+import {FormInput} from "../formInput/FormInput";
+import {Form} from "../form/Form";
 
 export function Login() {
     const [email, setEmail] = useState("")
@@ -34,32 +36,27 @@ export function Login() {
     return (
         <div className="login-container">
             <h2>Sign in</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label className="label mb-0-25">Email</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) =>
-                            setEmail(e.target.value)}
-                        className="input"
-                        required
-                    />
-                </div>
-                <div>
-                    <label className="label mb-0-25">Password</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) =>
-                            setPassword(e.target.value)}
-                        className="input"
-                        required
-                    />
-                </div>
-                {error && <p style={{color: 'red'}}>{error}</p>}
-                <button type="submit" className="button-dark">Sign in</button>
-            </form>
+            <Form onSubmit={handleSubmit}
+                  error={error}
+                  submitLabel="Sign In"
+                  buttonClassName="button-dark">
+                <FormInput
+                    label="Email"
+                    type="email"
+                    value=""
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <FormInput
+                    label="Password"
+                    type="password"
+                    value=""
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+
+            </Form>
+
             <div className="links">
                 <Link to="/register">Register</Link>
                 <Link to="/forgot-password">Forgot password?</Link>
