@@ -54,6 +54,8 @@ button {
     padding: 10px;
     background-color: var(--green);
     color: white;
+    width: max(10vw, 100px);
+    font-size: 0.9rem;
 
     &:hover{
         background-color: var(--dark-green);
