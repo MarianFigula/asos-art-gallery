@@ -20,7 +20,7 @@ function App() {
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path={"/register"} element={<Register/>}/>
                 <Route path={"/admin"} element={<AdminSite/>}/>
-                <Route path={"/admin-edit-user"} element={<AdminEditUser/>}/>
+                <Route path={"/admin-edit-user/:id"} element={<AdminEditUser/>}/>
             </Routes>
             <Footer />
         </>
