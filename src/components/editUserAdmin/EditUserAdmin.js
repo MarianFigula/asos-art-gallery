@@ -2,10 +2,10 @@ import React, {useState} from "react";
 import {getArtColumns} from "../../assets/table-columns/tableArtColumns";
 import {getReviewColumns} from "../../assets/table-columns/tableReviewColumns";
 import {Table} from "../table/Table";
-import {Link} from "react-router-dom";
 import {Form} from "../form/Form";
 import {FormInput} from "../formInput/FormInput";
 import "./EditUserAdmin.css"
+import {Modal} from "../modal/Modal";
 
 // admin page
 export function EditUserAdmin() {
@@ -18,9 +18,24 @@ export function EditUserAdmin() {
     const [error, setError] = useState("")
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
+    const [isArtModalOpen, setIsArtModalOpen] = useState(false)
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
+
+    const [artEditData, setArtEditData] = useState(
+        {
+            title: "",
+            description: "",
+            price: 0
+        }
+    )
 
     const editArtsHandler = (row) => {
         console.log(row)
+        setArtEditData({
+            title: row.title,
+            description: row.description,
+            price: Number(row.price)
+        })
         // display modal s formom pre upravu artov
     }
 
@@ -87,8 +102,66 @@ export function EditUserAdmin() {
         e.preventDefault()
         // tu dat error
     }
+
+    const handleEditArtSubmit = (e) => {
+        e.preventDefault()
+    }
+    const handleEditReviewSubmit = (e) => {
+        e.preventDefault()
+    }
     return (
         <>
+            <Modal
+                isOpen={isArtModalOpen}
+                onClose={() => setIsArtModalOpen(false)}
+                title="Edit Art"
+            >
+                <Form
+                    onSubmit={handleEditArtSubmit}
+                    error={error}
+                    submitLabel="Apply changes"
+                    buttonClassName="button-confirm"
+                >
+                    <FormInput
+                        label="Title"
+                        type="text"
+                        value={artEditData.title}
+                        onChange={(e) => setArtEditData(
+                            {
+                                ...artEditData,
+                                title: e.target.value
+                            }
+                        )}
+                        required
+                    />
+                    <FormInput
+                        label="Description"
+                        type="text"
+                        value={artEditData.description}
+                        onChange={(e) => setArtEditData(
+                            {
+                                ...artEditData,
+                                description: e.target.value
+                            }
+                        )}
+                        required
+                    />
+                    <FormInput
+                        label="Price (€)"
+                        type="number"
+                        value={artEditData.price}
+                        onChange={(e) => setArtEditData(
+                            {
+                                ...artEditData,
+                                price: Number(e.target.value)
+                            }
+                        )}
+                        required
+                    />
+
+                </Form>
+
+            </Modal>
             <h1 className="text-center mb-2">User - email</h1>
             <div className="edit-user-wrapper mb-4">
                 <Form
