@@ -8,7 +8,7 @@
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 2;
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
     pointer-events: none;
 }
 
@@ -24,12 +24,12 @@
     padding: 20px;
     position: fixed;
     z-index: 3;
-    transform: translateX(-110%); /* Use transform to apply the translation */
+    transform: translateX(-110%);
     top: 0;
-    transition: transform 0.5s ease-in-out; /* Adjust the timing for transition */
+    transition: transform 0.3s ease-in-out;
     border-right: 1px solid var(--header-background-color);
 }
 
 .sidebar.show {
-    transform: translateX(-10px); /* Slide the sidebar into view */
+    transform: translateX(-10px);
 }
