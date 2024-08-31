@@ -4,11 +4,11 @@ import {getReviewColumns} from "../../assets/table-columns/tableReviewColumns";
 import {Table} from "../table/Table";
 import {Form} from "../form/Form";
 import {FormInput} from "../formInput/FormInput";
-import "./EditUserAdmin.css"
+import "./AdminEditUser.css"
 import {Modal} from "../modal/Modal";
 
 // admin page
-export function EditUserAdmin() {
+export function AdminEditUser() {
 
     const [artData, setArtData] = useState([])
     const [artRecords, setArtRecords] = useState(artData)

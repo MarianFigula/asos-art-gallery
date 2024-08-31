@@ -7,7 +7,7 @@ import {Header} from "../header/Header";
 import {AdminSite} from "../adminSite/AdminSite";
 import {UserProfile} from "../userProfile/UserProfile";
 import {Footer} from "../footer/Footer";
-import {EditUserAdmin} from "../editUserAdmin/EditUserAdmin";
+import {AdminEditUser} from "../adminEditUser/AdminEditUser";
 
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path={"/register"} element={<Register/>}/>
                 <Route path={"/admin"} element={<AdminSite/>}/>
-                <Route path={"/admin-edit-user"} element={<EditUserAdmin/>}/>
+                <Route path={"/admin-edit-user"} element={<AdminEditUser/>}/>
             </Routes>
             <Footer />
         </>
