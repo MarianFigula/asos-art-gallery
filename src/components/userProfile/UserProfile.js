@@ -1,6 +1,6 @@
 import React from "react";
 import "./UserProfile.css"
-import "../../form.css"
+import "../form/form.css"
 import UserPhoto from "../../assets/user-pictures/22.png"
 import AdminPhoto from "../../assets/user-pictures/21.png"
 

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import "../../form.css"
+import "../form/form.css"
 import "../../spacing.css"
 
 export function Login() {
