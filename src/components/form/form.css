@@ -100,7 +100,10 @@ button {
         top: 10px;
     }
     .button-refresh{
-        background: var(--blue);
+        background-color: var(--blue);
+        &:hover {
+            background-color: var(--dark-blue);
+        }
     }
     .border-15 {
         border-radius: 15px;
