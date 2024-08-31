@@ -32,7 +32,7 @@ export function Table({
             <DataTable
                 columns={columns}
                 data={records}
-                className="table"
+                className="table mb-5"
                 selectableRows
                 onSelectedRowsChange={handleChange}
                 pagination
