@@ -41,11 +41,11 @@
 @media screen and (max-width: 768px) {
     .profile-wrapper {
         grid-template-columns: 1fr;
-        text-align: center;
     }
 
     .profile-details {
         align-items: center;
+        justify-self: center;
     }
 
     .edit-profile {
