@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import "../form/form.css"
 import "../../spacing.css"
+import {FormInput} from "../formInput/FormInput";
+import {Form} from "../form/Form";
 
 export function Register() {
     const [email, setEmail] = useState("")
@@ -60,84 +62,54 @@ export function Register() {
     return (
         <div className="login-container">
             <h2>Sign up</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label className="label mb-0-25">Username</label>
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) =>
-                            setUsername(e.target.value)}
-                        className="input"
-                        required
-                    />
-                </div>
-                <div>
-                    <label className="label mb-0-25">Email</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) =>
-                            setEmail(e.target.value)}
-                        className="input"
-                        required
-                    />
-                </div>
-                <div>
-                    <label className="label mb-0-25">Password</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) =>
-                            setPassword(e.target.value)}
-                        className="input"
-                        required
-                    />
-                </div>
-                <div>
-                    <label className="label mb-0-25">Repeat password</label>
-                    <input
-                        type="password"
-                        value={repeatedPassword}
-                        onChange={(e) =>
-                            setRepeatedPassword(e.target.value)}
-                        className="input"
-                        required
-                    />
-                </div>
-                <div>
-                    <label className="label mb-0-25">Security question</label>
-                    <select
-                        value={selectedSecurityQuestion}
-                        onChange={(e) =>
-                            setSelectedSecurityQuestion(e.target.value)}
-                        className="input">
+            <Form onSubmit={handleSubmit} error={error} submitLabel="Sign Up" buttonClassName="button-dark">
+                <FormInput
+                    label="Username"
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
+                <FormInput
+                    label="Email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <FormInput
+                    label="Password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                <FormInput
+                    label="Repeat password"
+                    type="password"
+                    value={repeatedPassword}
+                    onChange={(e) => setRepeatedPassword(e.target.value)}
+                    required
+                />
+                <FormInput
+                    label="Security question"
+                    type="select"
+                    value={selectedSecurityQuestion}
+                    onChange={(e) => setSelectedSecurityQuestion(e.target.value)}
+                    options={securityQuestions}
+                />
+                <FormInput
+                    label="Security Answer"
+                    type="text"
+                    value={securityAnswer}
+                    onChange={(e) => setSecurityAnswer(e.target.value)}
+                    required
+                />
+            </Form>
+            <div className="links">
+                <Link to={"/login"}>Already registered?</Link>
+            </div>
 
-                        {securityQuestions.map((securityQuestion, index) =>
-                            <option
-                                key={index}
-                                value={index === 0 ? "" : securityQuestion}>
-                                {securityQuestion}
-                            </option>)}
-                    </select>
-                </div>
-                <div>
-                    <label className="label mb-0-25">Security Answer</label>
-                    <input
-                        type="text"
-                        value={securityAnswer}
-                        onChange={(e) =>
-                            setSecurityAnswer(e.target.value)}
-                        className="input"
-                        required
-                    />
-                </div>
-                {error && <p style={{color: 'red'}}>{error}</p>}
-                <button type="submit" className="button-dark">Sign up</button>
-                <div className="links">
-                    <Link to={"/login"}>Already registered?</Link>
-                </div>
-            </form>
         </div>
 
     )
