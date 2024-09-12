@@ -19,7 +19,7 @@ export const getReviewColumns = (editHandler) => [
     },
     {
         name: 'Date',
-        selector: row => row.date,
+        selector: row => row.review_creation_date,
         sortable: true
     },
     {
