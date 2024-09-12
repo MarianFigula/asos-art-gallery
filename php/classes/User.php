@@ -1,7 +1,7 @@
 <?php
 
 class User {
-    private $conn;
+    public $conn;
     private $table_name = "user";
     private $id;
     private $username;
@@ -110,7 +110,7 @@ class User {
     public function updateUserById() {
         $query = "UPDATE " . $this->table_name . "
                   SET email = :email,
-                  username = :username,
+                  username = :username
                   WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -119,7 +119,8 @@ class User {
         $stmt->bindParam(':username', $this->getUsername());
         $stmt->bindParam(':id', $this->getId());
 
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt;
     }
     public function deleteUserById() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
