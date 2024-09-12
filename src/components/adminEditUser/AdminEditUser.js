@@ -53,7 +53,7 @@ export function AdminEditUser() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id }),
+            body: JSON.stringify({id})
         });
         const result = await response.json();
         setArtData(result.data);
@@ -87,6 +87,7 @@ export function AdminEditUser() {
     const editArtsHandler = (row) => {
         console.log(row)
         setArtEditData({
+            img_url: row.img_url,
             title: row.title,
             description: row.description,
             price: Number(row.price)
@@ -116,6 +117,8 @@ export function AdminEditUser() {
         const newData = artData.filter(row => {
             return row.id.toString().toLowerCase()
                     .includes(eventValue) ||
+                row.img_url.toLowerCase()
+                    .includes(eventValue.toLowerCase()) ||
                 row.title.toLowerCase()
                     .includes(eventValue.toLowerCase()) ||
                 row.description.toLowerCase()
