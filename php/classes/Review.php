@@ -83,7 +83,7 @@ class Review {
         return $stmt;
     }
 
-    public function getReviewByUserId() {
+    public function getReviewsByUserId() {
         $query = "SELECT id, user_id, art_id,
        review_text, rating, review_creation_date
                 FROM " . $this->table_name . " WHERE user_id = :user_id";
@@ -95,7 +95,7 @@ class Review {
         return $stmt;
     }
 
-    public function getReviewByArtId() {
+    public function getReviewsByArtId() {
         $query = "SELECT id, user_id, art_id,
        review_text, rating, review_creation_date
                 FROM " . $this->table_name . " WHERE art_id = :art_id";
