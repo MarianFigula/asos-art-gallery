@@ -41,10 +41,10 @@ class Art {
     public function createArt() {
         $this->upload_date = date('Y-m-d H:i:s');
 
-        $query = "INSERT INTO " . $this->table_name . " (user_id, img_src, title, 
-        description, price, art_creation_date)
-                  VALUES (:user_id, :img_src, :title, :description,
-                  price, art_creation_date)";
+        $query = "INSERT INTO " . $this->table_name . " (user_id, img_url, title, 
+        description, price, upload_date)
+                  VALUES (:user_id, :img_url, :title, :description,
+                  price, upload_date)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -57,19 +57,19 @@ class Art {
         $this->upload_date = htmlspecialchars(strip_tags($this->upload_date));
 
         $stmt->bindParam(":user_id", $this->user_id);
-        $stmt->bindParam(":img_src", $this->img_url);
+        $stmt->bindParam(":img_url", $this->img_url);
         $stmt->bindParam(":title", $this->title);
         $stmt->bindParam(":description", $this->description);
         $stmt->bindParam(":price", $this->price);
-        $stmt->bindParam(":art_creation_date", $this->upload_date);
+        $stmt->bindParam(":upload_date", $this->upload_date);
 
         return $stmt->execute();
 
     }
 
     public function getArts() {
-        $query = "SELECT id, user_id, img_src, title, 
-                description, price, art_creation_date FROM " . $this->table_name;
+        $query = "SELECT id, user_id, img_url, title, 
+                description, price, upload_date FROM " . $this->table_name;
 
         $stmt = $this->conn->prepare($query);
 
@@ -78,8 +78,8 @@ class Art {
     }
 
     public function getArtById() {
-        $query = "SELECT id, user_id, img_src, title, 
-                description, price, art_creation_date FROM " . $this->table_name
+        $query = "SELECT id, user_id, img_url, title, 
+                description, price, upload_date FROM " . $this->table_name
             .  " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -89,8 +89,8 @@ class Art {
         return $stmt;
     }
     public function getArtByUserId() {
-        $query = "SELECT id, user_id, img_src, title, 
-                description, price, art_creation_date FROM " . $this->table_name
+        $query = "SELECT id, user_id, img_url, title, 
+                description, price, upload_date FROM " . $this->table_name
             .  " WHERE user_id = :user_id";
 
         $stmt = $this->conn->prepare($query);
