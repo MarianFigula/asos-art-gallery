@@ -36,7 +36,6 @@ export function Table({
                 selectableRows
                 onSelectedRowsChange={handleChange}
                 pagination
-                fixedHeader
                 persistTableHead
             />
         </div>
