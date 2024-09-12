@@ -43,14 +43,14 @@ export function Login() {
                 <FormInput
                     label="Email"
                     type="email"
-                    value=""
+                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                 />
                 <FormInput
                     label="Password"
                     type="password"
-                    value=""
+                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
