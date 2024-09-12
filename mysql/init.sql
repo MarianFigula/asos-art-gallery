@@ -25,11 +25,12 @@ CREATE TABLE IF NOT EXISTS `art`
 (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT UNSIGNED NOT NULL,
-    `img_src` VARCHAR(512) NOT NULL,
+    `img_url` VARCHAR(512) NOT NULL,
     `title` VARCHAR(512) NOT NULL,
     `description` VARCHAR(1024) NOT NULL,
     `price` INT NOT NULL,
-    `art_creation_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    `format` VARCHAR(10), -- e.g., "jpeg", "png"
+    `upload_date ` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
 ALTER TABLE `art` ADD FOREIGN KEY (`user_id`)
