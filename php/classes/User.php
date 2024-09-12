@@ -102,23 +102,18 @@ class User {
         return $stmt;
     }
 
-    // Update user
+    // Update user, mozno pridate do query toto:
+    /*
+     security_question = :security_question,
+     security_answer = :security_answer
+     */
     public function updateUserById() {
         $query = "UPDATE " . $this->table_name . "
-                  SET email = :email, password = :password, 
+                  SET email = :email,
                   username = :username,
-                  security_question = :security_question, 
-                  security_answer = :security_answer
                   WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
-
-        $this->setEmail($this->email);
-        $this->setUsername($this->username);
-        $this->setPassword($this->password);
-        $this->setSecurityQuestion($this->security_question);
-        $this->setSecurityAnswer($this->security_answer);
-        $this->setId($this->id);
 
         $stmt->bindParam(':email', $this->getEmail());
         $stmt->bindParam(':username', $this->getUsername());
