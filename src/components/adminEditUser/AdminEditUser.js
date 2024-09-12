@@ -9,10 +9,14 @@ import {Modal} from "../modal/Modal";
 import {useLocation, useParams} from "react-router-dom";
 
 // admin page
+// TODO ked zmenim id v url a aj ked tam na zaciatku nic neni
+//  ale user s id funguje tak ho updatne, treba zo zmenit ci to nechame
+//  ako naschval bug ?
 export function AdminEditUser() {
     const { id } = useParams();
     const location = useLocation();
     const {username: initialUsername, email: initialEmail } = location.state || {};
+    const serverUrl = process.env.REACT_APP_SERVER_URL
 
 
     const [artData, setArtData] = useState([])
@@ -47,9 +51,9 @@ export function AdminEditUser() {
         const response = await fetch(`${serverUrl}/api/art/read.php`,{
             method: "POST",
             headers: {
-                "Content-Type": "application/json", // Ensure the server knows you're sending JSON
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id }), // Convert the id to a JSON string
+            body: JSON.stringify({ id }),
         });
         const result = await response.json();
         setArtData(result.data);
@@ -61,9 +65,9 @@ export function AdminEditUser() {
         const response = await fetch(`${serverUrl}/api/review/read.php`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json", // Ensure the server knows you're sending JSON
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id }), // Convert the id to a JSON string
+            body: JSON.stringify({ id }),
         });
         const result = await response.json();
         setReviewData(result.data);
@@ -72,7 +76,6 @@ export function AdminEditUser() {
 
     useEffect(() => {
         if (id) {
-            // Fetch user-specific data if needed based on the `id`.
             fetchArtData();
             fetchReviewData();
         } else {
@@ -140,9 +143,31 @@ export function AdminEditUser() {
         setReviewRecords(newData);
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         // tu dat error
+        console.log("submitujem edit user")
+        try {
+            const response =
+                await fetch(`${serverUrl}/api/user/update.php`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({id, username, email})
+                })
+
+            const result = await response.json();
+            console.log(result)
+            if (result.success){
+                setUsername(username)
+                setEmail(email)
+                alert("successfully")
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const handleEditArtSubmit = (e) => {
