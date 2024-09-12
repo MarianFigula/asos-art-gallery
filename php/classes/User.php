@@ -117,9 +117,6 @@ class User {
 
         $stmt->bindParam(':email', $this->getEmail());
         $stmt->bindParam(':username', $this->getUsername());
-        $stmt->bindParam(':password', $this->getPassword());
-        $stmt->bindParam(':security_question', $this->getSecurityQuestion());
-        $stmt->bindParam(':security_answer', $this->getSecurityAnswer());
         $stmt->bindParam(':id', $this->getId());
 
         return $stmt->execute();
