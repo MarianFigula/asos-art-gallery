@@ -29,15 +29,14 @@ CREATE TABLE IF NOT EXISTS `art`
     `title` VARCHAR(512) NOT NULL,
     `description` VARCHAR(1024) NOT NULL,
     `price` INT,
-    `upload_date ` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    `upload_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
 ALTER TABLE `art` ADD FOREIGN KEY (`user_id`)
     REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-INSERT INTO `art` (`id`,`user_id`, `img_url`, `title`,
-                   `description`, `price`)
-VALUES (1, 2, 'src/assets/art/camera.png', 'Kamera', 'Toto je kamera', 20)
+INSERT INTO `art` (`id`,`user_id`, `img_url`, `title`, `description`, `price`, `upload_date`)
+VALUES ('1', '2', 'src/assets/art/camera.png', 'Kamera', 'Toto je kamera', '20', CURRENT_TIMESTAMP());
 
 -- Create the `review` table
 CREATE TABLE IF NOT EXISTS `review`
