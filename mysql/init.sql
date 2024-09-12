@@ -36,7 +36,7 @@ ALTER TABLE `art` ADD FOREIGN KEY (`user_id`)
     REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 INSERT INTO `art` (`id`,`user_id`, `img_url`, `title`, `description`, `price`, `upload_date`)
-VALUES ('1', '2', 'src/assets/art/camera.png', 'Kamera', 'Toto je kamera', '20', CURRENT_TIMESTAMP());
+VALUES ('1', '2', '/arts/camera.png', 'Kamera', 'Toto je kamera', '20', CURRENT_TIMESTAMP());
 
 -- Create the `review` table
 CREATE TABLE IF NOT EXISTS `review`
