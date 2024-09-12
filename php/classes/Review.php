@@ -95,6 +95,17 @@ class Review {
         return $stmt;
     }
 
+    public function getReviewByArtId() {
+        $query = "SELECT id, user_id, art_id,
+       review_text, rating, review_creation_date
+                FROM " . $this->table_name . " WHERE art_id = :art_id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":art_id", $this->art_id);
+
+        $stmt->execute();
+        return $stmt;
+    }
     public function deleteReviewById() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
 
