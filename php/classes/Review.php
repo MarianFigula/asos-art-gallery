@@ -72,7 +72,8 @@ class Review {
     }
 
     public function getReviewById(){
-        $query = "SELECT id, user_id, review_text, review_creation_date
+        $query = "SELECT id, user_id, art_id, 
+       review_text, rating, review_creation_date
                 FROM " . $this->table_name .  " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
