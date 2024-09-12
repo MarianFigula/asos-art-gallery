@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `review`
 (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT UNSIGNED NOT NULL,
+    `art_id` INT UNSIGNED NOT NULL,
     `review_text` VARCHAR(1024) NOT NULL,
     `rating` INT NOT NULL,
     `review_creation_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -51,8 +52,11 @@ CREATE TABLE IF NOT EXISTS `review`
 ALTER TABLE `review` ADD FOREIGN KEY (`user_id`)
     REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-INSERT INTO `review` (`id`,`art_id`, `user_id`, `review_text`, `rating`, `review_creation_date`)
-VALUES ('1', '1', '3', 'Toto je recenzia kamery', '5', CURRENT_TIMESTAMP());
+ALTER TABLE `review` ADD FOREIGN KEY (`art_id`)
+    REFERENCES `art`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+INSERT INTO `review` (`id`, `user_id`,`art_id`, `review_text`, `rating`, `review_creation_date`)
+VALUES ('1', '3', '1', 'Toto je recenzia kamery', '5', CURRENT_TIMESTAMP());
 
 
 -- Create the `credit_card` table
