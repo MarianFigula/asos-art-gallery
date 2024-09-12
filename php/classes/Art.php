@@ -88,7 +88,7 @@ class Art {
         $stmt->execute();
         return $stmt;
     }
-    public function getArtByUserId() {
+    public function getArtsByUserId() {
         $query = "SELECT id, user_id, img_url, title, 
                 description, price, upload_date FROM " . $this->table_name
             .  " WHERE user_id = :user_id";
