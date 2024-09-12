@@ -8,6 +8,11 @@ export const getArtColumns = (editHandler) => [
         sortable: true,
     },
     {
+        name: "Img URL",
+        selector: row => row.img_url,
+        sortable: true,
+    },
+    {
         name: "Title",
         selector: row => row.title,
         sortable: true,
