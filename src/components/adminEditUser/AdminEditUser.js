@@ -75,6 +75,7 @@ export function AdminEditUser() {
     useEffect(() => {
         if (id) {
             fetchArtData();
+            fetchReviewData()
         } else {
             setError("No id provided")
         }
@@ -98,6 +99,7 @@ export function AdminEditUser() {
         setReviewEditData({
             review_text: row.review_text,
             rating: row.rating,
+            review_creation_date: row.review_creation_date
         });
         setIsReviewModalOpen(true);
     }
@@ -123,7 +125,7 @@ export function AdminEditUser() {
                     .includes(eventValue.toLowerCase()) ||
                 row.price.toString().toLowerCase()
                     .includes(eventValue) ||
-                row.date.toString().toLowerCase()
+                row.upload_date.toString().toLowerCase()
                     .includes(eventValue)
         });
         setArtRecords(newData);
@@ -138,7 +140,7 @@ export function AdminEditUser() {
                     .includes(eventValue.toLowerCase()) ||
                 row.rating.toString().toLowerCase()
                     .includes(eventValue) ||
-                row.date.toString().toLowerCase()
+                row.review_creation_date.toString().toLowerCase()
                     .includes(eventValue)
         });
         setReviewRecords(newData);
