@@ -5,6 +5,7 @@ class Review {
     private $table_name = "review";
     private $id;
     private $user_id;
+    private $art_id;
     private $review_text;
     private $review_creation_date;
     public function getTableName() {return $this->table_name;}
@@ -15,6 +16,8 @@ class Review {
     public function setId($id) {$this->id = $id;}
     public function getUserId() {return $this->user_id;}
     public function setUserId($user_id) {$this->user_id = $user_id;}
+    public function getArtId() {return $this->art_id;}
+    public function setArtId($art_id) {$this->art_id = $art_id;}
     public function getReviewText() {return $this->review_text;}
     public function setReviewText($review_text){
         $this->review_text = $review_text;
