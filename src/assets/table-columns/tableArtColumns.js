@@ -29,7 +29,7 @@ export const getArtColumns = (editHandler) => [
     },
     {
         name: "Date",
-        selector: row => row.date,
+        selector: row => row.upload_date,
         sortable: true
     },
     {

@@ -2,6 +2,7 @@
 
 header("Content-Type: application/json");
 include_once '../../config/Database.php';
+include_once '../../classes/Art.php';
 include_once "../../config/cors.php";
 
 $database = new Database();
@@ -23,7 +24,7 @@ if ($method == "GET"){
 }
 
 if (isset($data->user_id)){
-    $art->setId($data->user_id);
+    $art->setUserId($data->user_id);
     $stmt = $art->getArtsByUserId();
     $arts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

@@ -47,13 +47,12 @@ export function AdminEditUser() {
 
 
     const fetchArtData = async () => {
-        const serverUrl = process.env.REACT_APP_SERVER_URL;
         const response = await fetch(`${serverUrl}/api/art/read.php`,{
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({id})
+            body: JSON.stringify({user_id: id})
         });
         const result = await response.json();
         setArtData(result.data);
@@ -61,13 +60,12 @@ export function AdminEditUser() {
     };
 
     const fetchReviewData = async () => {
-        const serverUrl = process.env.REACT_APP_SERVER_URL;
         const response = await fetch(`${serverUrl}/api/review/read.php`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id }),
+            body: JSON.stringify({user_id: id}),
         });
         const result = await response.json();
         setReviewData(result.data);
@@ -77,7 +75,6 @@ export function AdminEditUser() {
     useEffect(() => {
         if (id) {
             fetchArtData();
-            fetchReviewData();
         } else {
             setError("No id provided")
         }
@@ -90,7 +87,8 @@ export function AdminEditUser() {
             img_url: row.img_url,
             title: row.title,
             description: row.description,
-            price: Number(row.price)
+            price: Number(row.price),
+            upload_date: row.upload_date
         })
         setIsArtModalOpen(true)
     }
