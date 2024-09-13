@@ -122,6 +122,21 @@ class User {
         $stmt->execute();
         return $stmt;
     }
+
+    public function renewUserPassword() {
+        $query = "UPDATE " . $this->table_name . "
+                  SET password = :password
+                  WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':password', $this->getPassword());
+        $stmt->bindParam(':id', $this->getId());
+
+        $stmt->execute();
+        return $stmt;
+    }
+
     public function deleteUserById() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
 
