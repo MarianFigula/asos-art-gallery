@@ -132,4 +132,23 @@ class User {
 
         return $stmt->execute();
     }
+
+    public function deleteUsersByIds($ids) {
+        // Convert the array of IDs to a comma-separated list of placeholders
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+        // Build the query with placeholders
+        $query = "DELETE FROM " . $this->table_name . " WHERE id IN ($placeholders)";
+
+        // Prepare the query
+        $stmt = $this->conn->prepare($query);
+
+        // Bind the values dynamically
+        foreach ($ids as $index => $id) {
+            $stmt->bindValue($index + 1, htmlspecialchars(strip_tags($id)), PDO::PARAM_INT);
+        }
+
+        // Execute the query
+        return $stmt->execute();
+    }
 }
