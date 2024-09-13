@@ -180,7 +180,12 @@ export function AdminEditUser() {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({id, art_data: artEditData})
+                    body: JSON.stringify({
+                        id,
+                        title: artEditData.title,
+                        description: artEditData.description,
+                        price: artEditData.price
+                    })
                 })
 
             const result = await response.json();
