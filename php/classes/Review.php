@@ -123,6 +123,23 @@ class Review {
         $stmt->execute();
         return $stmt;
     }
+
+    public function updateReviewByUserId() {
+        $query = "UPDATE " . $this->table_name . "
+                  SET review_text = :review_text,
+                  rating = :rating,
+                  review_creation_date = CURRENT_TIMESTAMP()
+                  WHERE user_id = :user_id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':review_text', $this->getReviewText());
+        $stmt->bindParam(':rating', $this->getRating());
+        $stmt->bindParam(':user_id', $this->getUserId());
+
+        $stmt->execute();
+        return $stmt;
+    }
     public function deleteReviewById() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
 
