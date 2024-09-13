@@ -3,6 +3,7 @@ import "./UserProfile.css"
 import "../form/form.css"
 import UserPhoto from "../../assets/user-pictures/22.png"
 import AdminPhoto from "../../assets/user-pictures/21.png"
+import {useNavigate} from "react-router-dom";
 
 // TODO: pozriet ci to je admin a ked hej podla
 //  toho menit fotku a zobrazit button pre administratora
@@ -16,6 +17,16 @@ import AdminPhoto from "../../assets/user-pictures/21.png"
 //  na dalsiu stranku
 
 export function UserProfile() {
+
+    const navigate = useNavigate();
+    const email = "alicebobova@gmail.com"
+    const handleMyPostsClick = () => {
+        navigate(`/my-posts`, { state: { email: email } });
+    };
+
+    const handleReviewHistoryClick = () => {
+        navigate(`/review-history`, { state: { email: email } });
+    };
     return (
         <>
             <div className="profile-wrapper mb-5">
@@ -44,8 +55,18 @@ export function UserProfile() {
                         </form>
                         <div className="buttons">
                             {/*<button className="button-dark">order history</button>*/}
-                            <button className="button-dark">My posts</button>
-                            <button className="button-dark">Review history</button>
+                            <button
+                                className="button-dark"
+                                onClick={handleMyPostsClick}
+                            >
+                                My posts
+                            </button>
+                            <button
+                                className="button-dark"
+                                onClick={handleReviewHistoryClick}
+                            >
+                                Review history
+                            </button>
                         </div>
                     </div>
                 </div>
