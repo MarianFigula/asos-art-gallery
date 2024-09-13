@@ -118,6 +118,25 @@ class Art {
         return $stmt;
     }
 
+    public function updateArtByUserId() {
+        $query = "UPDATE " . $this->table_name . "
+                  SET title = :title,
+                  description = :description,
+                  price = :price
+                  WHERE user_id = :user_id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':title', $this->getTitle());
+        $stmt->bindParam(':description', $this->getDescription());
+        $stmt->bindParam(':price', $this->getPrice());
+        $stmt->bindParam(':user_id', $this->getUserId());
+
+        $stmt->execute();
+        return $stmt;
+    }
+
+
     public function deleteArtById() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
 
