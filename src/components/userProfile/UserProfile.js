@@ -21,7 +21,7 @@ export function UserProfile() {
     const navigate = useNavigate();
     const email = "alicebobova@gmail.com"
     const handleMyPostsClick = () => {
-        navigate(`/my-posts`, { state: { email: email } });
+        navigate(`/my-arts`, { state: { email: email } });
     };
 
     const handleReviewHistoryClick = () => {

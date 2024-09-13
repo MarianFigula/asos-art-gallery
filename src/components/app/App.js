@@ -24,7 +24,7 @@ function App() {
                 <Route path={"/admin"} element={<AdminSite/>}/>
                 <Route path={"/admin-edit-user/:id"} element={<AdminEditUser/>}/>
                 <Route path={"/my-arts"} element={<UserArts/>}/>
-                <Route path={"/my-reviews"} element={<UserReviews/>}/>
+                <Route path={"/review-history"} element={<UserReviews/>}/>
             </Routes>
             <Footer />
         </>
