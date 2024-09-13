@@ -193,7 +193,10 @@ export function AdminEditUser() {
                 })
 
             const result = await response.json();
-            console.log(result)
+            if (result.success){
+                window.location.reload()
+                alert("Successfully")
+            }
 
         }catch (error){
             setError(error)
