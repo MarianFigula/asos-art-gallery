@@ -4,6 +4,7 @@ header("Content-Type: application/json");
 
 include_once '../../config/Database.php';
 include_once '../../classes/Review.php';
+include_once '../../classes/User.php';
 include_once "../../config/cors.php";
 
 $database = new Database();
@@ -24,6 +25,37 @@ if ($method == "GET"){
     exit();
 }
 
+
+if (!empty($data->user_email)) {
+    $user = new User($db);
+    $user->setEmail($data->user_email);
+
+    $stmt = $user->getUserByEmail();
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$row) {
+        http_response_code(404);
+        echo json_encode([
+            "success" => false,
+            "message" => "User not found."]);
+        exit();
+    }
+
+    $user_id = $row["id"];
+
+    $user->setId($user_id);
+    $review->setUserId($user_id);
+
+    $stmt = $review->getReviewsByUserId();
+
+    $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    http_response_code(200);
+    echo json_encode([
+        "success" => true,
+        "data" => $reviews]);
+    exit();
+}
 
 if (isset($data->user_id)){
     $review->setUserId($data->user_id);
