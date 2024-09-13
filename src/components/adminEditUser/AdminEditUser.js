@@ -259,7 +259,14 @@ export function AdminEditUser() {
                         )}
                         required
                     />
-
+                    {
+                        //TODO osetrit min max
+                        // hodnoty aj na serveri
+                        // alebo to nechame ako feature bug
+                        // ze user moze v html prepisat min a max
+                        // a potom bude moct davat vyssi rating
+                        // alebo tam miesto input type number pridame hviezdicky
+                    }
                     <FormInput
                         label="Rating"
                         type="number"
