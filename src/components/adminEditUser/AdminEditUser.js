@@ -85,11 +85,9 @@ export function AdminEditUser() {
     const editArtsHandler = (row) => {
         console.log(row)
         setArtEditData({
-            img_url: row.img_url,
             title: row.title,
             description: row.description,
             price: Number(row.price),
-            upload_date: row.upload_date
         })
         setIsArtModalOpen(true)
     }
@@ -99,7 +97,6 @@ export function AdminEditUser() {
         setReviewEditData({
             review_text: row.review_text,
             rating: row.rating,
-            review_creation_date: row.review_creation_date
         });
         setIsReviewModalOpen(true);
     }
@@ -174,9 +171,20 @@ export function AdminEditUser() {
         }
     }
 
-    const handleEditArtSubmit = (e) => {
+    const handleEditArtSubmit = async (e) => {
         e.preventDefault()
         try {
+            const response =
+                await fetch(`${serverUrl}/api/art/update.php`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({id, art_data: artEditData})
+                })
+
+            const result = await response.json();
+            console.log(result)
 
         }catch (error){
             setError(error)
