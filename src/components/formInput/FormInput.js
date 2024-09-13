@@ -30,15 +30,23 @@ export function FormInput({
                         </option>
                     ))}
                 </select>
+            ) : type === "textarea" ? (
+                <textarea
+                    value={value}
+                    onChange={onChange}
+                    className="input"
+                    required={required}
+                    {...props}
+                />
             ) : (
-                    <input
-                        type={type}
-                        value={value}
-                        onChange={onChange}
-                        className="input"
-                        required={required}
-                        {...props}
-                    />
+                <input
+                    type={type}
+                    value={value}
+                    onChange={onChange}
+                    className="input"
+                    required={required}
+                    {...props}
+                />
             )}
         </div>
     )
