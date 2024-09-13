@@ -206,7 +206,7 @@ export function AdminEditUser() {
                     />
                     <FormInput
                         label="Description"
-                        type="text"
+                        type="textarea"
                         value={artEditData.description}
                         onChange={(e) => setArtEditData(
                             {
@@ -246,8 +246,8 @@ export function AdminEditUser() {
                     buttonClassName="button-confirm"
                 >
                     <FormInput
-                        label="Title"
-                        type="text"
+                        label="Review"
+                        type="textarea"
                         value={reviewEditData.review_text}
                         onChange={(e) => setReviewEditData(
                             {
