@@ -104,7 +104,8 @@ class Art {
         $query = "UPDATE " . $this->table_name . "
                   SET title = :title,
                   description = :description,
-                  price = :price
+                  price = :price,
+                  upload_date = CURRENT_TIMESTAMP()
                   WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -122,7 +123,8 @@ class Art {
         $query = "UPDATE " . $this->table_name . "
                   SET title = :title,
                   description = :description,
-                  price = :price
+                  price = :price,
+                  upload_date = CURRENT_TIMESTAMP()
                   WHERE user_id = :user_id";
 
         $stmt = $this->conn->prepare($query);
