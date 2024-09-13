@@ -169,12 +169,19 @@ export function AdminEditUser() {
             }
 
         } catch (error) {
-            console.log(error)
+            setError(error)
+            console.warn(error)
         }
     }
 
     const handleEditArtSubmit = (e) => {
         e.preventDefault()
+        try {
+
+        }catch (error){
+            setError(error)
+            console.warn(error)
+        }
     }
     const handleEditReviewSubmit = (e) => {
         e.preventDefault()
