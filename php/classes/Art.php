@@ -100,6 +100,24 @@ class Art {
         return $stmt;
     }
 
+    public function updateArtById() {
+        $query = "UPDATE " . $this->table_name . "
+                  SET title = :title,
+                  description = :description,
+                  price = :price
+                  WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':title', $this->getTitle());
+        $stmt->bindParam(':description', $this->getDescription());
+        $stmt->bindParam(':price', $this->getPrice());
+        $stmt->bindParam(':id', $this->getId());
+
+        $stmt->execute();
+        return $stmt;
+    }
+
     public function deleteArtById() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
 
