@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {getArtColumns} from "../../assets/table-columns/tableArtColumns";
 import {Form} from "../form/Form";
 import {FormInput} from "../formInput/FormInput";
