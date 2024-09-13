@@ -12,6 +12,8 @@ import {useLocation, useParams} from "react-router-dom";
 // TODO ked zmenim id v url a aj ked tam na zaciatku nic neni
 //  ale user s id funguje tak ho updatne, treba zo zmenit ci to nechame
 //  ako naschval bug ?
+
+// TODO: overit vstupy pri editoch (modaly)
 export function AdminEditUser() {
     const { id } = useParams();
     const location = useLocation();
