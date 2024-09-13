@@ -263,6 +263,8 @@ export function AdminEditUser() {
                     <FormInput
                         label="Rating"
                         type="number"
+                        max="5"
+                        min="0"
                         value={reviewEditData.rating}
                         onChange={(e) => setReviewEditData(
                             {
