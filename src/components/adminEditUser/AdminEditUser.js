@@ -32,6 +32,7 @@ export function AdminEditUser() {
 
     const [artEditData, setArtEditData] = useState(
         {
+            id: null,
             title: "",
             description: "",
             price: 0
@@ -40,6 +41,7 @@ export function AdminEditUser() {
 
     const [reviewEditData, setReviewEditData] = useState(
         {
+            id: null,
             review_text: "",
             rating: ""
         }
@@ -85,6 +87,7 @@ export function AdminEditUser() {
     const editArtsHandler = (row) => {
         console.log(row)
         setArtEditData({
+            id: row.id,
             title: row.title,
             description: row.description,
             price: Number(row.price),
@@ -95,6 +98,7 @@ export function AdminEditUser() {
     const editReviewsHandler = (row) => {
         console.log(row);
         setReviewEditData({
+            id: row.id,
             review_text: row.review_text,
             rating: row.rating,
         });
@@ -181,7 +185,7 @@ export function AdminEditUser() {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        id,
+                        id: artEditData.id,
                         title: artEditData.title,
                         description: artEditData.description,
                         price: artEditData.price
