@@ -8,6 +8,8 @@ import {AdminSite} from "../adminSite/AdminSite";
 import {UserProfile} from "../userProfile/UserProfile";
 import {Footer} from "../footer/Footer";
 import {AdminEditUser} from "../adminEditUser/AdminEditUser";
+import {UserArts} from "../userArts/UserArts";
+import {UserReviews} from "../userReviews/UserReviews";
 
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
                 <Route path={"/register"} element={<Register/>}/>
                 <Route path={"/admin"} element={<AdminSite/>}/>
                 <Route path={"/admin-edit-user/:id"} element={<AdminEditUser/>}/>
+                <Route path={"/my-arts"} element={<UserArts/>}/>
+                <Route path={"/my-reviews"} element={<UserReviews/>}/>
             </Routes>
             <Footer />
         </>
