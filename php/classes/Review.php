@@ -106,6 +106,23 @@ class Review {
         $stmt->execute();
         return $stmt;
     }
+
+    public function updateReviewById() {
+        $query = "UPDATE " . $this->table_name . "
+                  SET review_text = :review_text,
+                  rating = :rating,
+                  review_creation_date = CURRENT_TIMESTAMP()
+                  WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':review_text', $this->getReviewText());
+        $stmt->bindParam(':rating', $this->getRating());
+        $stmt->bindParam(':id', $this->getId());
+
+        $stmt->execute();
+        return $stmt;
+    }
     public function deleteReviewById() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
 
