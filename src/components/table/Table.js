@@ -17,9 +17,15 @@ export function Table({
         <div className='table-wrapper'>
             <div className="search-wrapper mb-1">
                 <label htmlFor={searchId} className="label">
-                    <input type="search" id={searchId} className="input border-15" onChange={handleFilter}
+                    <input type="search"
+                           id={searchId}
+                           className="input border-15"
+                           onChange={handleFilter}
                            placeholder="Search"/>
-                    <img src={SearchIcon} alt="Search Icon" className="search-icon"/>
+                    <img
+                        src={SearchIcon}
+                        alt="Search Icon"
+                        className="search-icon"/>
                 </label>
                 <button
                     onClick={refreshData}
