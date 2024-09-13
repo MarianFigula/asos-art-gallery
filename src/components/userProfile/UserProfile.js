@@ -20,10 +20,14 @@ export function UserProfile() {
 
     const navigate = useNavigate();
     const email = "alicebobova@gmail.com"
+
+
+    // TODO mozno osdtranit tie states ked budem checkovat email cez ls
     const handleMyPostsClick = () => {
         navigate(`/my-arts`, { state: { email: email } });
     };
 
+    // TODO mozno osdtranit tie states ked budem checkovat email cez ls
     const handleReviewHistoryClick = () => {
         navigate(`/review-history`, { state: { email: email } });
     };
