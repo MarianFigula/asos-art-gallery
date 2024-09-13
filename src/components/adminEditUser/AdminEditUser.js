@@ -203,8 +203,32 @@ export function AdminEditUser() {
             console.warn(error)
         }
     }
-    const handleEditReviewSubmit = (e) => {
+    const handleEditReviewSubmit = async (e) => {
         e.preventDefault()
+        try {
+            const response =
+                await fetch(`${serverUrl}/api/review/update.php`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: reviewEditData.id,
+                        review_text: reviewEditData.review_text,
+                        rating: reviewEditData.rating,
+                    })
+                })
+
+            const result = await response.json();
+            if (result.success){
+                window.location.reload()
+                alert("Successfully")
+            }
+
+        }catch (error){
+            setError(error)
+            console.warn(error)
+        }
     }
     return (
         <>
