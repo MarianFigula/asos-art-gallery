@@ -28,11 +28,15 @@ export function UserProfile() {
                         <form action="" className="mb-3">
                             <div className="info">
                                 <label className="label mb-0-25">Username</label>
-                                <input type="text" value="username" className="input"/>
+                                <input type="text"
+                                       defaultValue="alice"
+                                       className="input"/>
                             </div>
                             <div className="info mb-1">
                                 <label className="label mb-0-25">Email</label>
-                                <input type="text" value="email@example.com" className="input"/>
+                                <input type="text"
+                                       defaultValue="alicebobova@gmail.com"
+                                       className="input"/>
                             </div>
                             <div className="submit-button-wrapper">
                                 <button className="button-confirm">Apply changes</button>
