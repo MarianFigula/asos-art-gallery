@@ -77,7 +77,7 @@ class Review {
                 FROM " . $this->table_name .  " WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":user_id", $this->user_id);
+        $stmt->bindParam(":id", $this->id);
 
         $stmt->execute();
         return $stmt;
