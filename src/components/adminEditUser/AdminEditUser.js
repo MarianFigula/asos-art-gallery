@@ -207,6 +207,7 @@ export function AdminEditUser() {
                     <FormInput
                         label="Description"
                         type="textarea"
+                        rows="7"
                         value={artEditData.description}
                         onChange={(e) => setArtEditData(
                             {
@@ -248,6 +249,7 @@ export function AdminEditUser() {
                     <FormInput
                         label="Review"
                         type="textarea"
+                        rows="7"
                         value={reviewEditData.review_text}
                         onChange={(e) => setReviewEditData(
                             {
