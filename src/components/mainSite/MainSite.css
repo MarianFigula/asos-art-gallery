@@ -35,6 +35,7 @@
         font-size: 0.8rem;
         background-color: var(--light-grey);
         color: var(--dark);
+        transition: all 0.3s ease-in-out;
         &:hover {
             background-color: var(--grey);
             color: var(--background-color);
