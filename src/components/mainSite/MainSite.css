@@ -1,4 +1,4 @@
-.main-wrapper {
+.main-header-wrapper {
     display: flex;
     justify-content: space-between;
     margin: 20px 30px;
@@ -16,7 +16,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .main-wrapper {
+    .main-header-wrapper {
         flex-direction: column;
         gap: 20px;
     }

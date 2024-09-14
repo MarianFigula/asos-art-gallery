@@ -9,7 +9,7 @@ export function MainSite() {
     return (
         <>
             <h1 className="text-center">Discover new Arts</h1>
-            <section className="main-wrapper">
+            <section className="main-header-wrapper">
                 <SearchBar
                 searchId="main-searchbar"
                 handleFilter={handleFilter}/>
@@ -22,6 +22,10 @@ export function MainSite() {
                     <button>Rating <i className="bi bi-arrow-down"></i></button>
                 </div>
 
+
+            </section>
+
+            <section>
 
             </section>
         </>
