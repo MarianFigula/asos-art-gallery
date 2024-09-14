@@ -1,5 +1,4 @@
 import React from "react";
-import RefreshIcon from "../../assets/icons/arrow-repeat.svg";
 import DataTable from "react-data-table-component";
 import {SearchBar} from "../searchBar/SearchBar";
 
@@ -23,7 +22,7 @@ export function Table({
                     onClick={refreshData}
                     className="button-refresh">
 
-                    <img src={RefreshIcon} alt="Refresh Icon"/>
+                    <i className="bi bi-arrow-repeat"></i>
                 </button>
             </div>
 
