@@ -11,6 +11,7 @@ import {AdminEditUser} from "../adminEditUser/AdminEditUser";
 import {UserArts} from "../userArts/UserArts";
 import {UserReviews} from "../userReviews/UserReviews";
 import {ForgotPassword} from "../forgotPassword/ForgotPassword";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 function App() {
