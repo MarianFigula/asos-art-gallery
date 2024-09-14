@@ -1,7 +1,7 @@
 import React from "react";
 
 
-export function SearchBar({searchId,handleFilter, searchIcon}){
+export function SearchBar({searchId,handleFilter}){
 
     return (
         <>
@@ -11,10 +11,7 @@ export function SearchBar({searchId,handleFilter, searchIcon}){
                        className="input border-15"
                        onChange={handleFilter}
                        placeholder="Search"/>
-                <img
-                    src={searchIcon}
-                    alt="Search Icon"
-                    className="search-icon"/>
+                <i className="bi bi-search search-icon"></i>
             </label>
         </>
     )

@@ -19,7 +19,6 @@ export function Table({
             <div className="search-wrapper mb-1">
                 <SearchBar searchId={searchId}
                            handleFilter={handleFilter}
-                           searchIcon={SearchIcon}
                 />
                 <button
                     onClick={refreshData}
