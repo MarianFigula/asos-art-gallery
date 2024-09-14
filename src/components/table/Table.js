@@ -1,5 +1,4 @@
 import React from "react";
-import SearchIcon from "../../assets/icons/search.svg";
 import RefreshIcon from "../../assets/icons/arrow-repeat.svg";
 import DataTable from "react-data-table-component";
 import {SearchBar} from "../searchBar/SearchBar";
