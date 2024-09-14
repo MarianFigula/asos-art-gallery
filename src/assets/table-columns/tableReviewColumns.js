@@ -1,5 +1,4 @@
 // src/components/tableUserColumns.js
-import EditIcon from "../icons/edit.svg";
 
 export const getReviewColumns = (editHandler) => [
     {
@@ -25,7 +24,7 @@ export const getReviewColumns = (editHandler) => [
     {
         name: "Edit",
         cell: (row) => <button className="button-edit" onClick={() => editHandler(row)}>
-            <img src={EditIcon} alt="Edit Icon"/>
+            <i className="bi bi-pencil-square"></i>
         </button>
     }
 ];
