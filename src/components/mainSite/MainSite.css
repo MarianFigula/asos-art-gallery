@@ -15,6 +15,16 @@
     }
 }
 
+@media screen and (max-width: 768px) {
+    .main-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .button-wrapper {
+        flex-wrap: wrap;
+    }
+}
+
 .button-wrapper {
     display: flex;
     gap: 10px;
