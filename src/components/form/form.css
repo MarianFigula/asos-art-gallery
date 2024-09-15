@@ -75,6 +75,25 @@ textarea {
     color: var(--white);
 }
 
+
+.button-add-to-cart {
+    width: max(10vw, 130px);
+    padding: 10px;
+    font-size: 1rem;
+    background-color: var(--dark);
+    color: var(--white);
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    i {
+        margin-right: 10px;
+    }
+    &:hover {
+        background-color: var(--grey);
+    }
+}
+
+
 .links{
     margin-top: 1rem;
     font-size: 0.8rem;
