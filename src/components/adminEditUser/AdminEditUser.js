@@ -135,12 +135,12 @@ export function AdminEditUser() {
     }
 
     const handleReviewFilter = (event) => {
-        const eventValue = event.target.value
+        const eventValue = event.target.value.toLowerCase()
         const newData = reviewData.filter(row => {
-            return row.id.toString().toLowerCase()
+            return row.id.toString()
                     .includes(eventValue) ||
                 row.review_text.toLowerCase()
-                    .includes(eventValue.toLowerCase()) ||
+                    .includes(eventValue) ||
                 row.rating.toString().toLowerCase()
                     .includes(eventValue) ||
                 row.review_creation_date.toString().toLowerCase()

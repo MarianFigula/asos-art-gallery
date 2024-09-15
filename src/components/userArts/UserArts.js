@@ -65,16 +65,16 @@ export function UserArts(){
     const columnsArts = getArtColumns(editArtsHandler)
 
     const handleArtFilter = (event) => {
-        const eventValue = event.target.value
+        const eventValue = event.target.value.toLowerCase()
         const newData = userArtData.filter(row => {
             return row.id.toString().toLowerCase()
                     .includes(eventValue) ||
                 row.img_url.toLowerCase()
-                    .includes(eventValue.toLowerCase()) ||
+                    .includes(eventValue) ||
                 row.title.toLowerCase()
-                    .includes(eventValue.toLowerCase()) ||
+                    .includes(eventValue) ||
                 row.description.toLowerCase()
-                    .includes(eventValue.toLowerCase()) ||
+                    .includes(eventValue) ||
                 row.price.toString().toLowerCase()
                     .includes(eventValue) ||
                 row.upload_date.toString().toLowerCase()
