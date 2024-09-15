@@ -157,7 +157,7 @@
 .create-art {
     position: fixed;
     color: var(--dark);
-    bottom: 20%;
+    bottom: 12%;
     right: 10%;
     display: flex;
     align-items: center;
