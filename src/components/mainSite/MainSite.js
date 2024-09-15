@@ -4,6 +4,9 @@ import {ReviewList} from "../reviewList/ReviewList";
 import {Art} from "../art/Art";
 import {useEffect, useState} from "react";
 
+// TODO: pridat modal pre vytvorenie review (+ backend)
+// TODO: pridat stranku pre vytvorenie Artu (+ backend)
+
 export function MainSite() {
     // State to store arts and search term
     const [initialArtData, setInitialArtData] = useState([])
@@ -182,6 +185,10 @@ export function MainSite() {
                 </section>
             ))}
 
+            <div className="create-art">
+                <p>Create Art</p>
+                <i className="bi bi-plus-circle-fill"></i>
+            </div>
 
         </>
 
