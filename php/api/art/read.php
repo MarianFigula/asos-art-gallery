@@ -86,3 +86,13 @@ if (isset($data->id)){
         "data" => $row]);
     exit();
 }
+
+$stmt = $art->getArtWithReviewsAndUser();
+$arts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+http_response_code(200);
+echo json_encode([
+    "message" => "jotjo",
+    "success" => true,
+    "data" => $arts]);
+exit();
