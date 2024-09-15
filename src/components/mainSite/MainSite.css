@@ -63,7 +63,7 @@
 }
 
 .img-info {
-    padding: 15px;
+    padding: 0 15px;
     h3 {
         text-align: left;
     }
@@ -91,17 +91,18 @@
     flex-direction: column;
     background-color: var(--light-grey);
     width: 60%;
-    max-height: 100vh;
+    max-height: 90vh;
     padding: 15px;
     scroll-behavior: smooth;
     overflow: auto;
 }
 
-.review-header {
+.space-between-for-two-components {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0 10%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .review {
