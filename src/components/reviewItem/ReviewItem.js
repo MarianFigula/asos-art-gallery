@@ -1,6 +1,6 @@
 import UserIcon  from  "../../assets/user-pictures/22.png"
 
-export function ReviewItem({ username, date, reviewText, stars }) {
+export function ReviewItem({ username, date, reviewText, rating }) {
     const totalStars = 5; // Always display 5 stars
 
     return (
@@ -15,8 +15,8 @@ export function ReviewItem({ username, date, reviewText, stars }) {
                 {Array.from({ length: totalStars }, (_, i) => (
                     <i
                         key={i}
-                        className={i < stars ? "bi bi-star-fill" : "bi bi-star"}
-                        style={i < stars ? { color: 'var(--yellow)' } : {}}
+                        className={i < rating ? "bi bi-star-fill" : "bi bi-star"}
+                        style={i < rating ? { color: 'var(--yellow)' } : {}}
                     ></i>
                 ))}
             </p>

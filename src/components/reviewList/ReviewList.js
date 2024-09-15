@@ -15,7 +15,7 @@ export function ReviewList({ reviews }) {
                     username={review.username}
                     date={review.date}
                     reviewText={review.reviewText}
-                    stars={review.stars}
+                    rating={review.rating}
                 />
             ))}
         </div>
