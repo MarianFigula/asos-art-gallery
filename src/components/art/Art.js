@@ -1,11 +1,11 @@
-import {ImageComponent} from "../artImage/artImage";
+import {ArtImage} from "../artImage/artImage";
 
 
 export function Art({art, handleClick}) {
     return (
         <div className="art-wrapper">
             <div className="img-wrapper">
-                <ImageComponent imgUrl={art.img_url}/>
+                <ArtImage imgUrl={art.img_url}/>
 
             </div>
             <div className="img-info">
