@@ -40,6 +40,10 @@
             background-color: var(--grey);
             color: var(--background-color);
         }
+        &.active {
+            background-color: var(--grey);
+            color: var(--white);
+        }
     }
 }
 
