@@ -106,6 +106,9 @@
     align-items: center;
     margin-left: 10%;
     margin-right: 10%;
+    .bi-plus-circle {
+        font-size: 1.25rem;
+    }
 }
 
 .review {
