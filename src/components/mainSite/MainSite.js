@@ -73,7 +73,9 @@ export function MainSite() {
             <section className="main-header-wrapper">
                 <SearchBar
                     searchId="main-searchbar"
-                    handleFilter={handleFilter}/>
+                    handleFilter={handleFilter}
+                    placeholder="Search for art"
+                />
 
                 <div className="button-wrapper">
                     <button>New</button>
