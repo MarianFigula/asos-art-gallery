@@ -45,12 +45,21 @@
 
 .art-review-wrapper {
     display: flex;
-    gap: 10%;
+    gap: 3%;
     margin: 0 5%;
 }
 
+.art-wrapper {
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
 .img-wrapper {
-    border: 1px solid var(--dark);
+    img{
+        width: 100%;
+        border-radius: 15px;
+        border: 1px solid black;
+    }
 
 }
 
@@ -60,7 +69,8 @@
         text-align: left;
     }
     p {
-        font-size: 0.75rem;
+        font-size: 14px;
+        max-width: 70%;
     }
 }
 
@@ -73,13 +83,15 @@
 /* REVIEW */
 
 .review-wrapper {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
     background-color: var(--light-grey);
-    width: 70%;
-    max-height: 50vh;
+    width: 60%;
+    max-height: 100%;
     padding: 15px;
     scroll-behavior: smooth;
     overflow: auto;
-    margin-bottom: 60px;
 }
 
 .review-header {
