@@ -42,3 +42,85 @@
         }
     }
 }
+
+.art-review-wrapper {
+    display: flex;
+    gap: 10%;
+    margin: 0 5%;
+}
+
+.img-wrapper {
+    border: 1px solid var(--dark);
+
+}
+
+.img-info {
+    padding: 15px;
+    h3 {
+        text-align: left;
+    }
+    p {
+        font-size: 0.75rem;
+    }
+}
+
+.img-wrapper, .review-wrapper{
+    border-radius: 15px;
+}
+
+
+
+/* REVIEW */
+
+.review-wrapper {
+    background-color: var(--light-grey);
+    width: 70%;
+    max-height: 50vh;
+    padding: 15px;
+    scroll-behavior: smooth;
+    overflow: auto;
+    margin-bottom: 60px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 10%;
+}
+
+.review {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 14px;
+}
+
+.reviewer {
+    font-size: 0.75rem;
+    position: relative;
+    img {
+        max-width: 40px;
+        border-radius: 50%;
+    }
+    .reviewer-name {
+        position: absolute;
+        top: -15px;
+        left: 50px;
+        font-weight: 600;
+    }
+    .review-date {
+        position: absolute;
+        top: 10px;
+        left: 50px;
+    }
+}
+
+.review-text {
+    font-size: 12px;
+}
+
+.stars {
+    display: flex;
+    gap: 5px;
+}
