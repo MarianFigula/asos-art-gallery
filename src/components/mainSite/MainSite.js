@@ -79,7 +79,8 @@ export function MainSite() {
             resetToOriginal();
             return
         }
-        const sortedArts = [...arts].sort((a, b) => new Date(b.date) - new Date(a.date)); // Newest first
+        const sortedArts =
+            [...arts].sort((a, b) => new Date(b.date) - new Date(a.date));
         setArts(sortedArts);
         setActiveButton('date');
         setIsOriginal(false);
@@ -91,7 +92,7 @@ export function MainSite() {
             resetToOriginal();
             return
         }
-        const sortedArts = [...arts].sort((a, b) => a.price - b.price); // Lowest to highest price
+        const sortedArts = [...arts].sort((a, b) => a.price - b.price);
         setArts(sortedArts);
         setActiveButton('priceAsc');
         setIsOriginal(false);
@@ -103,7 +104,7 @@ export function MainSite() {
             resetToOriginal();
             return
         }
-        const sortedArts = [...arts].sort((a, b) => b.price - a.price); // Highest to lowest price
+        const sortedArts = [...arts].sort((a, b) => b.price - a.price);
         setArts(sortedArts);
         setActiveButton('priceDesc');
         setIsOriginal(false);
@@ -115,7 +116,7 @@ export function MainSite() {
             resetToOriginal();
             return
         }
-        const sortedArts = [...arts].sort((a, b) => a.rating - b.rating); // Lowest to highest rating
+        const sortedArts = [...arts].sort((a, b) => a.rating - b.rating);
         setArts(sortedArts);
         setActiveButton('ratingAsc');
         setIsOriginal(false);
@@ -127,7 +128,7 @@ export function MainSite() {
             resetToOriginal();
             return
         }
-        const sortedArts = [...arts].sort((a, b) => b.rating - a.rating); // Highest to lowest rating
+        const sortedArts = [...arts].sort((a, b) => b.rating - a.rating);
         setArts(sortedArts);
         setActiveButton('ratingDesc');
         setIsOriginal(false);
