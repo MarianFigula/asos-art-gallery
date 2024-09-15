@@ -61,20 +61,6 @@ export function MainSite() {
         setIsOriginal(true); // Indicate we're back to the original state
     };
 
-    // Sorting Functions with Toggle
-    const toggleSortByDate = () => {
-        if (activeButton === 'date') {
-            resetToOriginal();
-            return
-        }
-        const sortedArts =
-            [...arts].sort((a, b) => new Date(b.date) - new Date(a.date));
-        setArts(sortedArts);
-        setActiveButton('date');
-        setIsOriginal(false);
-
-    };
-
     const toggleSortByPriceAsc = () => {
         if (activeButton === 'priceAsc') {
             resetToOriginal();
@@ -142,14 +128,7 @@ export function MainSite() {
                     handleFilter={handleFilter}
                     placeholder="Search for art..."
                 />
-
                 <div className="button-wrapper">
-                    <button
-                        onClick={toggleSortByDate}
-                        className={activeButton === 'date' ? 'active' : ''}
-                    >
-                        New
-                    </button>
                     <button
                         onClick={toggleSortByPriceAsc}
                         className={activeButton === 'priceAsc' ? 'active' : ''}
