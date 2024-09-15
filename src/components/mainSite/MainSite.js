@@ -153,7 +153,7 @@ export function MainSite() {
                 <SearchBar
                     searchId="main-searchbar"
                     handleFilter={handleFilter}
-                    placeholder="Search for art"
+                    placeholder="Search for art..."
                 />
 
                 <div className="button-wrapper">
