@@ -16,6 +16,7 @@ export function ReviewItem({ username, date, reviewText, stars }) {
                     <i
                         key={i}
                         className={i < stars ? "bi bi-star-fill" : "bi bi-star"}
+                        style={i < stars ? { color: 'var(--yellow)' } : {}}
                     ></i>
                 ))}
             </p>
