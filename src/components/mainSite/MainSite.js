@@ -2,68 +2,53 @@ import {SearchBar} from "../searchBar/SearchBar";
 import "./MainSite.css"
 import {ReviewList} from "../reviewList/ReviewList";
 import {Art} from "../art/Art";
-import {useState} from "react";
-
-
-// Mock Data for Arts with date and rating
-const initialArtData = [
-    {
-        img_url: '/arts/camera.png',
-        title: 'Camera Art',
-        username: 'Artist123',
-        description: 'This is a beautiful piece of art representing the essence of photography.',
-        price: 20,
-        date: '2024-09-10',
-        rating: 4.5, // Average rating from reviews
-    },
-    {
-        img_url: '/arts/painting.png',
-        title: 'Sunset Painting',
-        username: 'ArtistSun',
-        description: 'A mesmerizing painting capturing the beauty of a sunset.',
-        price: 50,
-        date: '2024-09-12',
-        rating: 4.8,
-    },
-    {
-        img_url: '/arts/sculpture.png',
-        title: 'Abstract Sculpture',
-        username: 'ArtistSculptor',
-        description: 'A modern abstract sculpture that plays with shapes and forms.',
-        price: 100,
-        date: '2024-09-08',
-        rating: 3.9,
-    },
-];
-
-// Mock Data for Reviews
-const reviewsData = [
-    {
-        username: 'User1',
-        date: '2024-09-10',
-        reviewText: 'Amazing piece of art! Highly recommend.',
-        stars: 5,
-    },
-    {
-        username: 'User2',
-        date: '2024-09-09',
-        reviewText: 'I love the colors and composition.',
-        stars: 4,
-    },
-    {
-        username: 'User3',
-        date: '2024-09-08',
-        reviewText: 'Not bad, but could be more detailed.',
-        stars: 3,
-    },
-];
+import {useEffect, useState} from "react";
 
 export function MainSite() {
     // State to store arts and search term
-    const [arts, setArts] = useState(initialArtData);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [initialArtData, setInitialArtData] = useState([])
+    const [arts, setArts] = useState([]);
     const [activeButton, setActiveButton] = useState(null); // Track the active button
     const [isOriginal, setIsOriginal] = useState(true); // Track if the original data is shown
+
+    const fetchData = async () => {
+        const serverUrl = process.env.REACT_APP_SERVER_URL
+        try {
+            const response = await fetch(`${serverUrl}/api/art/read.php`,{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                const artData = result.data.map(item => ({
+                    username: item.art_creator_username,
+                    img_url: item.img_url,
+                    title: item.title,
+                    description: item.description,
+                    price: parseFloat(item.price), // Convert price to number
+                    date: item.upload_date,
+                    reviews: [{
+                        username: item.review_user_username,
+                        date: item.review_creation_date,
+                        reviewText: item.review_text,
+                        rating: parseInt(item.rating, 10)
+                    }]
+                }));
+
+                setArts(artData);
+                setInitialArtData(artData)
+            }
+        } catch (error) {
+            console.error("Error fetching art and reviews data: ", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData()
+    }, [])
 
 
     // Function to reset to original state
@@ -138,13 +123,12 @@ export function MainSite() {
     // Handle search filtering
     const handleFilter = (event) => {
         const searchValue = event.target.value.toLowerCase();
-        setSearchTerm(searchValue);
-    };
 
-    // Filter the arts based on the search term
-    const filteredArts = arts.filter((art) =>
-        art.title.toLowerCase().includes(searchTerm)
-    );
+        const newData = initialArtData.filter(row => {
+            return row.title.toLowerCase().includes(searchValue)
+        })
+        setArts(newData)
+    };
 
     return (
         <>
@@ -191,10 +175,10 @@ export function MainSite() {
             </section>
 
             {/* Render filtered arts */}
-            {filteredArts.map((art, index) => (
+            {arts.map((art, index) => (
                 <section className="art-review-wrapper mb-3" key={index}>
                     <Art art={art}/>
-                    <ReviewList reviews={reviewsData}/>
+                    <ReviewList reviews={art.reviews} />
                 </section>
             ))}
 
