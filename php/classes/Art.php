@@ -67,6 +67,42 @@ class Art {
 
     }
 
+
+    // Fetch art with associated reviews and user data
+    public function getArtWithReviewsAndUser() {
+        $query = "
+            SELECT 
+                art_creator.username AS art_creator_username,     -- Username of the art creator
+                a.user_id AS art_creator_id,                      -- ID of the user who created the art
+                a.img_url,                                        -- URL of the art image
+                a.title,                                          -- Art title
+                a.description,                                    -- Art description
+                a.price,                                          -- Art price
+                a.upload_date,                                    -- Art upload date
+                review_user.username AS review_user_username,     -- Username of the user who left the review
+                r.user_id AS review_user_id,                      -- ID of the user who left the review
+                r.review_text,                                    -- Review text
+                r.rating,                                         -- Rating from the review
+                r.review_creation_date                            -- Date of the review
+            FROM 
+                " . $this->table_name . " a
+            JOIN 
+                user art_creator ON a.user_id = art_creator.id    -- Join the User table for the art creator's details
+            LEFT JOIN 
+                review r ON a.id = r.art_id                       -- Join the Review table to get reviews
+            LEFT JOIN 
+                user review_user ON r.user_id = review_user.id    -- Join the User table again for the reviewer's details
+            ORDER BY 
+                a.upload_date DESC;
+        ";
+
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        return $stmt;
+    }
+
     public function getArts() {
         $query = "SELECT id, user_id, img_url, title, 
                 description, price, upload_date FROM " . $this->table_name;
