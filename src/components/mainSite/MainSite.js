@@ -1,5 +1,6 @@
 import {SearchBar} from "../searchBar/SearchBar";
 import "./MainSite.css"
+import "../../table.css"
 import {ReviewList} from "../reviewList/ReviewList";
 import {Art} from "../art/Art";
 import {useEffect, useState} from "react";
@@ -164,10 +165,15 @@ export function MainSite() {
                 </section>
             ))}
 
-            <div className="create-art">
-                <p>Create Art</p>
-                <i className="bi bi-plus-circle-fill"></i>
-            </div>
+
+            <button className="create-art button-confirm">
+                Upload Art
+                <i className="bi bi-plus"></i>
+            </button>
+            {/*<div className="create-art">*/}
+            {/*    <p>Create Art</p>*/}
+            {/*    <i className="bi bi-plus-circle-fill"></i>*/}
+            {/*</div>*/}
 
         </div>
 
