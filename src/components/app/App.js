@@ -12,6 +12,7 @@ import {UserArts} from "../userArts/UserArts";
 import {UserReviews} from "../userReviews/UserReviews";
 import {ForgotPassword} from "../forgotPassword/ForgotPassword";
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import {CreateArt} from "../createArt/CreateArt";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                 <Route path={"/admin-edit-user/:id"} element={<AdminEditUser/>}/>
                 <Route path={"/my-arts"} element={<UserArts/>}/>
                 <Route path={"/review-history"} element={<UserReviews/>}/>
+                <Route path={"/upload-art"} element={<CreateArt/>}/>
             </Routes>
             <Footer />
         </>
