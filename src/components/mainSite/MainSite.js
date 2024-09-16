@@ -8,7 +8,379 @@ import {useNavigate} from "react-router-dom";
 
 // TODO: pridat modal pre vytvorenie review (+ backend)
 // TODO: pridat stranku pre vytvorenie Artu (+ backend)
+/*
+const result = {
+    "message": "jotjo",
+    "success": true,
+    "data": [
+    {
+        "art_creator_username": "alice",
+        "art_creator_id": "2",
+        "img_url": "\/arts\/camera.png",
+        "title": "Kamera",
+        "description": "Toto je kamera",
+        "price": "20",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "anna",
+        "review_user_id": "10",
+        "review_text": "The camera photo is good, but I feel it could use more contrast to make it stand out.",
+        "rating": "3",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "alice",
+        "art_creator_id": "2",
+        "img_url": "\/arts\/camera.png",
+        "title": "Kamera",
+        "description": "Toto je kamera",
+        "price": "20",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "bob",
+        "review_user_id": "3",
+        "review_text": "The vintage camera photograph is stunning, with beautiful mechanical details.",
+        "rating": "5",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "alice",
+        "art_creator_id": "2",
+        "img_url": "\/arts\/camera.png",
+        "title": "Kamera",
+        "description": "Toto je kamera",
+        "price": "20",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "charlie",
+        "review_user_id": "4",
+        "review_text": "The vintage camera photo has charm, yet it could benefit from a clearer focus.",
+        "rating": "4",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "alice",
+        "art_creator_id": "2",
+        "img_url": "\/arts\/camera.png",
+        "title": "Kamera",
+        "description": "Toto je kamera",
+        "price": "20",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "clara",
+        "review_user_id": "12",
+        "review_text": "The vintage camera photo is beautiful, yet the background is a bit distracting.",
+        "rating": "4",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "frank",
+        "art_creator_id": "7",
+        "img_url": "\/arts\/abstract.png",
+        "title": "Abstract No.45",
+        "description": "A colorful abstract composition filled with organic shapes and dynamic flow.",
+        "price": "150",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "eva",
+        "review_user_id": "6",
+        "review_text": "Abstract No.45 is vibrant, but the composition seems a bit chaotic and overwhelming.",
+        "rating": "4",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "frank",
+        "art_creator_id": "7",
+        "img_url": "\/arts\/abstract.png",
+        "title": "Abstract No.45",
+        "description": "A colorful abstract composition filled with organic shapes and dynamic flow.",
+        "price": "150",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "david",
+        "review_user_id": "5",
+        "review_text": "Abstract No.45 is a fantastic blend of colors and shapes. Truly mesmerizing!",
+        "rating": "5",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "frank",
+        "art_creator_id": "7",
+        "img_url": "\/arts\/abstract.png",
+        "title": "Abstract No.45",
+        "description": "A colorful abstract composition filled with organic shapes and dynamic flow.",
+        "price": "150",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "george",
+        "review_user_id": "9",
+        "review_text": "Abstract No.45 is colorful, but the shapes feel too disjointed.",
+        "rating": "3",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "frank",
+        "art_creator_id": "7",
+        "img_url": "\/arts\/abstract.png",
+        "title": "Abstract No.45",
+        "description": "A colorful abstract composition filled with organic shapes and dynamic flow.",
+        "price": "150",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "clara",
+        "review_user_id": "12",
+        "review_text": "This abstract piece is vibrant, though the overall composition feels a bit cluttered.",
+        "rating": "2",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "frank",
+        "art_creator_id": "7",
+        "img_url": "\/arts\/composition.png",
+        "title": "Still life",
+        "description": "A not so classic still life with fruit and flowers.",
+        "price": "56",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "alice",
+        "review_user_id": "2",
+        "review_text": "The still life composition feels classic and serene, a beautiful piece of art.",
+        "rating": "5",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "frank",
+        "art_creator_id": "7",
+        "img_url": "\/arts\/composition.png",
+        "title": "Still life",
+        "description": "A not so classic still life with fruit and flowers.",
+        "price": "56",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "george",
+        "review_user_id": "9",
+        "review_text": "The still life is well done, but the colors seem a bit dull compared to other works.",
+        "rating": "4",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "frank",
+        "art_creator_id": "7",
+        "img_url": "\/arts\/composition.png",
+        "title": "Still life",
+        "description": "A not so classic still life with fruit and flowers.",
+        "price": "56",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "betty",
+        "review_user_id": "11",
+        "review_text": "The still life is decent, but it doesn\u00e2\u20ac\u2122t bring anything new to the genre.",
+        "rating": "1",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "frank",
+        "art_creator_id": "7",
+        "img_url": "\/arts\/composition.png",
+        "title": "Still life",
+        "description": "A not so classic still life with fruit and flowers.",
+        "price": "56",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "eva",
+        "review_user_id": "6",
+        "review_text": "The still life is well-executed but lacks a bit of vibrancy.",
+        "rating": "4",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "david",
+        "art_creator_id": "5",
+        "img_url": "\/arts\/raffael.png",
+        "title": "The School of Athens",
+        "description": "A Renaissance masterpiece by Raphael, depicting great philosophers.",
+        "price": "50000000",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "charlie",
+        "review_user_id": "4",
+        "review_text": "The School of Athens is a masterpiece that brings Renaissance philosophy to life.",
+        "rating": "5",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "david",
+        "art_creator_id": "5",
+        "img_url": "\/arts\/raffael.png",
+        "title": "The School of Athens",
+        "description": "A Renaissance masterpiece by Raphael, depicting great philosophers.",
+        "price": "50000000",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "alice",
+        "review_user_id": "2",
+        "review_text": "The School of Athens is impressive piece of work.",
+        "rating": "5",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "david",
+        "art_creator_id": "5",
+        "img_url": "\/arts\/raffael.png",
+        "title": "The School of Athens",
+        "description": "A Renaissance masterpiece by Raphael, depicting great philosophers.",
+        "price": "50000000",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "eva",
+        "review_user_id": "6",
+        "review_text": "Work of a genius mind.",
+        "rating": "5",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "david",
+        "art_creator_id": "5",
+        "img_url": "\/arts\/raffael.png",
+        "title": "The School of Athens",
+        "description": "A Renaissance masterpiece by Raphael, depicting great philosophers.",
+        "price": "50000000",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "sheldon",
+        "review_user_id": "8",
+        "review_text": "The School of Athens is undeniably a masterpiece, showcasing an impressive array of Renaissance figures. However, the density of philosophers in the composition creates an overcrowded effect that detracts from the clarity and focus of the central figures. For a work of this magnitude, a more streamlined approach would better highlight the intellectual prominence of the depicted individuals.",
+        "rating": "3",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "anna",
+        "art_creator_id": "10",
+        "img_url": "\/arts\/reflection.png",
+        "title": "Reflection",
+        "description": "Reflection on the water surface captured in painting.",
+        "price": "74",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "alice",
+        "review_user_id": "2",
+        "review_text": "Reflection has a deep sense of tranquility. The symmetry is perfect.",
+        "rating": "5",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "anna",
+        "art_creator_id": "10",
+        "img_url": "\/arts\/reflection.png",
+        "title": "Reflection",
+        "description": "Reflection on the water surface captured in painting.",
+        "price": "74",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "frank",
+        "review_user_id": "7",
+        "review_text": "Reflection is nice, but it lacks the depth I was expecting.",
+        "rating": "3",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "anna",
+        "art_creator_id": "10",
+        "img_url": "\/arts\/reflection.png",
+        "title": "Reflection",
+        "description": "Reflection on the water surface captured in painting.",
+        "price": "74",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "george",
+        "review_user_id": "9",
+        "review_text": "Reflection has potential, but it seems somewhat flat.",
+        "rating": "3",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "betty",
+        "art_creator_id": "11",
+        "img_url": "\/arts\/sunset.png",
+        "title": "Sunset at the beach",
+        "description": "Sun setting over a sandy beach, capturing the peaceful light.",
+        "price": "42",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "anna",
+        "review_user_id": "10",
+        "review_text": "Sunset at the beach is peaceful, but the picture seems a bit overexposed.",
+        "rating": "3",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "betty",
+        "art_creator_id": "11",
+        "img_url": "\/arts\/sunset.png",
+        "title": "Sunset at the beach",
+        "description": "Sun setting over a sandy beach, capturing the peaceful light.",
+        "price": "42",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "bob",
+        "review_user_id": "3",
+        "review_text": "Sunset at the beach captures a calming and peaceful atmosphere. Lovely colors!",
+        "rating": "5",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "betty",
+        "art_creator_id": "11",
+        "img_url": "\/arts\/sunset.png",
+        "title": "Sunset at the beach",
+        "description": "Sun setting over a sandy beach, capturing the peaceful light.",
+        "price": "42",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "betty",
+        "review_user_id": "11",
+        "review_text": "Sunset at the beach is nice, though it lacks the dramatic effect I was hoping for.",
+        "rating": "4",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "charlie",
+        "art_creator_id": "4",
+        "img_url": "\/arts\/sunset2.png",
+        "title": "Horizon",
+        "description": "A minimalist landscape with a setting sun on the horizon and gentle color transitions.",
+        "price": "176",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "frank",
+        "review_user_id": "7",
+        "review_text": "Horizon has a minimalist beauty, the gradients create a soothing visual effect.",
+        "rating": "5",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "charlie",
+        "art_creator_id": "4",
+        "img_url": "\/arts\/sunset2.png",
+        "title": "Horizon",
+        "description": "A minimalist landscape with a setting sun on the horizon and gentle color transitions.",
+        "price": "176",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "bob",
+        "review_user_id": "3",
+        "review_text": "Horizon is minimalist, but it feels a bit too plain and lacks detail.",
+        "rating": "3",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "charlie",
+        "art_creator_id": "4",
+        "img_url": "\/arts\/sunset2.png",
+        "title": "Horizon",
+        "description": "A minimalist landscape with a setting sun on the horizon and gentle color transitions.",
+        "price": "176",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "anna",
+        "review_user_id": "10",
+        "review_text": "Horizon is calming, but it feels like it could use more visual interest.",
+        "rating": "2",
+        "review_creation_date": "2024-09-16 15:18:17"
+    },
+    {
+        "art_creator_username": "charlie",
+        "art_creator_id": "4",
+        "img_url": "\/arts\/sunset2.png",
+        "title": "Horizon",
+        "description": "A minimalist landscape with a setting sun on the horizon and gentle color transitions.",
+        "price": "176",
+        "upload_date": "2024-09-16 15:18:16",
+        "review_user_username": "sheldon",
+        "review_user_id": "8",
+        "review_text": "Horizon presents a minimalist landscape with commendable use of color gradients. Nevertheless, the piece suffers from a lack of spatial complexity and visual intrigue. The horizon line, while aesthetically pleasing, is insufficiently detailed and lacks the dynamic elements that would elevate it to a higher level of artistic sophistication. It\u00e2\u20ac\u2122s a passable work, but does not meet the high standards of visual engagement I seek.",
+        "rating": "1",
+        "review_creation_date": "2024-09-16 15:18:17"
+    }
+]
+}
 
+ */
 export function MainSite() {
     // State to store arts and search term
     const [initialArtData, setInitialArtData] = useState([])
@@ -29,11 +401,11 @@ export function MainSite() {
             const result = await response.json();
 
             if (result.success) {
-                const artDataMap = {};
+                const artDataMap = [];
 
                 // Iterate through the data to group reviews by art
                 result.data.forEach(item => {
-                    const artId = item.art_creator_id;
+                    const artId = item.art_id;
 
                     // If this art already exists in the map, add the review to its reviews array
                     if (artDataMap[artId]) {
@@ -77,6 +449,9 @@ export function MainSite() {
         fetchData()
     }, [])
 
+    useEffect(() => {
+        console.log("Current arts data:", arts);
+    }, [arts]);
 
     // Function to reset to original state
     const resetToOriginal = () => {
