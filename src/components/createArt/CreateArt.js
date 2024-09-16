@@ -7,7 +7,7 @@ import React, {useState} from "react";
 export function CreateArt() {
     const [error, setError] = useState("")
     const location = useLocation();
-    const {email} = location.state || {};
+    const email = localStorage.getItem("user-email") || "";
 
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
@@ -16,6 +16,14 @@ export function CreateArt() {
     const serverUrl = process.env.REACT_APP_SERVER_URL
 
     const uploadArt = async () => {
+
+
+        if (title === "" || description === "" || price < 0 || filename === ""){
+            setError("Some inputs are filled incorrectly")
+            return
+        }
+
+        console.log(email)
         try{
             const response = await fetch(
                 `${serverUrl}/api/art/create.php`, {
@@ -28,7 +36,7 @@ export function CreateArt() {
                         title,
                         description,
                         price,
-                        filename
+                        img_url: filename
                     })
                 })
 
@@ -36,7 +44,7 @@ export function CreateArt() {
             console.log(data)
 
         }catch (error) {
-            setError(error)
+            setError(error.message)
             console.log(error)
         }
 
@@ -65,7 +73,7 @@ export function CreateArt() {
                     max-rows="5"
                 />
                 <FormInput
-                    label="Price"
+                    label="Price €"
                     type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
