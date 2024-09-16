@@ -119,6 +119,7 @@
     align-items: center;
     margin-left: 10%;
     margin-right: 10%;
+    flex-wrap: wrap;
     .bi-plus-circle {
         font-size: 1.25rem;
     }
