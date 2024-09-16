@@ -13,8 +13,32 @@ export function CreateArt() {
     const [description, setDescription] = useState("")
     const [price, setPrice] = useState(0)
     const [filename, setFileName] = useState("")
+    const serverUrl = process.env.REACT_APP_SERVER_URL
 
-    const uploadArt = () => {
+    const uploadArt = async () => {
+        try{
+            const response = await fetch(
+                `${serverUrl}/api/art/create.php`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email,
+                        title,
+                        description,
+                        price,
+                        filename
+                    })
+                })
+
+            const data = await response.json()
+            console.log(data)
+
+        }catch (error) {
+            setError(error)
+            console.log(error)
+        }
 
     }
 
