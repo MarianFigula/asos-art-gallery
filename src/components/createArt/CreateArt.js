@@ -5,50 +5,42 @@ import React, {useState} from "react";
 
 
 export function CreateArt() {
-    const [error, setError] = useState("")
-    const location = useLocation();
+    const [error, setError] = useState("");
     const email = localStorage.getItem("user-email") || "";
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [price, setPrice] = useState(0);
+    const [file, setFile] = useState(null);  // Update state for file
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
-    const [price, setPrice] = useState(0)
-    const [filename, setFileName] = useState("")
-    const serverUrl = process.env.REACT_APP_SERVER_URL
+    const uploadArt = async (event) => {
+        event.preventDefault();
 
-    const uploadArt = async () => {
-
-
-        if (title === "" || description === "" || price < 0 || filename === ""){
-            setError("Some inputs are filled incorrectly")
-            return
+        if (title === "" || description === "" || price < 0 || !file) {
+            setError("Some inputs are filled incorrectly");
+            return;
         }
 
-        console.log(email)
-        try{
-            const response = await fetch(
-                `${serverUrl}/api/art/create.php`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email,
-                        title,
-                        description,
-                        price,
-                        img_url: filename
-                    })
-                })
+        try {
+            const formData = new FormData();
+            formData.append('email', email);
+            formData.append('title', title);
+            formData.append('description', description);
+            formData.append('price', price);
+            formData.append('file', file);  // Append file to FormData
 
-            const data = await response.json()
-            console.log(data)
+            const response = await fetch(`${serverUrl}/api/art/create.php`, {
+                method: "POST",
+                body: formData  // Send formData directly
+            });
 
-        }catch (error) {
-            setError(error.message)
-            console.log(error)
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            setError(error.message);
+            console.log(error);
         }
-
-    }
+    };
 
     return (
         <div className="login-container">
@@ -70,7 +62,6 @@ export function CreateArt() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
-                    max-rows="5"
                 />
                 <FormInput
                     label="Price €"
@@ -82,10 +73,9 @@ export function CreateArt() {
                 <FormInput
                     label="File"
                     type="file"
-                    name="filename"
-                    id="filename"
-                    value={filename}
-                    onChange={(e) => setFileName(e.target.value)}
+                    name="file"
+                    id="file"
+                    onChange={(e) => setFile(e.target.files[0])}  // Update file state
                     required
                 />
             </Form>
