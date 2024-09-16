@@ -3,7 +3,6 @@ import {ReviewItem} from "../reviewItem/ReviewItem";
 
 
 export function ReviewList({ reviews }) {
-    console.log(reviews)
     return (
         <div className="review-wrapper">
             <div className="space-between-for-two-components">
