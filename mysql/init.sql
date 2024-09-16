@@ -72,7 +72,34 @@ ALTER TABLE `review` ADD FOREIGN KEY (`art_id`)
     REFERENCES `art`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 INSERT INTO `review` (`id`, `user_id`,`art_id`, `review_text`, `rating`, `review_creation_date`)
-VALUES ('1', '3', '1', 'Toto je recenzia kamery', '5', CURRENT_TIMESTAMP());
+VALUES ('1', '10', '1', 'The camera photo is good, but I feel it could use more contrast to make it stand out.', '3', CURRENT_TIMESTAMP()),
+       ('2', '6', '2', 'Abstract No.45 is vibrant, but the composition seems a bit chaotic and overwhelming.', '4', CURRENT_TIMESTAMP()),
+       ('3', '2', '3', 'The still life composition feels classic and serene, a beautiful piece of art.', '5', CURRENT_TIMESTAMP()),
+       ('4', '4', '4', 'The School of Athens is a masterpiece that brings Renaissance philosophy to life.', '5', CURRENT_TIMESTAMP()),
+       ('5', '2', '5', 'Reflection has a deep sense of tranquility. The symmetry is perfect.', '5', CURRENT_TIMESTAMP()),
+       ('6', '10', '6', 'Sunset at the beach is peaceful, but the picture seems a bit overexposed.', '3', CURRENT_TIMESTAMP()),
+       ('7', '7', '7', 'Horizon has a minimalist beauty, the gradients create a soothing visual effect.', '5', CURRENT_TIMESTAMP()),
+       ('8', '3', '1', 'The vintage camera photograph is stunning, with beautiful mechanical details.', '5', CURRENT_TIMESTAMP()),
+       ('9', '5', '2', 'Abstract No.45 is a fantastic blend of colors and shapes. Truly mesmerizing!', '5', CURRENT_TIMESTAMP()),
+       ('10', '9', '3', 'The still life is well done, but the colors seem a bit dull compared to other works.', '4', CURRENT_TIMESTAMP()),
+       ('11', '2', '4', 'The School of Athens is impressive piece of work.', '5', CURRENT_TIMESTAMP()),
+       ('12', '7', '5', 'Reflection is nice, but it lacks the depth I was expecting.', '3', CURRENT_TIMESTAMP()),
+       ('13', '3', '6', 'Sunset at the beach captures a calming and peaceful atmosphere. Lovely colors!', '5', CURRENT_TIMESTAMP()),
+       ('14', '3', '7', 'Horizon is minimalist, but it feels a bit too plain and lacks detail.', '3', CURRENT_TIMESTAMP()),
+       ('15', '4', '1', 'The vintage camera photo has charm, yet it could benefit from a clearer focus.', '4', CURRENT_TIMESTAMP()),
+       ('16', '9', '2', 'Abstract No.45 is colorful, but the shapes feel too disjointed.', '3', CURRENT_TIMESTAMP()),
+       ('17', '11', '3', 'The still life is decent, but it doesn’t bring anything new to the genre.', '1', CURRENT_TIMESTAMP()),
+       ('18', '6', '4', 'Work of a genius mind.', '5', CURRENT_TIMESTAMP()),
+       ('19', '9', '5', 'Reflection has potential, but it seems somewhat flat.', '3', CURRENT_TIMESTAMP()),
+       ('20', '11', '6', 'Sunset at the beach is nice, though it lacks the dramatic effect I was hoping for.', '4', CURRENT_TIMESTAMP()),
+       ('21', '10', '7', 'Horizon is calming, but it feels like it could use more visual interest.', '2', CURRENT_TIMESTAMP()),
+       ('22', '12', '1', 'The vintage camera photo is beautiful, yet the background is a bit distracting.', '4', CURRENT_TIMESTAMP()),
+       ('23', '12', '2', 'This abstract piece is vibrant, though the overall composition feels a bit cluttered.', '2', CURRENT_TIMESTAMP()),
+       ('24', '6', '3', 'The still life is well-executed but lacks a bit of vibrancy.', '4', CURRENT_TIMESTAMP()),
+       ('25', '8', '4', 'The School of Athens is undeniably a masterpiece, showcasing an impressive array of Renaissance figures. However, the density of philosophers in the composition creates an overcrowded effect that detracts from the clarity and focus of the central figures. For a work of this magnitude, a more streamlined approach would better highlight the intellectual prominence of the depicted individuals.', '3', CURRENT_TIMESTAMP()),
+       ('26', '8', '7', 'Horizon presents a minimalist landscape with commendable use of color gradients. Nevertheless, the piece suffers from a lack of spatial complexity and visual intrigue. The horizon line, while aesthetically pleasing, is insufficiently detailed and lacks the dynamic elements that would elevate it to a higher level of artistic sophistication. It’s a passable work, but does not meet the high standards of visual engagement I seek.', '1', CURRENT_TIMESTAMP());
+
+
 
 
 -- Create the `credit_card` table
