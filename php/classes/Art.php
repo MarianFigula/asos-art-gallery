@@ -36,6 +36,12 @@ class Art {
         $this->upload_date = $upload_date;
     }
 
+    public function parseUrl($fakePath): string {
+        $fakePath = str_replace('\\', '/', $fakePath);
+        $filename = basename($fakePath);
+
+        return '/arts/' . $filename;
+    }
 
 
     public function createArt() {
@@ -44,13 +50,13 @@ class Art {
         $query = "INSERT INTO " . $this->table_name . " (user_id, img_url, title, 
         description, price, upload_date)
                   VALUES (:user_id, :img_url, :title, :description,
-                  price, upload_date)";
+                  :price, :upload_date)";
 
         $stmt = $this->conn->prepare($query);
 
         // Sanitize input, TODO: unsanitize, zmenit to tak ze to dat do query
         $this->user_id = htmlspecialchars(strip_tags($this->user_id));
-        $this->img_url = htmlspecialchars(strip_tags($this->img_url));
+        $this->img_url = $this->parseUrl($this->img_url);
         $this->title = htmlspecialchars(strip_tags($this->title));
         $this->description = htmlspecialchars(strip_tags($this->description));
         $this->price = htmlspecialchars(strip_tags($this->price));
@@ -73,7 +79,8 @@ class Art {
         $query = "
             SELECT 
                 art_creator.username AS art_creator_username,     -- Username of the art creator
-                a.user_id AS art_creator_id,                      -- ID of the user who created the art
+                a.user_id AS art_creator_id,                     -- ID of the user who created the art
+                a.id AS art_id,
                 a.img_url,                                        -- URL of the art image
                 a.title,                                          -- Art title
                 a.description,                                    -- Art description
