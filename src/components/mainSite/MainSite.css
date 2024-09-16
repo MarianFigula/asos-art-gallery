@@ -1,3 +1,7 @@
+.main-content {
+    margin-top: 15vh;
+}
+
 .main-header-wrapper {
     display: flex;
     justify-content: space-between;
@@ -156,31 +160,15 @@
 
 .create-art {
     position: fixed;
-    color: var(--dark);
-    bottom: 12%;
+    bottom: 15%;
     right: 10%;
     display: flex;
+    justify-content: space-evenly;
     align-items: center;
     cursor: pointer;
-    p {
-        margin: 0;
-        opacity: 0;
-        font-size: 1.1rem;
-        transform: translateX(100%); /* Positioned to the right */
-        transition: opacity 0.3s ease, transform 0.3s ease;
-    }
+    border-radius: 36px;
     i {
-        font-size: 2.25rem;
+        font-size: 1.3rem;
         transition: color 0.3s ease;
     }
-}
-
-
-.create-art:hover p {
-    opacity: 1;               /* Show the text on hover */
-    transform: translateX(-15px);  /* Slide the text in from the right */
-}
-
-.create-art:hover i {
-    color: var(--grey);
 }
