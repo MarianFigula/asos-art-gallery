@@ -18,9 +18,9 @@ export function MainSite() {
     const navigate = useNavigate()
 
     const fetchData = async () => {
-        const serverUrl = process.env.REACT_APP_SERVER_URL
+        const serverUrl = process.env.REACT_APP_SERVER_URL;
         try {
-            const response = await fetch(`${serverUrl}/api/art/read.php`,{
+            const response = await fetch(`${serverUrl}/api/art/read.php`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -29,23 +29,44 @@ export function MainSite() {
             const result = await response.json();
 
             if (result.success) {
-                const artData = result.data.map(item => ({
-                    username: item.art_creator_username,
-                    img_url: item.img_url,
-                    title: item.title,
-                    description: item.description,
-                    price: parseFloat(item.price), // Convert price to number
-                    date: item.upload_date,
-                    reviews: [{
-                        username: item.review_user_username,
-                        date: item.review_creation_date,
-                        reviewText: item.review_text,
-                        rating: parseInt(item.rating, 10)
-                    }]
-                }));
+                const artDataMap = {};
+
+                // Iterate through the data to group reviews by art
+                result.data.forEach(item => {
+                    const artId = item.art_creator_id;
+
+                    // If this art already exists in the map, add the review to its reviews array
+                    if (artDataMap[artId]) {
+                        artDataMap[artId].reviews.push({
+                            username: item.review_user_username,
+                            date: item.review_creation_date,
+                            reviewText: item.review_text,
+                            rating: parseInt(item.rating, 10)
+                        });
+                    } else {
+                        // If this is the first review for this art, initialize the entry
+                        artDataMap[artId] = {
+                            username: item.art_creator_username,
+                            img_url: item.img_url,
+                            title: item.title,
+                            description: item.description,
+                            price: parseFloat(item.price), // Convert price to number
+                            date: item.upload_date,
+                            reviews: item.review_user_username ? [{
+                                username: item.review_user_username,
+                                date: item.review_creation_date,
+                                reviewText: item.review_text,
+                                rating: parseInt(item.rating, 10)
+                            }] : []  // Only add a review if there's a username
+                        };
+                    }
+                });
+
+                // Convert the map back into an array
+                const artData = Object.values(artDataMap);
 
                 setArts(artData);
-                setInitialArtData(artData)
+                setInitialArtData(artData);
             }
         } catch (error) {
             console.error("Error fetching art and reviews data: ", error);
