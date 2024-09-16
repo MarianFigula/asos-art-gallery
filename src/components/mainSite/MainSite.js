@@ -4,6 +4,7 @@ import "../../table.css"
 import {ReviewList} from "../reviewList/ReviewList";
 import {Art} from "../art/Art";
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 // TODO: pridat modal pre vytvorenie review (+ backend)
 // TODO: pridat stranku pre vytvorenie Artu (+ backend)
@@ -14,6 +15,7 @@ export function MainSite() {
     const [arts, setArts] = useState([]);
     const [activeButton, setActiveButton] = useState(null); // Track the active button
     const [isOriginal, setIsOriginal] = useState(true); // Track if the original data is shown
+    const navigate = useNavigate()
 
     const fetchData = async () => {
         const serverUrl = process.env.REACT_APP_SERVER_URL
@@ -120,6 +122,15 @@ export function MainSite() {
         setArts(newData)
     };
 
+    const redirectToUploadArt = () => {
+        // TODO: zober email z ls a ked neni prihlaseny tak redirect na login a ked je redirect na upload
+
+        const email = localStorage.getItem("user-email")
+
+        email !== null ? navigate("upload-art", {state: {email}}) : navigate("/login")
+
+    }
+
     return (
         <div className="main-content">
             <h1 className="text-center">Discover new Arts</h1>
@@ -166,7 +177,7 @@ export function MainSite() {
             ))}
 
 
-            <button className="create-art button-confirm">
+            <button className="create-art button-confirm" onClick={redirectToUploadArt}>
                 Upload Art
                 <i className="bi bi-plus"></i>
             </button>
