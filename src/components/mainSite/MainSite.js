@@ -120,7 +120,7 @@ export function MainSite() {
     };
 
     return (
-        <>
+        <div className="main-content">
             <h1 className="text-center">Discover new Arts</h1>
             <section className="main-header-wrapper">
                 <SearchBar
@@ -169,7 +169,7 @@ export function MainSite() {
                 <i className="bi bi-plus-circle-fill"></i>
             </div>
 
-        </>
+        </div>
 
     )
 }
