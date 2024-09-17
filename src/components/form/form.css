@@ -123,3 +123,16 @@ textarea {
         }
     }
 }
+
+
+.star-rating {
+    display: flex;
+    justify-content: center;
+}
+
+.star-rating i {
+    font-size: 24px;
+    color: var(--grey);
+    padding: 5px;
+    cursor: pointer;
+}
