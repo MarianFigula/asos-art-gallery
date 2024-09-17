@@ -10,6 +10,7 @@ export function ForgotPassword() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [repeatedPassword, setRepeatedPassword] = useState("")
+    const [securityAnswer, setSecurityAnswer] = useState("")
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
     const handleSubmit = async (event) => {
@@ -58,9 +59,16 @@ export function ForgotPassword() {
                 >
                     <FormInput
                         label="Email"
-                        type="text"
+                        type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    <FormInput
+                        label="Security Answer"
+                        type="text"
+                        value={securityAnswer}
+                        onChange={(e) => setSecurityAnswer(e.target.value)}
                         required
                     />
                     <FormInput
