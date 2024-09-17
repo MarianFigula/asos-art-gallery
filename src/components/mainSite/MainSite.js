@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {Modal} from "../modal/Modal";
 import {Form} from "../form/Form";
 import {FormInput} from "../formInput/FormInput";
+import {StarRating} from "../starRating/StarRating";
 
 // TODO: pridat modal pre vytvorenie review (+ backend)
 // TODO: pridat stranku pre vytvorenie Artu (+ backend)
@@ -390,15 +391,21 @@ export function MainSite() {
     const [arts, setArts] = useState([]);
     const [activeButton, setActiveButton] = useState(null); // Track the active button
     const [isOriginal, setIsOriginal] = useState(true); // Track if the original data is shown
-    const [isArtModalOpen, setIsArtModalOpen] = useState(false)
     const [error, setError] = useState("")
+
+    const [isArtModalOpen, setIsArtModalOpen] = useState(false)
     const [reviewText, setReviewText] = useState("")
+    const [reviewRating, setReviewRating] = useState(0); // State to store the selected rating
+
     const [selectedArtId, setSelectedArtId] = useState(null); // store the selected art id
+
+    const [email, setEmail] = useState(localStorage.getItem("user-email"))
 
     const navigate = useNavigate()
 
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
+
     const fetchData = async () => {
-        const serverUrl = process.env.REACT_APP_SERVER_URL;
         try {
             const response = await fetch(`${serverUrl}/api/art/read.php`, {
                 method: "POST",
@@ -528,20 +535,43 @@ export function MainSite() {
     };
 
     const redirectToUploadArt = () => {
-        // TODO: zober email z ls a ked neni prihlaseny tak redirect na login a ked je redirect na upload
-
-        const email = localStorage.getItem("user-email")
-
-        email !== null ? navigate("upload-art", {state: {email}}) : navigate("/login")
-
+        email !== null || email === ""
+            ? navigate("upload-art", {state: {email}}) : navigate("/login")
     }
 
     const openReviewModal = (artId) => {
+        // TODO: display error that show that user is not logged in and only logged in user can
+        //  upload review
+
         setSelectedArtId(artId); // set the art id when opening the modal
         setIsArtModalOpen(true); // open the modal
     };
-    const handleReviewSubmit = () => {
-        // TODO create review
+    const handleReviewSubmit = async () => {
+        // Submit review with selectedArtId, reviewText, and rating
+        try {
+            const response = await fetch(
+                `${serverUrl}/api/review/create.php`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    art_id: selectedArtId,
+                    review_text: reviewText,
+                    rating: reviewRating
+                })
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                console.log("success")
+                setIsArtModalOpen(false);
+            }
+        } catch (error) {
+            setError(error.message)
+            console.error("Error fetching art and reviews data: ", error);
+        }
     }
 
     return (
@@ -552,7 +582,7 @@ export function MainSite() {
                 title="Add Review"
             >
                 <Form error={error}
-                      buttonClassName="button-confirm"
+                      buttonClassName="button-dark"
                       onSubmit={handleReviewSubmit}
                       submitLabel="Add review">
                     <FormInput type="hidden" value={selectedArtId}/>
@@ -564,8 +594,9 @@ export function MainSite() {
                         onChange={(e) => {setReviewText(e.target.value)}}
                         required
                     />
-                    {// TODO add rating using stars
-                         }
+                    <StarRating
+                        rating={reviewRating}
+                        setRating={setReviewRating}/>
                 </Form>
 
             </Modal>
