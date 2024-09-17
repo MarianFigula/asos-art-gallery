@@ -5,6 +5,9 @@ import {ReviewList} from "../reviewList/ReviewList";
 import {Art} from "../art/Art";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {Modal} from "../modal/Modal";
+import {Form} from "../form/Form";
+import {FormInput} from "../formInput/FormInput";
 
 // TODO: pridat modal pre vytvorenie review (+ backend)
 // TODO: pridat stranku pre vytvorenie Artu (+ backend)
@@ -387,6 +390,9 @@ export function MainSite() {
     const [arts, setArts] = useState([]);
     const [activeButton, setActiveButton] = useState(null); // Track the active button
     const [isOriginal, setIsOriginal] = useState(true); // Track if the original data is shown
+    const [isArtModalOpen, setIsArtModalOpen] = useState(false)
+    const [error, setError] = useState("")
+    const [reviewText, setReviewText] = useState("")
     const navigate = useNavigate()
 
     const fetchData = async () => {
@@ -527,62 +533,88 @@ export function MainSite() {
 
     }
 
+    const handleReviewSubmit = () => {
+        // TODO create review
+    }
+
     return (
-        <div className="main-content">
-            <h1 className="text-center">Discover new Arts</h1>
-            <section className="main-header-wrapper">
-                <SearchBar
-                    searchId="main-searchbar"
-                    handleFilter={handleFilter}
-                    placeholder="Search for art..."
-                />
-                <div className="button-wrapper">
-                    <button
-                        onClick={toggleSortByPriceAsc}
-                        className={activeButton === 'priceAsc' ? 'active' : ''}
-                    >
-                        Price <i className="bi bi-arrow-up"></i>
-                    </button>
-                    <button
-                        onClick={toggleSortByPriceDesc}
-                        className={activeButton === 'priceDesc' ? 'active' : ''}
-                    >
-                        Price <i className="bi bi-arrow-down"></i>
-                    </button>
-                    <button
-                        onClick={toggleSortByRatingAsc}
-                        className={activeButton === 'ratingAsc' ? 'active' : ''}
-                    >
-                        Rating <i className="bi bi-arrow-up"></i>
-                    </button>
-                    <button
-                        onClick={toggleSortByRatingDesc}
-                        className={activeButton === 'ratingDesc' ? 'active' : ''}
-                    >
-                        Rating <i className="bi bi-arrow-down"></i>
-                    </button>
-                </div>
-            </section>
+        <>
+            <Modal
+                isOpen={isArtModalOpen}
+                onClose={() => setIsArtModalOpen(false)}
+                title="Add Review"
+            >
+                <Form error={error}
+                      buttonClassName="button-confirm"
+                      onSubmit={handleReviewSubmit}
+                      submitLabel="Add review">
+                    <FormInput
+                        label="Review Text"
+                        type="text"
+                        value={reviewText}
+                        onChange={(e) => {setReviewText(e.target.value)}}
+                        required
+                    />
+                    {// TODO add rating using stars
+                         }
+                </Form>
 
-            {/* Render filtered arts */}
-            {arts.map((art, index) => (
-                <section className="art-review-wrapper mb-3" key={index}>
-                    <Art art={art}/>
-                    <ReviewList reviews={art.reviews} />
+            </Modal>
+            <div className="main-content">
+                <h1 className="text-center">Discover new Arts</h1>
+                <section className="main-header-wrapper">
+                    <SearchBar
+                        searchId="main-searchbar"
+                        handleFilter={handleFilter}
+                        placeholder="Search for art..."
+                    />
+                    <div className="button-wrapper">
+                        <button
+                            onClick={toggleSortByPriceAsc}
+                            className={activeButton === 'priceAsc' ? 'active' : ''}
+                        >
+                            Price <i className="bi bi-arrow-up"></i>
+                        </button>
+                        <button
+                            onClick={toggleSortByPriceDesc}
+                            className={activeButton === 'priceDesc' ? 'active' : ''}
+                        >
+                            Price <i className="bi bi-arrow-down"></i>
+                        </button>
+                        <button
+                            onClick={toggleSortByRatingAsc}
+                            className={activeButton === 'ratingAsc' ? 'active' : ''}
+                        >
+                            Rating <i className="bi bi-arrow-up"></i>
+                        </button>
+                        <button
+                            onClick={toggleSortByRatingDesc}
+                            className={activeButton === 'ratingDesc' ? 'active' : ''}
+                        >
+                            Rating <i className="bi bi-arrow-down"></i>
+                        </button>
+                    </div>
                 </section>
-            ))}
+
+                {/* Render filtered arts */}
+                {arts.map((art, index) => (
+                    <section className="art-review-wrapper mb-3" key={index}>
+                        <Art art={art}/>
+                        <ReviewList reviews={art.reviews}/>
+                    </section>
+                ))}
 
 
-            <button className="create-art button-confirm" onClick={redirectToUploadArt}>
-                Upload Art
-                <i className="bi bi-plus"></i>
-            </button>
-            {/*<div className="create-art">*/}
-            {/*    <p>Create Art</p>*/}
-            {/*    <i className="bi bi-plus-circle-fill"></i>*/}
-            {/*</div>*/}
+                <button className="create-art button-confirm" onClick={redirectToUploadArt}>
+                    Upload Art
+                    <i className="bi bi-plus"></i>
+                </button>
+                {/*<div className="create-art">*/}
+                {/*    <p>Create Art</p>*/}
+                {/*    <i className="bi bi-plus-circle-fill"></i>*/}
+                {/*</div>*/}
 
-        </div>
-
+            </div>
+        </>
     )
 }
