@@ -43,18 +43,12 @@ class Review {
 
         $stmt = $this->conn->prepare($query);
 
-        // Sanitize input, TODO: unsanitize, zmenit to tak ze to dat do query
-        $this->user_id = htmlspecialchars(strip_tags($this->user_id));
-        $this->art_id = htmlspecialchars(strip_tags($this->art_id));
-        $this->review_text = htmlspecialchars(strip_tags($this->review_text));
-        $this->rating = htmlspecialchars(strip_tags($this->rating));
-        $this->review_creation_date = htmlspecialchars(strip_tags($this->review_creation_date));
-
-        $stmt->bindParam(":user_id", $this->user_id);
-        $stmt->bindParam(":art_id", $this->art_id);
-        $stmt->bindParam(":review_text", $this->review_text);
-        $stmt->bindParam(":rating", $this->rating);
-        $stmt->bindParam(":review_creation_date", $this->review_creation_date);
+        // Bind values directly, no need for excessive sanitization since we are using prepared statements
+        $stmt->bindValue(":user_id", $this->user_id, PDO::PARAM_INT);
+        $stmt->bindValue(":art_id", $this->art_id, PDO::PARAM_INT);
+        $stmt->bindValue(":review_text", $this->review_text, PDO::PARAM_STR);
+        $stmt->bindValue(":rating", $this->rating, PDO::PARAM_INT);
+        $stmt->bindValue(":review_creation_date", $this->review_creation_date);
 
         return $stmt->execute();
 
