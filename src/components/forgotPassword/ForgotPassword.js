@@ -3,7 +3,6 @@ import React, {useState} from "react";
 import {FormInput} from "../formInput/FormInput";
 import {Link} from "react-router-dom";
 
-// TODO: pridat aj security answer ?, opytat sa emy ako to chce riesit
 export function ForgotPassword() {
 
     const [error, setError] = useState("")
