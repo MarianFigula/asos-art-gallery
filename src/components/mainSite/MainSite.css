@@ -122,6 +122,7 @@
     flex-wrap: wrap;
     .bi-plus-circle {
         font-size: 1.25rem;
+        cursor: pointer;
     }
 }
 
