@@ -548,6 +548,8 @@ export function MainSite() {
                       buttonClassName="button-confirm"
                       onSubmit={handleReviewSubmit}
                       submitLabel="Add review">
+                    <FormInput type="hidden" value=""/>
+
                     <FormInput
                         label="Review Text"
                         type="text"
