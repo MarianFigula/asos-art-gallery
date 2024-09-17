@@ -6,11 +6,13 @@
     display: flex;
     justify-content: space-between;
     margin: 20px 30px;
-    .label{
+
+    .label {
         width: min(50%, 300px);
         position: relative;
     }
-    .search-icon{
+
+    .search-icon {
         position: absolute;
         right: 0.75rem;
         top: 8px;
@@ -24,6 +26,7 @@
         flex-direction: column;
         gap: 20px;
     }
+
     .button-wrapper {
         flex-wrap: wrap;
     }
@@ -40,10 +43,12 @@
         background-color: var(--light-grey);
         color: var(--dark);
         transition: all 0.3s ease-in-out;
+
         &:hover {
             background-color: var(--grey);
             color: var(--background-color);
         }
+
         &.active {
             background-color: var(--grey);
             color: var(--white);
@@ -66,7 +71,8 @@
 
 .img-wrapper {
     min-height: fit-content;
-    img{
+
+    img {
         width: 100%;
         border-radius: 15px;
     }
@@ -77,8 +83,9 @@
     h3 {
         text-align: left;
     }
+
     p {
-        font-size: 14px;
+        font-size: 1rem;
     }
 }
 
@@ -92,10 +99,9 @@
     color: var(--blue);
 }
 
-.img-wrapper, .review-wrapper{
+.img-wrapper, .review-wrapper {
     border-radius: 15px;
 }
-
 
 
 /* REVIEW */
@@ -120,6 +126,7 @@
     margin-left: 10%;
     margin-right: 10%;
     flex-wrap: wrap;
+
     .bi-plus-circle {
         font-size: 1.25rem;
         cursor: pointer;
@@ -137,16 +144,19 @@
 .reviewer {
     font-size: 0.75rem;
     position: relative;
+
     img {
         max-width: 40px;
         border-radius: 50%;
     }
+
     .reviewer-name {
         position: absolute;
         top: -15px;
         left: 50px;
         font-weight: 600;
     }
+
     .review-date {
         position: absolute;
         top: 10px;
@@ -172,6 +182,7 @@
     align-items: center;
     cursor: pointer;
     border-radius: 36px;
+
     i {
         font-size: 1.3rem;
         transition: color 0.3s ease;
