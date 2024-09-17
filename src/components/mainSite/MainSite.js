@@ -393,6 +393,8 @@ export function MainSite() {
     const [isArtModalOpen, setIsArtModalOpen] = useState(false)
     const [error, setError] = useState("")
     const [reviewText, setReviewText] = useState("")
+    const [selectedArtId, setSelectedArtId] = useState(null); // store the selected art id
+
     const navigate = useNavigate()
 
     const fetchData = async () => {
@@ -424,6 +426,7 @@ export function MainSite() {
                     } else {
                         // If this is the first review for this art, initialize the entry
                         artDataMap[artId] = {
+                            art_id: artId,
                             username: item.art_creator_username,
                             img_url: item.img_url,
                             title: item.title,
@@ -533,6 +536,10 @@ export function MainSite() {
 
     }
 
+    const openReviewModal = (artId) => {
+        setSelectedArtId(artId); // set the art id when opening the modal
+        setIsArtModalOpen(true); // open the modal
+    };
     const handleReviewSubmit = () => {
         // TODO create review
     }
@@ -548,7 +555,7 @@ export function MainSite() {
                       buttonClassName="button-confirm"
                       onSubmit={handleReviewSubmit}
                       submitLabel="Add review">
-                    <FormInput type="hidden" value=""/>
+                    <FormInput type="hidden" value={selectedArtId}/>
 
                     <FormInput
                         label="Review Text"
@@ -602,7 +609,8 @@ export function MainSite() {
                 {arts.map((art, index) => (
                     <section className="art-review-wrapper mb-3" key={index}>
                         <Art art={art}/>
-                        <ReviewList reviews={art.reviews}/>
+                        <ReviewList reviews={art.reviews}
+                                    openReviewModal={() => openReviewModal(art.art_id)}/>
                     </section>
                 ))}
 
