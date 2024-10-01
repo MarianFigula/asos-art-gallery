@@ -38,6 +38,7 @@ if (empty($data->email) || empty($data->password ||
 }
 
 $user->setEmail($data->email);
+// TODO: checknut ci security answer je rovnaka
 $stmt = $user->getUserByEmail();
 
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -50,6 +51,7 @@ if (!$row){
     ]);
     exit();
 }
+
 
 $id = $row["id"];
 $password = password_hash($data->password, PASSWORD_BCRYPT);
