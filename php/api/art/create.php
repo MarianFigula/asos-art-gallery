@@ -15,9 +15,6 @@ $art = new Art($db);
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-$data = json_decode(file_get_contents("php://input"));
-
-
 // TODO: mozno sa to bude posielat cez URL (GET)
 if ($method == "GET"){
     http_response_code(405);
@@ -27,55 +24,78 @@ if ($method == "GET"){
     exit();
 }
 
-$email = $data->email;
-$img_url = $art->parseUrl($data->img_url);
-$title = $data->title;
-$description = $data->description;
-$price = intval($data->price);
+$email = $_POST['email'];
+$title = $_POST['title'];
+$description = $_POST['description'];
+$price = intval($_POST['price']);
 
-if (empty($email) || empty($img_url) ||
-    empty($title) || empty($description)||
-    $price < 0)
-{
-
+// Check if file is uploaded
+if (!isset($_FILES['file'])) {
     http_response_code(400);
     echo json_encode([
         "success" => false,
-        "message" => "Variables are empty or NULL."]);
+        "message" => "No file uploaded."
+    ]);
     exit();
 }
 
-$user = new User($db);
-$user->setEmail($email);
+// Store image in 'public/art/' directory
+$targetDir = '/var/www/html/public/arts/';;
+$targetFile = $targetDir . basename($_FILES["file"]["name"]);
+$img_url = "/arts/" . basename($_FILES["file"]["name"]);
 
-$stmt = $user->getUserByEmail();
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$row) {
-    http_response_code(404);
+$target_dir = '/var/www/html/public/arts/';
+$target_file = $target_dir . basename($_FILES["file"]["name"]);
+
+// Move the file to the public directory
+if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
+    // File upload successful
+    // Insert the art record into the database
+
+    $user = new User($db);
+    $user->setEmail($email);
+
+    $stmt = $user->getUserByEmail();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$row) {
+        http_response_code(404);
+        echo json_encode([
+            "success" => false,
+            "message" => "User not found."
+        ]);
+        exit();
+    }
+
+    // Set the Art properties
+    $art->setUserId($row["id"]);
+    $art->setImgUrl($img_url);
+    $art->setTitle($title);
+    $art->setDescription($description);
+    $art->setPrice($price);
+
+    // Insert the art
+    $stmt = $art->createArt();
+
+    if (!$stmt) {
+        http_response_code(400);
+        echo json_encode([
+            "success" => false,
+            "message" => "Failed to create art."
+        ]);
+        exit();
+
+    }
+    http_response_code(201);
+    echo json_encode([
+        "success" => true,
+        "message" => "Art successfully created."
+    ]);
+
+} else {
+    http_response_code(500);
     echo json_encode([
         "success" => false,
-        "message" => "User not found."]);
-    exit();
+        "message" => "Failed to upload image."
+    ]);
 }
-
-$art->setUserId($row["id"]);
-$art->setImgUrl($img_url);
-$art->setTitle($title);
-$art->setDescription($description);
-$art->setPrice($price);
-
-$stmt = $art->createArt();
-
-if (!$stmt) {
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "Insert failed"]);
-    exit();
-}
-
-http_response_code(201);
-echo json_encode([
-    "success" => true,
-    "message" => "Art successfully created."]);
-exit();
