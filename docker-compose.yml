@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+      - ./public/arts:/usr/src/app/public/arts  # Mounting local public folder
     depends_on:
      - php
      - mysql
@@ -13,6 +15,8 @@ services:
     build: ./php
     ports:
       - "80:80"
+    volumes:
+      - ./public/arts:/var/www/html/public/arts  # Mounting same folder to PHP container
     links:
       - mysql
 
@@ -29,3 +33,5 @@ services:
     environment:
       - PMA_ARBITRARY=1
 
+volumes:
+  react-art-volume:
