@@ -6,20 +6,19 @@ error_reporting(E_ALL);
 error_reporting(E_WARNING);
 
 class Database {
-    private $hostname = 'mysql';
+    private $hostname = 'localhost';
     private $dbname = 'pkrim-art-gallery';
     private $username = 'root';
-    private $password = 'root';
+    private $password = '';
     public $conn;
 
     public function getConnection() {
         $this->conn = null;
 
         try {
-            $this->conn = new PDO("mysql:host=". $this->hostname .
-                ";dbname=". $this->dbname, $this->username, $this->password);
+            $this->conn = new PDO("mysql:host=". $this->hostname .";dbname=". $this->dbname .";charset=utf8mb4",
+                $this->username, $this->password);
 
-            $this->conn->exec("set names uft8");
         }catch (PDOException $exception) {
             echo "Connection error: " . $exception->getMessage();
         }
