@@ -7,7 +7,7 @@ export function ReviewList({ reviews, openReviewModal }) {
         <div className="review-wrapper">
             <div className="space-between-for-two-components">
                 <h3>Reviews</h3>
-                <i className="bi bi-plus-circle" onClick={openReviewModal}></i>
+                <i className="bi bi-plus-circle-fill" onClick={openReviewModal}></i>
             </div>
             {reviews.length === 0 ? <div className="mt-2 text-center">None</div> :
                 reviews.map((review, index) => (

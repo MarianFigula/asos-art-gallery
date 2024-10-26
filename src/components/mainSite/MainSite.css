@@ -127,9 +127,14 @@
     margin-right: 10%;
     flex-wrap: wrap;
 
-    .bi-plus-circle {
-        font-size: 1.25rem;
+    .bi-plus-circle-fill {
+        font-size: 1.5rem;
         cursor: pointer;
+        color: var(--green);
+        transition: color 0.3s ease-out;
+        &:hover {
+            color: var(--dark-green);
+        }
     }
 }
 
