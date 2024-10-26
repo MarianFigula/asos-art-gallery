@@ -59,12 +59,12 @@
 .art-review-wrapper {
     display: flex;
     gap: 5%;
-    margin: 0 15% 5rem 15%;
+    margin: 0 10% 5rem 10%;
     align-content: stretch;
 }
 
 .art-wrapper {
-    width: 80%;
+    width: 90%;
     border: 1px solid black;
     border-radius: 15px;
 }
