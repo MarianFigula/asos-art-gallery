@@ -159,7 +159,7 @@ export function UserReviews() {
                 </Form>
             </Modal>
 
-            <h1 className="text-center mb-1">Reviews</h1>
+            <h1 className="text-center mb-1 mt-9">Reviews</h1>
             <Table
                 columns={columnsReviews}
                 records={reviewRecords}
