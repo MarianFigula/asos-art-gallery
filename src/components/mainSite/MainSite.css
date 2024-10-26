@@ -188,3 +188,21 @@
         transition: color 0.3s ease;
     }
 }
+
+@media screen and (max-width: 1200px) {
+    .art-review-wrapper {
+        flex-direction: column;
+        gap: 50px;
+    }
+    .art-wrapper {
+        width: 100%;
+    }
+    .review-wrapper {
+        overflow-x: auto;
+        gap: 20px;
+        padding: 10px;
+        scroll-behavior: smooth;
+        width: 70%;
+        max-height: 50vh;
+    }
+}
