@@ -33,7 +33,7 @@ export function UserProfile() {
     };
     return (
         <>
-            <div className="profile-wrapper mb-5">
+            <div className="profile-wrapper mb-5 mt-7">
                 <div className="profile-picture">
                     <img src={UserPhoto} alt="ProfilePicture"/>
                 </div>
