@@ -180,7 +180,7 @@
 
 .create-art {
     position: fixed;
-    bottom: 15%;
+    bottom: 100px;
     right: 10%;
     display: flex;
     justify-content: space-evenly;
