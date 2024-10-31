@@ -34,4 +34,3 @@ echo json_encode(["success" => false,
     "message" => "Users were successfully deleted"]);
 exit();
 
-?>
