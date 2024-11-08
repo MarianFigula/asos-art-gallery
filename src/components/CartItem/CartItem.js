@@ -1,4 +1,5 @@
 import {ArtImage} from "../artImage/artImage";
+import Camera from "../../assets/user-pictures/camera.png"
 
 
 export default function CartItem({artTitle,imgUrl, authorName, price}){
@@ -8,16 +9,16 @@ export default function CartItem({artTitle,imgUrl, authorName, price}){
         <>
             <div className="cart-item mb-3">
                 <div className="cart-art-info">
-                    <ArtImage
-                        imgUrl={imgUrl}
-                    ></ArtImage>
+                    <div className="cart-image">
+                        <ArtImage imgUrl={Camera}/>
+                    </div>
                     <div>
                         <h2>{artTitle}</h2>
-                        <p>{authorName}</p>
+                        <p>By {authorName}</p>
                     </div>
                 </div>
-                <input type="checkbox"/>
-                <p>{price}€</p>
+                <i className="bi bi-trash-fill"></i>
+                <h3 className="price">{price} €</h3>
             </div>
         </>
     )
