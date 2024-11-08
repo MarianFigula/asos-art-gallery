@@ -70,6 +70,12 @@
     gap: 10vw;
 }
 
+.cart-modal-img {
+    img {
+        width: 100%;
+    }
+}
+
 
 @media screen and (max-width: 768px) {
     .cart-wrapper {

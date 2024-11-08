@@ -1,14 +1,14 @@
 import {ArtImage} from "../artImage/artImage";
 
 
-export default function CartItem({artTitle,imgUrl, authorName, price, handleClick}){
+export default function CartItem({artTitle,imgUrl, authorName, price, onClick}){
 
 
     return (
         <>
             <div className="cart-item mb-3">
                 <div className="cart-art-info">
-                    <div className="cart-image" onClick={handleClick}>
+                    <div className="cart-image" onClick={onClick}>
                         <ArtImage imgUrl={imgUrl}/>
                     </div>
                     <div>

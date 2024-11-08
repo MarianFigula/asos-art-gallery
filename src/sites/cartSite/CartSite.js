@@ -3,12 +3,34 @@ import CartItem from "../../components/CartItem/CartItem";
 
 import Camera from "../../assets/user-pictures/camera.png"
 import Camera2 from "../../assets/user-pictures/camera-2.png"
+import {Modal} from "../../components/modal/Modal";
+import {ArtImage} from "../../components/artImage/artImage";
+import {useState} from "react";
 
 export default function CartSite() {
 
+    const [isCartModalOpen, setIsCartModalOpen] = useState(false)
+
+    function showArtModal() {
+        setIsCartModalOpen(true)
+    }
+
     const test = 1;
     return (
-        <div className="cart-wrapper">
+        <>
+        <Modal
+            isOpen={isCartModalOpen}
+            title="arttitle"
+            onClose={() => setIsCartModalOpen(false)}>
+            <div className="cart-modal-img">
+                <ArtImage imgUrl={Camera}></ArtImage>
+            </div>
+            <div className="space-between-for-two-components">
+                <p>by artauthor</p>
+                <p className="price">100€</p>
+            </div>
+        </Modal>
+            <div className="cart-wrapper">
             <div className="cart-header">
                 <h1>Shopping Cart</h1>
                 <p className="mb-3">Your Items</p>
@@ -20,6 +42,7 @@ export default function CartSite() {
                         imgUrl={Camera}
                         authorName={"authorname"}
                         price={"100"}
+                        onClick={showArtModal}
                     />
                     <CartItem
                         artTitle={"arttitle"}
@@ -40,6 +63,7 @@ export default function CartSite() {
                 </h1>
             }
         </div>
+        </>
 
     )
 }
