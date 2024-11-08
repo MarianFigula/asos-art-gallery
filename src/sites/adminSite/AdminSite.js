@@ -69,7 +69,7 @@ export function AdminSite() {
 
     return (
         <>
-            <h1 className="text-center mb-4">Administration - Users</h1>
+            <h1 className="text-center mb-4 mt-9">Administration - Users</h1>
             <Table
                 columns={columns}
                 records={records}
