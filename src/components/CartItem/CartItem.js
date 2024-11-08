@@ -16,8 +16,10 @@ export default function CartItem({artTitle,imgUrl, authorName, price, handleClic
                         <p>By {authorName}</p>
                     </div>
                 </div>
-                <h3 className="price">{price} €</h3>
-                <i className="bi bi-trash-fill"></i>
+                <div className="cart-art-management">
+                    <h3 className="price">{price} €</h3>
+                    <i className="bi bi-trash-fill"></i>
+                </div>
             </div>
         </>
     )
