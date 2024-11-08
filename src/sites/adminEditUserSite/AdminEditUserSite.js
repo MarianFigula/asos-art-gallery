@@ -337,7 +337,7 @@ export function AdminEditUserSite() {
 
                 </Form>
             </Modal>
-            <h1 className="text-center mb-2">User - {username}</h1>
+            <h1 className="text-center mb-2 mt-10">User - {username}</h1>
             <div className="edit-user-wrapper mb-4">
                 <Form
                     onSubmit={handleSubmit}
