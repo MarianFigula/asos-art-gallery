@@ -13,6 +13,7 @@ import {UserReviewsSite} from "../../sites/userReviewsSite/UserReviewsSite";
 import {ForgotPasswordSite} from "../../sites/forgotPasswordSite/ForgotPasswordSite";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import {CreateArtSite} from "../../sites/createArtSite/CreateArtSite";
+import CartSite from "../../sites/cartSite/CartSite";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
                 <Route path={"/my-arts"} element={<UserArtsSite/>}/>
                 <Route path={"/review-history"} element={<UserReviewsSite/>}/>
                 <Route path={"/upload-art"} element={<CreateArtSite/>}/>
+                <Route path={"/cart"} element={<CartSite/>}/>
             </Routes>
             <Footer />
         </>
