@@ -407,7 +407,7 @@ export function MainSite() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://localhost:9000/api/art/read.php`, {
+            const response = await fetch(`${serverUrl}/api/art/read.php`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
