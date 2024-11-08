@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import "../form/form.css"
+import "../../components/form/form.css"
 import "../../spacing.css"
-import {FormInput} from "../formInput/FormInput";
-import {Form} from "../form/Form";
+import {FormInput} from "../../components/formInput/FormInput";
+import {Form} from "../../components/form/Form";
 
-export function Login() {
+export function LoginSite() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
@@ -28,7 +28,7 @@ export function Login() {
             data.success ? navigate("/") : setError(data.message)
 
         } catch (error){
-            setError("Login failed. Please try again")
+            setError("LoginSite failed. Please try again")
         }
 
     }

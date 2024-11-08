@@ -4,7 +4,7 @@
 - Pozriet ako funguje tahanie random obrazkov
 
 
-## UserProfile.js
+## UserProfileSite.js
 
 // TODO: pozriet ci to je admin a ked hej podla
 //  toho menit fotku a zobrazit button pre administratora
@@ -22,7 +22,7 @@ a otvaranie sidebaru a co bude v sidebare
 ### FETCH pridat if response.ok vsade - ak mi pride response od 200-299
 else ak mi pride 400-499 / 500-599
 
-### ForgotPassword
+### ForgotPasswordSite
 - complete website
 
 

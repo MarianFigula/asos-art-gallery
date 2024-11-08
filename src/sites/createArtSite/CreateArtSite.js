@@ -1,10 +1,10 @@
-import {Form} from "../form/Form";
-import {FormInput} from "../formInput/FormInput";
+import {Form} from "../../components/form/Form";
+import {FormInput} from "../../components/formInput/FormInput";
 import {useLocation} from "react-router-dom";
 import React, {useState} from "react";
 
 
-export function CreateArt() {
+export function CreateArtSite() {
     const [error, setError] = useState("");
     const email = localStorage.getItem("user-email") || "";
     const [title, setTitle] = useState("");

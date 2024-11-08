@@ -1,6 +1,6 @@
 import React from "react";
 import "./UserProfile.css"
-import "../form/form.css"
+import "../../components/form/form.css"
 import UserPhoto from "../../assets/user-pictures/22.png"
 import AdminPhoto from "../../assets/user-pictures/21.png"
 import {useNavigate} from "react-router-dom";
@@ -16,7 +16,7 @@ import {useNavigate} from "react-router-dom";
 // TODO: pridat dalsim buttonom logiku - redirect
 //  na dalsiu stranku
 
-export function UserProfile() {
+export function UserProfileSite() {
 
     const navigate = useNavigate();
     const email = "alicebobova@gmail.com"

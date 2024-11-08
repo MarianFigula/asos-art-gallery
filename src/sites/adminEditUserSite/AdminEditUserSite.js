@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {getArtColumns} from "../../assets/table-columns/tableArtColumns";
 import {getReviewColumns} from "../../assets/table-columns/tableReviewColumns";
-import {Table} from "../table/Table";
-import {Form} from "../form/Form";
-import {FormInput} from "../formInput/FormInput";
-import "./AdminEditUser.css"
-import {Modal} from "../modal/Modal";
+import {Table} from "../../components/table/Table";
+import {Form} from "../../components/form/Form";
+import {FormInput} from "../../components/formInput/FormInput";
+import "./AdminEditUserSite.css"
+import {Modal} from "../../components/modal/Modal";
 import {useLocation, useParams} from "react-router-dom";
 
 // admin page
@@ -14,7 +14,7 @@ import {useLocation, useParams} from "react-router-dom";
 //  ako naschval bug ?
 
 // TODO: overit vstupy pri editoch (modaly)
-export function AdminEditUser() {
+export function AdminEditUserSite() {
     const { id } = useParams();
     const location = useLocation();
     const {username: initialUsername, email: initialEmail } = location.state || {};

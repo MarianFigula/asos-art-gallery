@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../../table.css"
 import {getUserColumns} from "../../assets/table-columns/tableUserColumns";
 import {useNavigate} from "react-router-dom";
-import {Table} from "../table/Table";
+import {Table} from "../../components/table/Table";
 
 export function AdminSite() {
     const [data, setData] = useState([])

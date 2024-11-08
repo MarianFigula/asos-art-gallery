@@ -1,18 +1,18 @@
 import './App.css';
 import {Route, Routes} from "react-router-dom";
-import {Login} from "../login/Login";
-import {MainSite} from "../mainSite/MainSite";
-import {Register} from "../register/Register";
+import {LoginSite} from "../../sites/loginSite/LoginSite";
+import {MainSite} from "../../sites/mainSite/MainSite";
+import {RegisterSite} from "../../sites/registerSite/RegisterSite";
 import {Header} from "../header/Header";
-import {AdminSite} from "../adminSite/AdminSite";
-import {UserProfile} from "../userProfile/UserProfile";
+import {AdminSite} from "../../sites/adminSite/AdminSite";
+import {UserProfileSite} from "../../sites/userProfileSite/UserProfileSite";
 import {Footer} from "../footer/Footer";
-import {AdminEditUser} from "../adminEditUser/AdminEditUser";
-import {UserArts} from "../userArts/UserArts";
-import {UserReviews} from "../userReviews/UserReviews";
-import {ForgotPassword} from "../forgotPassword/ForgotPassword";
+import {AdminEditUserSite} from "../../sites/adminEditUserSite/AdminEditUserSite";
+import {UserArtsSite} from "../../sites/userArtsSite/UserArtsSite";
+import {UserReviewsSite} from "../../sites/userReviewsSite/UserReviewsSite";
+import {ForgotPasswordSite} from "../../sites/forgotPasswordSite/ForgotPasswordSite";
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import {CreateArt} from "../createArt/CreateArt";
+import {CreateArtSite} from "../../sites/createArtSite/CreateArtSite";
 
 
 function App() {
@@ -21,15 +21,15 @@ function App() {
             <Header/>
             <Routes>
                 <Route path={"/"} element={<MainSite/>}/>
-                <Route path={"/user-profile"} element={<UserProfile/>}/>
-                <Route path={"/login"} element={<Login/>}/>
-                <Route path={"/register"} element={<Register/>}/>
-                <Route path={"/forgot-password"} element={<ForgotPassword/>}/>
+                <Route path={"/user-profile"} element={<UserProfileSite/>}/>
+                <Route path={"/loginSite"} element={<LoginSite/>}/>
+                <Route path={"/registerSite"} element={<RegisterSite/>}/>
+                <Route path={"/forgot-password"} element={<ForgotPasswordSite/>}/>
                 <Route path={"/admin"} element={<AdminSite/>}/>
-                <Route path={"/admin-edit-user/:id"} element={<AdminEditUser/>}/>
-                <Route path={"/my-arts"} element={<UserArts/>}/>
-                <Route path={"/review-history"} element={<UserReviews/>}/>
-                <Route path={"/upload-art"} element={<CreateArt/>}/>
+                <Route path={"/admin-edit-user/:id"} element={<AdminEditUserSite/>}/>
+                <Route path={"/my-arts"} element={<UserArtsSite/>}/>
+                <Route path={"/review-history"} element={<UserReviewsSite/>}/>
+                <Route path={"/upload-art"} element={<CreateArtSite/>}/>
             </Routes>
             <Footer />
         </>

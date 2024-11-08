@@ -12,7 +12,7 @@ export function SideBar({show}){
                 <div className="sidebar-content">
                     <p>Login</p>
                     {
-                    //TODO alebo account do login
+                    //TODO alebo account do loginSite
                     }
                     <p>GitHub</p>
                 </div>
