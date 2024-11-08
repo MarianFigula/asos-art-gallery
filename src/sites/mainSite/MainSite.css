@@ -59,12 +59,12 @@
 .art-review-wrapper {
     display: flex;
     gap: 5%;
-    margin: 0 15% 5rem 15%;
+    margin: 0 10% 5rem 10%;
     align-content: stretch;
 }
 
 .art-wrapper {
-    width: 80%;
+    width: 90%;
     border: 1px solid black;
     border-radius: 15px;
 }
@@ -127,9 +127,14 @@
     margin-right: 10%;
     flex-wrap: wrap;
 
-    .bi-plus-circle {
-        font-size: 1.25rem;
+    .bi-plus-circle-fill {
+        font-size: 1.5rem;
         cursor: pointer;
+        color: var(--green);
+        transition: color 0.3s ease-out;
+        &:hover {
+            color: var(--dark-green);
+        }
     }
 }
 
@@ -175,7 +180,7 @@
 
 .create-art {
     position: fixed;
-    bottom: 15%;
+    bottom: 100px;
     right: 10%;
     display: flex;
     justify-content: space-evenly;
@@ -186,5 +191,23 @@
     i {
         font-size: 1.3rem;
         transition: color 0.3s ease;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .art-review-wrapper {
+        flex-direction: column;
+        gap: 50px;
+    }
+    .art-wrapper {
+        width: 100%;
+    }
+    .review-wrapper {
+        overflow-x: auto;
+        gap: 20px;
+        padding: 10px;
+        scroll-behavior: smooth;
+        width: 70%;
+        max-height: 50vh;
     }
 }

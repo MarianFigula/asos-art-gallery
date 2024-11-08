@@ -41,6 +41,7 @@
 @media screen and (max-width: 768px) {
     .profile-wrapper {
         grid-template-columns: 1fr;
+        margin-top: 9rem;
     }
 
     .profile-details {
