@@ -1,14 +1,14 @@
-import {SearchBar} from "../searchBar/SearchBar";
+import {SearchBar} from "../../components/searchBar/SearchBar";
 import "./MainSite.css"
 import "../../table.css"
-import {ReviewList} from "../reviewList/ReviewList";
-import {Art} from "../art/Art";
+import {ReviewList} from "../../components/reviewList/ReviewList";
+import {Art} from "../../components/art/Art";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {Modal} from "../modal/Modal";
-import {Form} from "../form/Form";
-import {FormInput} from "../formInput/FormInput";
-import {StarRating} from "../starRating/StarRating";
+import {Modal} from "../../components/modal/Modal";
+import {Form} from "../../components/form/Form";
+import {FormInput} from "../../components/formInput/FormInput";
+import {StarRating} from "../../components/starRating/StarRating";
 
 // TODO: pridat modal pre vytvorenie review (+ backend)
 // TODO: pridat stranku pre vytvorenie Artu (+ backend)

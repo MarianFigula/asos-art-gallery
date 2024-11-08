@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import "../form/form.css"
+import "../../components/form/form.css"
 import "../../spacing.css"
-import {FormInput} from "../formInput/FormInput";
-import {Form} from "../form/Form";
+import {FormInput} from "../../components/formInput/FormInput";
+import {Form} from "../../components/form/Form";
 
-export function Register() {
+export function RegisterSite() {
     const [email, setEmail] = useState("")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -54,7 +54,7 @@ export function Register() {
             data.success ? navigate("/") : setError(data.message)
 
         } catch (error) {
-            setError("Register failed. Please try again")
+            setError("RegisterSite failed. Please try again")
         }
 
     }
@@ -107,7 +107,7 @@ export function Register() {
                 />
             </Form>
             <div className="links">
-                <Link to={"/login"}>Already registered?</Link>
+                <Link to={"/loginSite"}>Already registered?</Link>
             </div>
 
         </div>

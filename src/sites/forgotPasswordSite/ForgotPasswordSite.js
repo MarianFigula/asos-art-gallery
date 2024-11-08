@@ -1,9 +1,9 @@
-import {Form} from "../form/Form";
+import {Form} from "../../components/form/Form";
 import React, {useState} from "react";
-import {FormInput} from "../formInput/FormInput";
+import {FormInput} from "../../components/formInput/FormInput";
 import {Link} from "react-router-dom";
 
-export function ForgotPassword() {
+export function ForgotPasswordSite() {
 
     const [error, setError] = useState("")
     const [email, setEmail] = useState("")
@@ -87,8 +87,8 @@ export function ForgotPassword() {
                     />
                 </Form>
                 <div className="links">
-                    <Link to={"/login"}>Sign in</Link>
-                    <Link to={"/register"}>Sign up</Link>
+                    <Link to={"/loginSite"}>Sign in</Link>
+                    <Link to={"/registerSite"}>Sign up</Link>
                 </div>
             </div>
         </>

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {getArtColumns} from "../../assets/table-columns/tableArtColumns";
-import {Form} from "../form/Form";
-import {FormInput} from "../formInput/FormInput";
-import {Modal} from "../modal/Modal";
-import {Table} from "../table/Table";
+import {Form} from "../../components/form/Form";
+import {FormInput} from "../../components/formInput/FormInput";
+import {Modal} from "../../components/modal/Modal";
+import {Table} from "../../components/table/Table";
 
-export function UserArts(){
+export function UserArtsSite(){
     const navigate = useNavigate()
 
     const email =
@@ -83,7 +83,7 @@ export function UserArts(){
         setUserArtData(newData);
     }
 
-    // TODO: code duplicate in AdminEditUser
+    // TODO: code duplicate in AdminEditUserSite
     const handleEditArtSubmit = async () => {
         console.log(artEditData);
         try {

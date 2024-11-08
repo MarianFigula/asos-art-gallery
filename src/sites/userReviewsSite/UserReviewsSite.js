@@ -1,12 +1,12 @@
 import {useNavigate} from "react-router-dom";
-import {Form} from "../form/Form";
-import {FormInput} from "../formInput/FormInput";
-import {Modal} from "../modal/Modal";
+import {Form} from "../../components/form/Form";
+import {FormInput} from "../../components/formInput/FormInput";
+import {Modal} from "../../components/modal/Modal";
 import React, {useEffect, useState} from "react";
-import {Table} from "../table/Table";
+import {Table} from "../../components/table/Table";
 import {getReviewColumns} from "../../assets/table-columns/tableReviewColumns";
 
-export function UserReviews() {
+export function UserReviewsSite() {
 
     const navigate = useNavigate()
     
