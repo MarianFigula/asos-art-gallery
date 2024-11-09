@@ -22,7 +22,7 @@ button {
     cursor: pointer;
     border: none;
     border-radius: 10px;
-    transition: background-color 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
 }
 
 .label {
@@ -70,15 +70,26 @@ textarea {
     }
 }
 
-.button-confirm {
+.button-confirm, .button-light {
     padding: 10px;
-    background-color: var(--green);
-    color: white;
     width: max(10vw, 130px);
     font-size: 0.9rem;
 
+}
+.button-confirm {
+    background-color: var(--green);
+    color: white;
     &:hover{
         background-color: var(--dark-green);
+    }
+}
+
+.button-light {
+    background-color: var(--light-grey);
+    color: var(--dark);
+    &:hover{
+        color: var(--white);
+        background-color: var(--grey);
     }
 }
 
