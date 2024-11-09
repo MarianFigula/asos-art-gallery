@@ -18,51 +18,51 @@ export default function CartSite() {
     const test = 1;
     return (
         <>
-        <Modal
-            isOpen={isCartModalOpen}
-            title="arttitle"
-            onClose={() => setIsCartModalOpen(false)}>
-            <div className="cart-modal-img">
-                <ArtImage imgUrl={Camera}></ArtImage>
-            </div>
-            <div className="space-between-for-two-components">
-                <p>by artauthor</p>
-                <p className="price">100€</p>
-            </div>
-        </Modal>
+            <Modal
+                isOpen={isCartModalOpen}
+                title="arttitle"
+                onClose={() => setIsCartModalOpen(false)}>
+                <div className="cart-modal-img">
+                    <ArtImage imgUrl={Camera}></ArtImage>
+                </div>
+                <div className="space-between-for-two-components">
+                    <p>by artauthor</p>
+                    <p className="price">100€</p>
+                </div>
+            </Modal>
             <div className="cart-wrapper">
-            <div className="cart-header">
-                <h1>Shopping Cart</h1>
-                <p className="mb-3">Your Items</p>
+                <div className="cart-header">
+                    <h1>Shopping Cart</h1>
+                    <p className="mb-3">Your Items</p>
+                </div>
+                {test === 1 ?
+                    <section className="cart-items">
+                        <CartItem
+                            artTitle={"arttitle"}
+                            imgUrl={Camera}
+                            authorName={"authorname"}
+                            price={"100"}
+                            onClick={showArtModal}
+                        />
+                        <CartItem
+                            artTitle={"arttitle"}
+                            imgUrl={Camera}
+                            authorName={"authorname"}
+                            price={"100"}
+                        />
+                        <CartItem
+                            artTitle={"arttitle"}
+                            imgUrl={Camera2}
+                            authorName={"authorname"}
+                            price={"100"}
+                        />
+                    </section>
+                    :
+                    <h1 className="text-center">
+                        Your shopping cart is empty
+                    </h1>
+                }
             </div>
-            {test === 1 ?
-                <section className="cart-items">
-                    <CartItem
-                        artTitle={"arttitle"}
-                        imgUrl={Camera}
-                        authorName={"authorname"}
-                        price={"100"}
-                        onClick={showArtModal}
-                    />
-                    <CartItem
-                        artTitle={"arttitle"}
-                        imgUrl={Camera}
-                        authorName={"authorname"}
-                        price={"100"}
-                    />
-                    <CartItem
-                        artTitle={"arttitle"}
-                        imgUrl={Camera2}
-                        authorName={"authorname"}
-                        price={"100"}
-                    />
-                </section>
-                :
-                <h1 className="text-center">
-                    Your shopping cart is empty
-                </h1>
-            }
-        </div>
         </>
 
     )
