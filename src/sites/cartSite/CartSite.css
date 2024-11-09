@@ -76,6 +76,17 @@
     }
 }
 
+.order-summary {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    padding: 2rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white; /* Optional, if you want it to stand out */
+    box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.2);
+}
 
 @media screen and (max-width: 768px) {
     .cart-wrapper {

@@ -36,33 +36,43 @@ export default function CartSite() {
                     <p className="mb-3">Your Items</p>
                 </div>
                 {test === 1 ?
-                    <section className="cart-items">
-                        <CartItem
-                            artTitle={"arttitle"}
-                            imgUrl={Camera}
-                            authorName={"authorname"}
-                            price={"100"}
-                            onClick={showArtModal}
-                        />
-                        <CartItem
-                            artTitle={"arttitle"}
-                            imgUrl={Camera}
-                            authorName={"authorname"}
-                            price={"100"}
-                        />
-                        <CartItem
-                            artTitle={"arttitle"}
-                            imgUrl={Camera2}
-                            authorName={"authorname"}
-                            price={"100"}
-                        />
-                    </section>
+                    <>
+                        <section className="cart-items">
+                            <CartItem
+                                artTitle={"arttitle"}
+                                imgUrl={Camera}
+                                authorName={"authorname"}
+                                price={"100"}
+                                onClick={showArtModal}
+                            />
+                            <CartItem
+                                artTitle={"arttitle"}
+                                imgUrl={Camera}
+                                authorName={"authorname"}
+                                price={"100"}
+                            />
+                            <CartItem
+                                artTitle={"arttitle"}
+                                imgUrl={Camera2}
+                                authorName={"authorname"}
+                                price={"100"}
+                            />
+                        </section>
+                    </>
                     :
                     <h1 className="text-center">
                         Your shopping cart is empty
                     </h1>
                 }
             </div>
+            {test === 1 ?
+                <section className="order-summary">
+                    <div>
+                        <button className="button-light">Continue shopping</button>
+                    </div>
+                    <h3 className="mb-0 mt-0">To Pay: <span className="price">300 €</span></h3>
+                    <button className="button-confirm">Continue</button>
+                </section> : <></>}
         </>
 
     )
