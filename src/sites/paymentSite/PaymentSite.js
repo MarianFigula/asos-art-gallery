@@ -75,10 +75,10 @@ export default function PaymentSite(){
             <div className="cart-payment-wrapper mb-0">
                 <div className="cart-payment-header">
                     <h1>Payment</h1>
-                    <p className="mb-4">Please insert credit card information</p>
+                    <p className="mb-3">Please insert credit card information</p>
                 </div>
             </div>
-            <div className="login-container mt-0 pb-2">
+            <div className="login-container mt-0 pb-2 pt-2">
                 <Form
                     onSubmit={handleSubmit}
                     error={error}
