@@ -1,10 +1,10 @@
-
+/* Margin Bottom */
 .mb-0-25{
     margin-bottom: 0.25rem;
 }
 
 .mb-0 {
-    margin-bottom: 0;
+    margin-bottom: 0!important;
 }
 
 .mb-1 {
@@ -27,6 +27,8 @@
     margin-bottom: 5rem;
 }
 
+/* Margin Top */
+
 .mt-0 {
     margin-top: 0;
 }
@@ -45,4 +47,21 @@
 
 .mt-10 {
     margin-top: 10rem;
+}
+
+/* Margin Left */
+.ml-0 {
+    margin-left: 0!important;
+}
+/* Margin Right */
+.mr-0 {
+    margin-right: 0!important;
+}
+/* Padding Bottom */
+.pb-2 {
+    padding-bottom: 2rem!important;
+}
+
+.pb-3 {
+    padding-bottom: 3rem!important;
 }
