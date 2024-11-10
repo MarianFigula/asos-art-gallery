@@ -24,8 +24,8 @@ function App() {
             <Routes>
                 <Route path={"/"} element={<MainSite/>}/>
                 <Route path={"/user-profile"} element={<UserProfileSite/>}/>
-                <Route path={"/loginSite"} element={<LoginSite/>}/>
-                <Route path={"/registerSite"} element={<RegisterSite/>}/>
+                <Route path={"/login"} element={<LoginSite/>}/>
+                <Route path={"/register"} element={<RegisterSite/>}/>
                 <Route path={"/forgot-password"} element={<ForgotPasswordSite/>}/>
                 <Route path={"/admin"} element={<AdminSite/>}/>
                 <Route path={"/admin-edit-user/:id"} element={<AdminEditUserSite/>}/>
