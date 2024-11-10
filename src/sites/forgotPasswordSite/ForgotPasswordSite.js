@@ -87,8 +87,8 @@ export function ForgotPasswordSite() {
                     />
                 </Form>
                 <div className="links">
-                    <Link to={"/loginSite"}>Sign in</Link>
-                    <Link to={"/registerSite"}>Sign up</Link>
+                    <Link to={"/login"}>Sign in</Link>
+                    <Link to={"/register"}>Sign up</Link>
                 </div>
             </div>
         </>

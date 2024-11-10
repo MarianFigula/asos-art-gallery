@@ -54,7 +54,7 @@ export function RegisterSite() {
             data.success ? navigate("/") : setError(data.message)
 
         } catch (error) {
-            setError("RegisterSite failed. Please try again")
+            setError("Register failed. Please try again")
         }
 
     }
