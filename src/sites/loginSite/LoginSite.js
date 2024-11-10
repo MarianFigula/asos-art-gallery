@@ -28,7 +28,7 @@ export function LoginSite() {
             data.success ? navigate("/") : setError(data.message)
 
         } catch (error){
-            setError("LoginSite failed. Please try again")
+            setError("Login failed. Please try again")
         }
 
     }
