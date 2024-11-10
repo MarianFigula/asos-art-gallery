@@ -107,7 +107,7 @@ export function RegisterSite() {
                 />
             </Form>
             <div className="links">
-                <Link to={"/loginSite"}>Already registered?</Link>
+                <Link to={"/login"}>Already registered?</Link>
             </div>
 
         </div>
