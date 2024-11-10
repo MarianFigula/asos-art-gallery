@@ -30,8 +30,8 @@ export default function CartSite() {
                     <p className="price">100€</p>
                 </div>
             </Modal>
-            <div className="cart-wrapper">
-                <div className="cart-header">
+            <div className="cart-payment-wrapper">
+                <div className="cart-payment-header">
                     <h1>Shopping Cart</h1>
                     <p className="mb-3">Your Items</p>
                 </div>

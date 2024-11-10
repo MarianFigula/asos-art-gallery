@@ -1,8 +1,8 @@
-.cart-wrapper {
+.cart-payment-wrapper {
     width: 70vw;
     margin: 15vh auto 0 12vw;
 
-    .cart-header {
+    .cart-payment-header {
         h1 {
             margin-bottom: 0;
         }
@@ -89,7 +89,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .cart-wrapper {
+    .cart-payment-wrapper {
         width: 80vw;
         margin: 20vh auto;
     }
