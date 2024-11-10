@@ -57,6 +57,10 @@
 .mr-0 {
     margin-right: 0!important;
 }
+/* Padding Top */
+.pt-2 {
+    padding-top: 2rem!important;
+}
 /* Padding Bottom */
 .pb-2 {
     padding-bottom: 2rem!important;
