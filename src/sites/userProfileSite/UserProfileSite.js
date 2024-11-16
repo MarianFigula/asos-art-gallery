@@ -9,7 +9,7 @@ import {useNavigate} from "react-router-dom";
 //  toho menit fotku a zobrazit button pre administratora
 
 
-// TODO: nacitat data podla idecka
+// TODO: nacitat data podla idecka alebo podla emailu
 //  ktore pride alebo ktore je niekde ulozene,
 //  alebo cez token to spravim, treba porozmyslat
 
