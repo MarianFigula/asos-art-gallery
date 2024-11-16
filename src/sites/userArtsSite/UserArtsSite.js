@@ -167,7 +167,7 @@ export function UserArtsSite(){
                 </Form>
 
             </Modal>
-            <h1 className="text-center mb-1">Arts</h1>
+            <h1 className="text-center mb-4 mt-9">Arts</h1>
             <Table
                 columns={columnsArts}
                 records={userArtRecords}
