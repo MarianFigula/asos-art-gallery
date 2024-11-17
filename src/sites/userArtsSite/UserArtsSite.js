@@ -5,6 +5,7 @@ import {Form} from "../../components/form/Form";
 import {FormInput} from "../../components/formInput/FormInput";
 import {Modal} from "../../components/modal/Modal";
 import {Table} from "../../components/table/Table";
+import axios from "axios";
 
 export function UserArtsSite(){
     const navigate = useNavigate()
@@ -33,18 +34,24 @@ export function UserArtsSite(){
     )
 
     const fetchArtData = async () => {
-        const response = await fetch(`${serverUrl}/api/art/read.php`,{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({user_email: email})
-        });
-        const result = await response.json();
-        console.log(result)
-        setUserArtData(result.data);
-        setUserArtRecords(result.data)
+        try {
+            const response = await axios.get(`${serverUrl}/api/art/read.php`, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                params: {
+                    user_email: email,
+                },
+            });
 
+            const result = response.data;
+            console.log(result);
+            setUserArtData(result.data);
+            setUserArtRecords(result.data);
+
+        } catch (error) {
+            console.error("Error fetching art data: ", error);
+        }
     };
 
     useEffect(() => {
@@ -87,31 +94,28 @@ export function UserArtsSite(){
     const handleEditArtSubmit = async () => {
         console.log(artEditData);
         try {
-            const response =
-                await fetch(`${serverUrl}/api/art/update.php`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        id: artEditData.id,
-                        title: artEditData.title,
-                        description: artEditData.description,
-                        price: artEditData.price
-                    })
-                })
+            const response = await axios.put(`${serverUrl}/api/art/update.php`, {
+                id: artEditData.id,
+                title: artEditData.title,
+                description: artEditData.description,
+                price: artEditData.price,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-            const result = await response.json();
+            const result = response.data;
             if (result.success) {
-                window.location.reload()
-                alert("Successfully")
+                window.location.reload();
+                alert("Successfully");
             }
 
         } catch (error) {
-            setError(error)
-            console.warn(error)
+            setError(error);
+            console.warn(error);
         }
-    }
+    };
 
     return (
         <>

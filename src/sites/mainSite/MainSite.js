@@ -9,6 +9,7 @@ import {Modal} from "../../components/modal/Modal";
 import {Form} from "../../components/form/Form";
 import {FormInput} from "../../components/formInput/FormInput";
 import {StarRating} from "../../components/starRating/StarRating";
+import axios from "axios";
 
 // TODO: pridat modal pre vytvorenie review (+ backend)
 // TODO: pridat stranku pre vytvorenie Artu (+ backend)
@@ -407,13 +408,13 @@ export function MainSite() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`${serverUrl}/api/art/read.php`, {
-                method: "POST",
+            const response = await axios.get(`${serverUrl}/api/art/read.php`, {
                 headers: {
                     "Content-Type": "application/json",
                 },
             });
-            const result = await response.json();
+
+            const result = response.data;
 
             if (result.success) {
                 const artDataMap = [];
@@ -549,30 +550,28 @@ export function MainSite() {
     const handleReviewSubmit = async () => {
         // Submit review with selectedArtId, reviewText, and rating
         try {
-            const response = await fetch(
-                `${serverUrl}/api/review/create.php`, {
-                method: "POST",
+            const response = await axios.post(`${serverUrl}/api/review/create.php`, {
+                email: email,
+                art_id: selectedArtId,
+                review_text: reviewText,
+                rating: reviewRating
+            }, {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    email: email,
-                    art_id: selectedArtId,
-                    review_text: reviewText,
-                    rating: reviewRating
-                })
             });
-            const result = await response.json();
+
+            const result = response.data;
 
             if (result.success) {
-                console.log("success")
+                console.log("success");
                 setIsArtModalOpen(false);
             }
         } catch (error) {
-            setError(error.message)
-            console.error("Error fetching art and reviews data: ", error);
+            setError(error.message);
+            console.error("Error submitting review: ", error);
         }
-    }
+    };
 
     return (
         <>

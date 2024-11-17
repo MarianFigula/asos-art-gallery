@@ -2,6 +2,7 @@ import {Form} from "../../components/form/Form";
 import React, {useState} from "react";
 import {FormInput} from "../../components/formInput/FormInput";
 import {Link} from "react-router-dom";
+import axios from "axios";
 
 export function ForgotPasswordSite() {
 
@@ -13,39 +14,35 @@ export function ForgotPasswordSite() {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
     const handleSubmit = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
 
         if (password !== repeatedPassword) {
-            setError("Password and Repeated password are not the same")
+            setError("Password and Repeated password are not the same");
             return;
         }
 
         try {
-            const response = await fetch(
-                `${serverUrl}/api/user/forgotPassword.php`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email,
-                        password,
-                        repeatedPassword,
-                    })
-                })
+            const response = await axios.post(`${serverUrl}/api/user/forgotPassword.php`, {
+                email,
+                password,
+                repeated_password: repeatedPassword,
+                security_answer: securityAnswer
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = response.data;
+            console.log(data);
 
-            const data = await response.json()
-            console.log(data)
-
-            if (!response.ok){
-                setError(data.message)
+            if (!response.ok) {
+                setError(data.message);
             }
 
         } catch (error) {
-            setError("Something failed. Please try again")
+            setError("Something failed. Please try again");
         }
-    }
-
+    };
     return (
         <>
             <div className="login-container">

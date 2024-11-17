@@ -4,6 +4,7 @@ import "../../components/form/form.css"
 import "../../spacing.css"
 import {FormInput} from "../../components/formInput/FormInput";
 import {Form} from "../../components/form/Form";
+import axios from "axios";
 
 export function LoginSite() {
     const [email, setEmail] = useState("")
@@ -12,26 +13,27 @@ export function LoginSite() {
     const navigate = useNavigate()
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-    async function handleSubmit(event){
-        event.preventDefault()
+    async function handleSubmit(event) {
+        event.preventDefault();
 
         try {
-            const response = await fetch(`${serverUrl}/api/user/login.php`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({email, password})
-                })
+            const response = await axios.post(`${serverUrl}/api/user/login.php`, {
+                email,
+                password,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-            const data = await response.json()
-            data.success ? navigate("/") : setError(data.message)
+            const data = response.data;
+            data.success ? navigate("/") : setError(data.message);
 
-        } catch (error){
-            setError("Login failed. Please try again")
+        } catch (error) {
+            setError("Login failed. Please try again");
         }
-
     }
+
 
     return (
         <div className="login-container">
