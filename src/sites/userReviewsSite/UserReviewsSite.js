@@ -5,6 +5,7 @@ import {Modal} from "../../components/modal/Modal";
 import React, {useEffect, useState} from "react";
 import {Table} from "../../components/table/Table";
 import {getReviewColumns} from "../../assets/table-columns/tableReviewColumns";
+import axios from "axios";
 
 export function UserReviewsSite() {
 
@@ -34,16 +35,23 @@ export function UserReviewsSite() {
     )
 
     const fetchReviewData = async () => {
-        const response = await fetch(`${serverUrl}/api/review/read.php`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({user_email: email}),
-        });
-        const result = await response.json();
-        setReviewData(result.data);
-        setReviewRecords(result.data)
+        try {
+            const response = await axios.get(`${serverUrl}/api/review/read.php`, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                params: {
+                    user_email: email,  // Send user_email as a query parameter
+                },
+            });
+
+            const result = response.data;
+            setReviewData(result.data);
+            setReviewRecords(result.data);
+
+        } catch (error) {
+            console.error("Error fetching review data: ", error);
+        }
     };
 
     useEffect(() => {
@@ -159,7 +167,7 @@ export function UserReviewsSite() {
                 </Form>
             </Modal>
 
-            <h1 className="text-center mb-1 mt-9">Reviews</h1>
+            <h1 className="text-center mb-4 mt-10">Reviews</h1>
             <Table
                 columns={columnsReviews}
                 records={reviewRecords}

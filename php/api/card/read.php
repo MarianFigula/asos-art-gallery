@@ -1,51 +1,48 @@
 <?php
 /**
  * Description:
- * This endpoint allows retrieving user information by specifying the user ID or email as query parameters.
- * If neither is provided, all users are returned (admin only).
+ * This endpoint allows retrieving credit card information by specifying the card ID or user ID as query parameters.
+ * If neither is provided, all cards are returned for the specified user (admin privileges are required to view all cards).
  * 
  * Method: GET
- * URL: /api/user/read.php
+ * URL: /api/credit_card/read.php
  * 
  * Query Parameters:
- * - id (optional): int - The unique ID of the user to retrieve.
- * - email (optional): string - The email address of the user to retrieve.
+ * - id (optional): int - The unique ID of the credit card to retrieve.
+ * - user_id (optional): int - The user ID for which to retrieve credit card(s).
  * 
  * Response Codes:
- * - 200 OK: User(s) successfully retrieved.
- * - 403 Forbidden: Admin privileges are required to view all users.
- * - 404 Not Found: User with the specified ID or email does not exist.
+ * - 200 OK: Credit card(s) successfully retrieved.
+ * - 403 Forbidden: Admin privileges are required to view all credit cards.
+ * - 404 Not Found: Credit card with the specified ID does not exist.
  * - 405 Method Not Allowed: Invalid request method used (only GET is allowed).
- * 
- * Notes:
- * - If neither 'id' nor 'email' is provided, all users are returned, which requires admin privileges.
-
  */
 
 header("Content-Type: application/json");
 
 include_once '../../config/Database.php';
-include_once '../../classes/User.php';
+include_once '../../classes/CreditCard.php';
 include_once "../../config/cors.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
-$user = new User($db);
+$creditCard = new CreditCard($db);
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-if ($method !== "GET"){
+if ($method !== "GET") {
     http_response_code(405);
     echo json_encode([
         "success" => false,
-        "message" => "Method not allowed"]);
+        "message" => "Method not allowed"
+    ]);
     exit();
 }
 
 if (isset($_GET['id'])) {
     try {
-        $user->setId($_GET['id']);
+        $creditCard->setId($_GET['id']);
     } catch (InvalidArgumentException $e) {
         http_response_code(400);
         echo json_encode([
@@ -54,43 +51,14 @@ if (isset($_GET['id'])) {
         ]);
         exit();
     }
-    $stmt = $user->getUserById();
+
+    $stmt = $creditCard->getCardById();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$row) {
         http_response_code(404);
         echo json_encode([
             "success" => false,
-            "message" => "User not found."
-        ]);
-        exit();
-    }
-
-    http_response_code(200); 
-    echo json_encode([
-        "success" => true,
-        "data" => $row
-    ]);
-    exit();
-}
-
-if (isset($_GET['email'])) {
-    try {
-        $user->setEmail($_GET['email']);
-    } catch (InvalidArgumentException $e) {
-        http_response_code(400);
-        echo json_encode([
-            "success" => false,
-            "message" => $e->getMessage()
-        ]);
-        exit();
-    }
-    $stmt = $user->getUserByEmail();
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$row) {
-        http_response_code(404);
-        echo json_encode([
-            "success" => false,
-            "message" => "User not found."
+            "message" => "Credit card not found."
         ]);
         exit();
     }
@@ -103,23 +71,58 @@ if (isset($_GET['email'])) {
     exit();
 }
 
-// REVIEW - SHOULD WORK, COMMENTED FOR DEBUGGING PURPOSES 
+if (isset($_GET['user_id'])) {
+    try {
+        $creditCard->setUserId($_GET['user_id']);
+    } catch (InvalidArgumentException $e) {
+        http_response_code(400);
+        echo json_encode([
+            "success" => false,
+            "message" => $e->getMessage()
+        ]);
+        exit();
+    }
+
+    $stmt = $creditCard->getCardsByUserId();
+    $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // NOTE: Not sure if error or empty array is more context-appropriate
+    if (empty($cards)) {
+        http_response_code(404);
+        echo json_encode([
+            "success" => false,
+            "message" => "No credit cards found for the specified user."
+        ]);
+        exit();
+    }
+
+    http_response_code(200);
+    echo json_encode([
+        "success" => true,
+        "data" => $cards
+    ]);
+    exit();
+}
+
+// REVIEW - SHOULD WORK, COMMENTED FOR DEBUGGING PURPOSES
 /*
 if ($_SESSION['role'] !== 'A') {
     http_response_code(403);
     echo json_encode([
         "success" => false,
-        "message" => "Access denied. Admin privileges required to view all users."
+        "message" => "Access denied. Admin privileges required to view all credit cards."
     ]);
     exit();
-}*/
+}
+*/
 
-$stmt = $user->getAllUsers();
-$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Get all credit cards (admin only)
+$stmt = $creditCard->getAllCards();
+$cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 http_response_code(200);
 echo json_encode([
     "success" => true,
-    "data" => $users
+    "data" => $cards
 ]);
 
+?>

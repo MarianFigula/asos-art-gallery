@@ -4,6 +4,7 @@ import "../../components/form/form.css"
 import "../../spacing.css"
 import {FormInput} from "../../components/formInput/FormInput";
 import {Form} from "../../components/form/Form";
+import axios from "axios";
 
 export function RegisterSite() {
     const [email, setEmail] = useState("")
@@ -26,37 +27,33 @@ export function RegisterSite() {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
     async function handleSubmit(event) {
-        event.preventDefault()
+        event.preventDefault();
 
-        if (password !== repeatedPassword){
-            setError("Password and Repeated password are not the same")
+        if (password !== repeatedPassword) {
+            setError("Password and Repeated password are not the same");
             return;
         }
 
         try {
-            const response = await fetch(
-                `${serverUrl}/api/user/register.php`, {
-                method: "POST",
+            const response = await axios.post(`${serverUrl}/api/user/register.php`, {
+                email,
+                username,
+                password,
+                repeatedPassword,
+                selectedSecurityQuestion,
+                securityAnswer
+            }, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    email,
-                    username,
-                    password,
-                    repeatedPassword,
-                    selectedSecurityQuestion,
-                    securityAnswer
-                })
-            })
+            });
 
-            const data = await response.json()
-            data.success ? navigate("/") : setError(data.message)
+            const data = response.data;
+            data.success ? navigate("/") : setError(data.message);
 
         } catch (error) {
-            setError("RegisterSite failed. Please try again")
+            setError("Register failed. Please try again");
         }
-
     }
 
     return (
@@ -107,7 +104,7 @@ export function RegisterSite() {
                 />
             </Form>
             <div className="links">
-                <Link to={"/loginSite"}>Already registered?</Link>
+                <Link to={"/login"}>Already registered?</Link>
             </div>
 
         </div>

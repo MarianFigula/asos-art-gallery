@@ -3,6 +3,7 @@ import "../../table.css"
 import {getUserColumns} from "../../assets/table-columns/tableUserColumns";
 import {useNavigate} from "react-router-dom";
 import {Table} from "../../components/table/Table";
+import axios from "axios";
 
 export function AdminSite() {
     const [data, setData] = useState([])
@@ -19,23 +20,21 @@ export function AdminSite() {
     const columns = getUserColumns(editHandler);
 
     const fetchData = async () => {
-        const serverUrl = process.env.REACT_APP_SERVER_URL
-        try {
-            const response =
-                await fetch(`${serverUrl}/api/user/read.php`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
+        const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-            const result = await response.json();
-            setData(result.data);
-            setRecords(result.data);
+        try {
+            const response = await axios.get(`${serverUrl}/api/user/read.php`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            setData(response.data.data);
+            setRecords(response.data.data);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     useEffect(() => {
         fetchData()

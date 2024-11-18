@@ -7,6 +7,7 @@ import {FormInput} from "../../components/formInput/FormInput";
 import "./AdminEditUserSite.css"
 import {Modal} from "../../components/modal/Modal";
 import {useLocation, useParams} from "react-router-dom";
+import axios from "axios";
 
 // admin page
 // TODO ked zmenim id v url a aj ked tam na zaciatku nic neni
@@ -51,29 +52,35 @@ export function AdminEditUserSite() {
 
 
     const fetchArtData = async () => {
-        const response = await fetch(`${serverUrl}/api/art/read.php`,{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({user_id: id})
-        });
-        const result = await response.json();
-        setArtData(result.data);
-        setArtRecords(result.data)
+        try {
+            const response = await axios.get(`${serverUrl}/api/art/read.php`, {
+                params: { user_id: id }, // Pass query parameters here
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            setArtData(response.data.data);
+            setArtRecords(response.data.data);
+        } catch (error) {
+            console.error('Error fetching art data:', error);
+        }
     };
 
     const fetchReviewData = async () => {
-        const response = await fetch(`${serverUrl}/api/review/read.php`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({user_id: id}),
-        });
-        const result = await response.json();
-        setReviewData(result.data);
-        setReviewRecords(result.data)
+        try {
+            const response = await axios.get(`${serverUrl}/api/review/read.php`, {
+                params: { user_id: id }, // Pass query parameters here
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            setReviewData(response.data.data);
+            setReviewRecords(response.data.data);
+        } catch (error) {
+            console.error('Error fetching review data:', error);
+        }
     };
 
     useEffect(() => {
@@ -150,88 +157,84 @@ export function AdminEditUserSite() {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        // tu dat error
-        console.log("submitujem edit user")
-        try {
-            const response =
-                await fetch(`${serverUrl}/api/user/update.php`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({id, username, email})
-                })
+        e.preventDefault();
+        console.log("Submitting user edit");
 
-            const result = await response.json();
-            console.log(result)
-            if (result.success){
-                setUsername(username)
-                setEmail(email)
-                alert("successfully")
+        try {
+            const response = await axios.put(`${serverUrl}/api/user/update.php`, {
+                id, username, email,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const result = response.data;
+            console.log(result);
+
+            if (result.success) {
+                setUsername(username);
+                setEmail(email);
+                alert("Updated successfully");
+            }
+        } catch (error) {
+            setError(error);
+            console.warn(error);
+        }
+    };
+
+    const handleEditArtSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.put(`${serverUrl}/api/art/update.php`, {
+                id: artEditData.id,
+                title: artEditData.title,
+                description: artEditData.description,
+                price: artEditData.price
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const result = response.data;
+            if (result.success) {
+                window.location.reload();
+                alert("Updated successfully");
             }
 
         } catch (error) {
-            setError(error)
-            console.warn(error)
+            setError(error);
+            console.warn(error);
         }
-    }
+    };
 
-    const handleEditArtSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            const response =
-                await fetch(`${serverUrl}/api/art/update.php`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        id: artEditData.id,
-                        title: artEditData.title,
-                        description: artEditData.description,
-                        price: artEditData.price
-                    })
-                })
-
-            const result = await response.json();
-            if (result.success){
-                window.location.reload()
-                alert("Successfully")
-            }
-
-        }catch (error){
-            setError(error)
-            console.warn(error)
-        }
-    }
     const handleEditReviewSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            const response =
-                await fetch(`${serverUrl}/api/review/update.php`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        id: reviewEditData.id,
-                        review_text: reviewEditData.review_text,
-                        rating: reviewEditData.rating,
-                    })
-                })
+        e.preventDefault();
 
-            const result = await response.json();
-            if (result.success){
-                window.location.reload()
-                alert("Successfully")
+        try {
+            const response = await axios.put(`${serverUrl}/api/review/update.php`, {
+                id: reviewEditData.id,
+                review_text: reviewEditData.review_text,
+                rating: reviewEditData.rating,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const result = response.data;
+            if (result.success) {
+                window.location.reload();
+                alert("Updated successfully");
             }
 
-        }catch (error){
-            setError(error)
-            console.warn(error)
+        } catch (error) {
+            setError(error);
+            console.warn(error);
         }
-    }
+    };
     return (
         <>
             <Modal

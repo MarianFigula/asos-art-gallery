@@ -14,6 +14,7 @@ import {ForgotPasswordSite} from "../../sites/forgotPasswordSite/ForgotPasswordS
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import {CreateArtSite} from "../../sites/createArtSite/CreateArtSite";
 import CartSite from "../../sites/cartSite/CartSite";
+import PaymentSite from "../../sites/paymentSite/PaymentSite";
 
 
 function App() {
@@ -23,8 +24,8 @@ function App() {
             <Routes>
                 <Route path={"/"} element={<MainSite/>}/>
                 <Route path={"/user-profile"} element={<UserProfileSite/>}/>
-                <Route path={"/loginSite"} element={<LoginSite/>}/>
-                <Route path={"/registerSite"} element={<RegisterSite/>}/>
+                <Route path={"/login"} element={<LoginSite/>}/>
+                <Route path={"/register"} element={<RegisterSite/>}/>
                 <Route path={"/forgot-password"} element={<ForgotPasswordSite/>}/>
                 <Route path={"/admin"} element={<AdminSite/>}/>
                 <Route path={"/admin-edit-user/:id"} element={<AdminEditUserSite/>}/>
@@ -32,6 +33,7 @@ function App() {
                 <Route path={"/review-history"} element={<UserReviewsSite/>}/>
                 <Route path={"/upload-art"} element={<CreateArtSite/>}/>
                 <Route path={"/cart"} element={<CartSite/>}/>
+                <Route path={"/payment"} element={<PaymentSite/>}/>
             </Routes>
             <Footer />
         </>
