@@ -15,6 +15,7 @@
   --yellow: #eeba0b;
   --green: #2a9d8f;
   --dark-green: #287271;
+  --green-confirm: #06d6a0;
   --danger: #d62828;
 
 }
@@ -44,4 +45,12 @@ body {
 
 footer {
   margin-top: auto;
+}
+
+.color-green {
+  color: var(--green-confirm);
+}
+
+.color-danger {
+  color: var(--danger);
 }

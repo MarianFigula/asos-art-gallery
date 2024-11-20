@@ -15,6 +15,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import {CreateArtSite} from "../../sites/createArtSite/CreateArtSite";
 import CartSite from "../../sites/cartSite/CartSite";
 import PaymentSite from "../../sites/paymentSite/PaymentSite";
+import {PaymentAccepted} from "../../sites/paymentAcceptedSite/PaymentAccepted";
+import {PaymentDenied} from "../../sites/paymentDeniedSite/PaymentDenied";
 
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
                 <Route path={"/upload-art"} element={<CreateArtSite/>}/>
                 <Route path={"/cart"} element={<CartSite/>}/>
                 <Route path={"/payment"} element={<PaymentSite/>}/>
+                <Route path={"/payment-accepted"} element={<PaymentAccepted/>}/>
+                <Route path={"/payment-denied"} element={<PaymentDenied/>}/>
             </Routes>
             <Footer />
         </>
