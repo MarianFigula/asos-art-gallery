@@ -212,3 +212,29 @@
         max-height: 50vh;
     }
 }
+
+@media screen and (max-width: 768px) {
+    .main-content{
+        margin-top: 20vh;
+    }
+}
+
+
+
+.bi-cart {
+    position: relative;
+    &::after {
+        content: '50';
+        text-align: center;
+        background-color: var(--danger);
+        width: 20px;
+        height: 18px;
+        border-radius: 50%;
+        padding: 1px;
+        top: -6px;
+        right: -7px;
+        position: absolute;
+        font-style: normal;
+        font-size: 0.75rem;
+    }
+}

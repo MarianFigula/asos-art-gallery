@@ -34,9 +34,6 @@ nav {
                 font-size: 20px;
                 font-weight: bold;
                 display: flex;
-                h1 {
-                    width: max-content;
-                }
                 i {
                     font-size: 2rem;
                 }

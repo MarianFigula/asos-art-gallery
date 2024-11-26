@@ -46,7 +46,7 @@ export function Art({art, handleClick, openArtImageModalClick}) {
                         className="button-add-to-cart"
                         onClick={handleClick}
                     >
-                        <i className="bi bi-cart3"></i>
+                        <i className="bi bi-cart"></i>
                         Add to cart
                     </button>
                 </div>
