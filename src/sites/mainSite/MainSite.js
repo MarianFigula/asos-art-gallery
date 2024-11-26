@@ -547,8 +547,9 @@ export function MainSite() {
         setSelectedArtId(artId); // set the art id when opening the modal
         setIsArtModalOpen(true); // open the modal
     };
-    const handleReviewSubmit = async () => {
+    const handleReviewSubmit = async (e) => {
         // Submit review with selectedArtId, reviewText, and rating
+        e.preventDefault()
         try {
             const response = await axios.post(`${serverUrl}/api/review/create.php`, {
                 email: email,
@@ -566,6 +567,7 @@ export function MainSite() {
             if (result.success) {
                 console.log("success");
                 setIsArtModalOpen(false);
+                window.location.reload();
             }
         } catch (error) {
             setError(error.message);
