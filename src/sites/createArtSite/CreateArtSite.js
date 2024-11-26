@@ -1,7 +1,9 @@
 import {Form} from "../../components/form/Form";
 import {FormInput} from "../../components/formInput/FormInput";
 import {useLocation} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import React, {useState} from "react";
+import axios from "axios";
 
 
 export function CreateArtSite() {
@@ -13,8 +15,11 @@ export function CreateArtSite() {
     const [file, setFile] = useState(null);  // Update state for file
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
+    const navigate = useNavigate();
+
     const uploadArt = async (event) => {
         event.preventDefault();
+        setError("")
 
         if (title === "" || description === "" || price < 0 || !file) {
             setError("Some inputs are filled incorrectly");
@@ -27,18 +32,29 @@ export function CreateArtSite() {
             formData.append('title', title);
             formData.append('description', description);
             formData.append('price', price);
-            formData.append('file', file);  // Append file to FormData
+            formData.append('file', file); // Append the file itself, not just the name
 
-            const response = await fetch(`${serverUrl}/api/art/create.php`, {
-                method: "POST",
-                body: formData  // Send formData directly
-            });
+            const response = await axios.post(
+                `${serverUrl}/api/art/create.php`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
 
-            const data = await response.json();
+            const data = response.data;
             console.log(data);
+
+            if (data.success){
+                alert("Art Successfully Created")
+                navigate('/');
+            }
+
         } catch (error) {
             setError(error.message);
-            console.log(error);
+            console.error("Error creating art: ", error);
         }
     };
 

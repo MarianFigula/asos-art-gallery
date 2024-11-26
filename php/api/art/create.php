@@ -52,21 +52,21 @@ if ($method !== "POST") {
     exit();
 }
 
-$data = json_decode(file_get_contents("php://input"));
+$file = $_FILES['file'];
 
-if (empty($data->email) || empty($data->title) || empty($data->description) || empty($_FILES['file'])) {
+if (!isset($_POST['email'], $_POST['title'], $_POST['description'], $_FILES['file'])) {
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Missing required fields."]);
     exit();
 }
 
-$email = $data->email;
-$title = $data->title;
-$description = $data->description;
-$price = isset($data->price) ? intval($data->price) : null;
+$email = $_POST['email'];
+$title = $_POST['title'];
+$description = $_POST['description'];
+$price = isset($_POST['price']) ? intval($_POST['price']) : null;
 
 // Store image in 'public/art/' directory
-$targetDir = '/var/www/html/public/arts/';
+$targetDir = '../../public/arts/';
 $targetFile = $targetDir . basename($_FILES["file"]["name"]);
 $img_url = "/arts/" . basename($_FILES["file"]["name"]);
 
