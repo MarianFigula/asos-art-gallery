@@ -72,7 +72,10 @@
 
 .cart-modal-img {
     img {
-        width: 100%;
+        width: 80%;
+        object-fit: cover;
+        display: flex;
+        justify-self: center;
     }
 }
 

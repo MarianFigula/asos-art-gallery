@@ -73,6 +73,7 @@
     min-height: fit-content;
 
     img {
+        cursor: pointer;
         width: 100%;
         border-radius: 15px;
     }
