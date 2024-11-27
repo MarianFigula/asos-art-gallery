@@ -33,7 +33,7 @@ class Cart {
         $this->user_id = $user_id;
     }
 
-    public function createCart($artIds) {
+    public function createCart() {
         $this->conn->beginTransaction();
 
         try {
