@@ -115,3 +115,28 @@ CREATE TABLE IF NOT EXISTS `credit_card`
 
 ALTER TABLE `credit_card` ADD FOREIGN KEY (`user_id`)
     REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+-- Create the `cart` table
+CREATE TABLE IF NOT EXISTS `cart`
+(
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT UNSIGNED NOT NULL,
+    FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+
+-- Create the `cart_art` table
+CREATE TABLE IF NOT EXISTS `cart_art`
+(
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `cart_id` INT UNSIGNED NOT NULL,
+    `art_id` INT UNSIGNED NOT NULL
+);
+
+-- Add foreign keys for `cart_art` separately
+ALTER TABLE `cart_art`
+    ADD FOREIGN KEY (`cart_id`) REFERENCES `cart`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `cart_art`
+    ADD FOREIGN KEY (`art_id`) REFERENCES `art`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
