@@ -10,7 +10,6 @@ $db = $database->getConnection();
 $cart = new Cart($db);
 
 $method = $_SERVER['REQUEST_METHOD'];
-$cart_id = isset($_GET['id']) ? $_GET['id'] : null;
 
 if ($method !== "DELETE") {
     http_response_code(405);
@@ -21,24 +20,29 @@ if ($method !== "DELETE") {
     exit();
 }
 
-if ($cart_id == null || !is_numeric($cart_id)) {
+$data = json_decode(file_get_contents("php://input"));
+
+if (!isset($data->cart_id)) {
+    http_response_code(400);
     echo json_encode(["message" => "Cart ID is required and should be a number."]);
-    http_response_code(400); // Bad Request
     exit;
 }
 
-$cart->setId($cart_id);
-if ($cart->deleteCartById()) {
-    echo json_encode([
-        "success" => true,
-        "message" => "Cart deleted successfully."
-    ]);
-} else {
-    echo json_encode([
-        "success" => false,
-        "message" => "Failed to delete cart."
-    ]);
-    http_response_code(500);
-}
+$cart->setId($data->cart_id);
+
+// TODO: if user will be deleted, uncomment code below
+
+//if ($cart->deleteCartById()) {
+//    echo json_encode([
+//        "success" => true,
+//        "message" => "Cart deleted successfully."
+//    ]);
+//} else {
+//    echo json_encode([
+//        "success" => false,
+//        "message" => "Failed to delete cart."
+//    ]);
+//    http_response_code(500);
+//}
 
 ?>
