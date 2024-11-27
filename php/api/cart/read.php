@@ -11,9 +11,8 @@ $db = $database->getConnection();
 $cart = new Cart($db);
 
 $method = $_SERVER['REQUEST_METHOD'];
-$cart_id = isset($_GET['id']) ? $_GET['id'] : null;
 
-if ($method == "POST" || $method == "PUT" || $method == "DELETE") {
+if ($method != "POST") {
     http_response_code(405);
     echo json_encode([
         "success" => false,
@@ -22,32 +21,50 @@ if ($method == "POST" || $method == "PUT" || $method == "DELETE") {
     exit();
 }
 
-if ($cart_id == null || !is_numeric($cart_id)) {
-    echo json_encode(["message" => "Cart ID is required and should be a number."]);
-    http_response_code(400);
-    exit;
-}
+if (isset($_GET['id'])) {
+    $cart->setId($_GET['id']);
+    $stmt = $cart->getCartById();
 
-$cart->setId($cart_id);
-$stmt = $cart->getCartById();
-$num = $stmt->rowCount();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($num > 0) {
-    $cart_data = [];
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $cart_data[] = $row;
+    if (!$row) {
+        http_response_code(404);
+        echo json_encode([
+            "success" => false,
+            "message" => "Cart not found."
+        ]);
+        exit();
     }
 
+    http_response_code(200);
     echo json_encode([
         "success" => true,
-        "cart" => $cart_data
+        "data" => $row
     ]);
-} else {
+    exit();
+
+}
+
+if (isset($_GET['user_id'])) {
+    $cart->setUserId($_GET['user_id']);
+    $stmt = $cart->getCartByUserId();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$row) {
+        http_response_code(404);
+        echo json_encode([
+            "success" => false,
+            "message" => "Cart not found."
+        ]);
+        exit();
+    }
+
+    http_response_code(200);
     echo json_encode([
-        "success" => false,
-        "message" => "Cart not found."
+        "success" => true,
+        "data" => $row
     ]);
-    http_response_code(404);
+    exit();
 }
 
 ?>
