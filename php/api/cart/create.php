@@ -11,12 +11,14 @@ $database = new Database();
 $db = $database->getConnection();
 
 $cart = new Cart($db);
+$user = new User($db);
+$art = new Art($db);
 
 $method = $_SERVER['REQUEST_METHOD'];
 
 $data = json_decode(file_get_contents("php://input"));
 
-if ($method == "GET"){
+if ($method != "POST"){
     http_response_code(405);
     echo json_encode([
         "success" => false,
@@ -24,26 +26,31 @@ if ($method == "GET"){
     exit();
 }
 
-if (!isset($data->user_id) || !isset($data->art_ids) || !is_array($data->art_ids)) {
-    echo json_encode(["message" => "Invalid input. User ID and Art IDs are required."]);
+if (!isset($data->user_id)) {
     http_response_code(400);
+    echo json_encode(["message" => "Invalid input. User ID are required."]);
     exit;
 }
 
-$cart->setUserId($data->user_id);
+try {
+    $cart->setUserId($data->user_id);
+    $stmt = $cart->createCart();
 
-$artIds = $data->art_ids;
+    if ($art->createArt()) {
+        http_response_code(201);
+        echo json_encode([
+            "success" => true,
+            "message" => "Art successfully created."
+        ]);
+    } else {
+        throw new Exception("Failed to create art.");
+    }
 
-if ($cart->createCart($artIds)) {
-    echo json_encode(array("message" => "Cart created successfully"));
-} else {
-    echo json_encode(array("message" => "Failed to create cart"));
+} catch (InvalidArgumentException $e) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => $e->getMessage()]);
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => $e->getMessage()]);
 }
-
-http_response_code(201);
-echo json_encode([
-    "success" => true,
-    "message" => "Cart successfully created."
-]);
-
 ?>
