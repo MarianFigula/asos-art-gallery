@@ -140,3 +140,8 @@ ALTER TABLE `cart_art`
 
 ALTER TABLE `cart_art`
     ADD FOREIGN KEY (`art_id`) REFERENCES `art`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+INSERT INTO `cart` (`user_id`)
+SELECT `id`
+FROM `user`;
