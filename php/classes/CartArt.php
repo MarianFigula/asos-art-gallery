@@ -8,10 +8,7 @@ class CartArt
     private int $cartId;
     private int $artId;
 
-    public function __construct($db)
-    {
-        $this->conn = $db;
-    }
+    public function __construct($db) { $this->conn = $db;}
 
     public function getId(): int
     {
@@ -66,7 +63,7 @@ class CartArt
 
             return $stmt->execute();
 
-        } catch (Exception $e) {
+        }catch (Exception $e){
             throw $e;
         }
     }
@@ -102,15 +99,29 @@ class CartArt
 
     /**
      * Remove all rows when the user will buy the arts
+     * @return void
      */
-    public function clearCartArt()
+    public function clearCartArt(array $artIds): void
     {
         try {
-            $query = "DELETE FROM cart_art WHERE cart_id = :cart_id";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':cart_id', $this->cartId);
-            return $stmt->execute();
+            // Build a parameterized query with placeholders for the art IDs
+            $placeholders = implode(',', array_fill(0, count($artIds), '?'));
 
+            // Define the SQL query
+            $query = "DELETE FROM " . $this->table_name . " WHERE cart_id = ? AND art_id IN ($placeholders)";
+
+            // Prepare the statement
+            $stmt = $this->conn->prepare($query);
+
+            $stmt->bindParam(1, $this->cartId);
+
+            // Bind the `art_id` values dynamically
+            foreach ($artIds as $index => $artId) {
+                $stmt->bindValue($index + 2, $artId); // Start from the second parameter
+            }
+
+            // Execute the statement
+            $stmt->execute();
         } catch (Exception $e) {
             throw $e; // Rethrow the exception for error handling
         }
