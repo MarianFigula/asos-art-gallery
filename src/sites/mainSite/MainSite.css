@@ -221,9 +221,10 @@
 
 
 
-.bi-cart {
+.bi-cart.items-in-cart {
     position: relative;
     &::after {
+        position: absolute;
         content: '50';
         text-align: center;
         background-color: var(--danger);
@@ -233,7 +234,6 @@
         padding: 1px;
         top: -6px;
         right: -7px;
-        position: absolute;
         font-style: normal;
         font-size: 0.75rem;
     }
