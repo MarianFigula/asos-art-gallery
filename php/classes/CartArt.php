@@ -41,6 +41,15 @@ class CartArt
     }
 
 
+    public function getCartArtsByUserId()
+    {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $this->user_id);
+        $stmt->execute();
+        return $stmt;
+    }
+
     public function createCartArt()
     {
         try {
