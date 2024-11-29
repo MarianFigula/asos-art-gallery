@@ -7,10 +7,6 @@ export function Art({art, handleClick, openArtImageModalClick}) {
 
     const [isArtImageModalOpen, setIsArtImageModalOpen] = useState(false)
 
-    const openImageModal = () => {
-        setIsArtImageModalOpen(true)
-    }
-
     return (
         <>
             <Modal
