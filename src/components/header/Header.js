@@ -24,7 +24,7 @@ export function Header() {
                         <li><Link to="/"><h1>FEI Art Gallery</h1></Link></li>
                         <li><Link to="/cart" aria-label="Cart"><i className="bi bi-cart items-in-cart" style={{fontSize: "28px"}}></i></Link></li>
                         <li><Link to="/login"><i className="bi bi-person"></i></Link></li>
-                        <li onClick={toggleSidebar}><Link to={"#"}><i className="bi bi-list"></i></Link></li>
+                        <li onClick={toggleSidebar}><Link to={"#"} aria-label="Sidebar"><i className="bi bi-list"></i></Link></li>
                         {/* Add more links as needed */}
                     </ul>
                 </nav>

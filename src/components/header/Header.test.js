@@ -23,3 +23,19 @@ test('navigates to CartSite when bi bi-cart is clicked', () => {
     expect(screen.getByText(/Shopping Cart/i)).toBeInTheDocument();
 });
 
+test('open sidebar when click on sidebar icon', () => {
+    render(
+        <MemoryRouter initialEntries={['/']}>
+            <Routes>
+                <Route path="/" element={<Header />} />
+            </Routes>
+        </MemoryRouter>
+    );
+
+    const sidebarLink = screen.getByRole('link', { name: /sidebar/i });
+
+
+    fireEvent.click(sidebarLink);
+
+    expect(screen.getByText(/Login/i)).toBeInTheDocument();
+});
