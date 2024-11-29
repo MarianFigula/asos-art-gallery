@@ -32,7 +32,7 @@ $data = json_decode(file_get_contents("php://input"));
 
 $session_user_id = 8; // TODO ziskat cez session
 
-if (empty($session_user_id)){
+if (empty($session_user_id) || empty($data->art_id)){
     http_response_code(404);
     echo json_encode([
         "success" => false,
