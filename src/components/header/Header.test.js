@@ -4,6 +4,7 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { Header } from './Header';
 import CartSite from '../../sites/cartSite/CartSite.js';
 import { LoginSite } from '../../sites/loginSite/LoginSite.js';
+import { MainSite } from '../../sites/mainSite/MainSite.js';
 import '@testing-library/jest-dom';
 
 test('navigates to CartSite when bi bi-cart is clicked', () => {
@@ -61,3 +62,18 @@ test('navigates to SignIn when bi bi-person is clicked', () => {
     expect(signInHeader).toBeInTheDocument();
 });
 
+test('navigates to MainSite when the link is clicked', () => {
+    render(
+        <MemoryRouter initialEntries={['/']}>
+            <Routes>
+                {/* Render both Header and MainSite at the root path */}
+                <Route path="/" element={<><Header /><MainSite /></>} />
+            </Routes>
+        </MemoryRouter>
+    );
+
+    const link = screen.getByLabelText(/MainSite/i);
+
+    fireEvent.click(link);
+    expect(screen.getByText(/Discover new Arts/i)).toBeInTheDocument();
+});
