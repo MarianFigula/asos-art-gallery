@@ -36,7 +36,7 @@ if (empty($session_user_id) || empty($data->art_id)){
     http_response_code(404);
     echo json_encode([
         "success" => false,
-        "message" => "User not found."
+        "message" => "User or Art not found."
     ]);
     exit;
 }
