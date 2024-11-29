@@ -30,12 +30,14 @@ header("Content-Type: application/json");
 
 include_once '../../config/Database.php';
 include_once '../../classes/User.php';
+include_once '../../classes/Cart.php';
 include_once "../../config/cors.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
 $user = new User($db);
+$cart = new Cart($db);
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -66,6 +68,8 @@ try {
     $user->setRole($data['role'] ?? 'U');
 
     if ($user->createUser()) {
+        // todo - ziskat id noveho usera a vytvorit cart
+
         http_response_code(201); // Created
         echo json_encode(["success" => true, "message" => "User created successfully."]);
     } else {
