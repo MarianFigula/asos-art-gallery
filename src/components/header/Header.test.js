@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { Header } from './Header';
 import CartSite from '../../sites/cartSite/CartSite.js';
+import { LoginSite } from '../../sites/loginSite/LoginSite.js';
 import '@testing-library/jest-dom';
 
 test('navigates to CartSite when bi bi-cart is clicked', () => {
@@ -39,3 +40,24 @@ test('open sidebar when click on sidebar icon', () => {
 
     expect(screen.getByText(/Login/i)).toBeInTheDocument();
 });
+
+test('navigates to SignIn when bi bi-person is clicked', () => {
+    render(
+        <MemoryRouter initialEntries={['/']}>
+            <Routes>
+                <Route path="/" element={<Header />} />
+                <Route path="/login" element={<LoginSite />} />
+            </Routes>
+        </MemoryRouter>
+    );
+
+    const signInLink = screen.getByRole('link', { name: /SignIn/i });
+    fireEvent.click(signInLink);
+
+    const signInButton = screen.getByRole('button', { name: /Sign In/i });
+    expect(signInButton).toBeInTheDocument();
+
+    const signInHeader = screen.getByRole('heading', { name: /Sign In/i });
+    expect(signInHeader).toBeInTheDocument();
+});
+
