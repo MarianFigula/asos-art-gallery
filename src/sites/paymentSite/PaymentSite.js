@@ -1,6 +1,7 @@
 import {Form} from "../../components/form/Form";
 import React, {useState} from "react";
 import {FormInput} from "../../components/formInput/FormInput";
+import {useLocation, useNavigate} from "react-router-dom";
 
 
 export default function PaymentSite(){
@@ -10,6 +11,9 @@ export default function PaymentSite(){
     const [name, setName] = useState("")
     const [expirationDate, setExpirationDate] = useState("")
     const [cvc, setCVC] = useState("")
+    const location = useLocation();
+    const { totalToPay } = location.state || {}; // Access the totalToPay from the state
+    const navigate = useNavigate()
 
     // Validation functions
     const validateFullName = (name) => /^[a-zA-Z]+ [a-zA-Z]+$/.test(name); // Requires a first and last name
@@ -123,8 +127,13 @@ export default function PaymentSite(){
             </div>
             <section className="order-summary pt-1 pb-1">
                 <div>
-                    <button className="button-light">Back to my order</button>
+                    <button className="button-light" onClick={() => navigate("/cart")}>Back to my order</button>
                 </div>
+                {totalToPay &&
+                    <h3 className="mb-0 mt-0">
+                        Total: <span className="price">{totalToPay}€</span>
+                    </h3>
+                }
             </section>
         </>
     )
