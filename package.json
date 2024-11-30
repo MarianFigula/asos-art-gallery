@@ -2,7 +2,11 @@
   "name": "pkrim-art-gallery",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:8000",
+
+  "options": {
+    "allowedHosts": ["localhost", ".localhost"],
+    "proxy": "http://127.0.0.1:8000"
+  },
   "dependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@testing-library/react": "^13.4.0",
@@ -16,7 +20,7 @@
     "react-router-dom": "^6.26.1",
     "react-scripts": "^5.0.1",
     "styled-components": "^6.1.12",
-    "web-vitals": "^2.1.4",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
