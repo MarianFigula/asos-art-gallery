@@ -51,9 +51,9 @@ export default function CartSite() {
 
                 {cartArtDetails.length > 0 ? (
                     <section className="cart-items">
-                        {cartArtDetails.map((art, index) => (
+                        {cartArtDetails.map((art) => (
                             <CartItem
-                                key={index}
+                                key={art.id}
                                 artTitle={art.title}
                                 imgUrl={art.img_url}
                                 authorName={art.author_name}
