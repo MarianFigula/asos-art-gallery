@@ -1,0 +1,16 @@
+config:
+  target: 'http://localhost:3000/'
+  phases:
+    - duration: 60  # The test will run for 60 seconds
+      arrivalRate: 10  # Simulate 10 users per second
+    - duration: 120  # Then sustain this load for 120 seconds
+      arrivalRate: 10  # Simulate 20 users per second
+
+scenarios:
+  - flow:
+      - get:
+          url: 'http://localhost:3000/'  # Simulate clicking the homepage URL
+      - think: 5  # Wait for 5 seconds before simulating the next action (e.g., clicking a link, loading new content)
+      - get:
+          url: 'http://localhost:3000/cart'  # Simulate a user navigating to another page
+

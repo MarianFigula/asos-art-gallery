@@ -24,15 +24,16 @@ export function Header() {
             <header>
                 <nav>
                     <ul>
-                        <li><Link to="/"><h1>FEI Art Gallery</h1></Link></li>
+                        <li><Link to="/"><span className="hidden">MainSite</span><h1>FEI Art Gallery</h1></Link></li>
                         <li>
-                            <Link to="/cart" aria-label="Cart"><i className="bi bi-cart" style={{fontSize: "28px"}}>
+                            <Link to="/cart" ><i className="bi bi-cart" style={{fontSize: "28px"}}>
                                 {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
                             </i>
+                                <span className="hidden">Cart</span>
                             </Link>
                         </li>
-                        <li><Link to="/login"><i className="bi bi-person"></i></Link></li>
-                        <li onClick={toggleSidebar}><Link to={"#"}><i className="bi bi-list"></i></Link></li>
+                        <li><Link to="/login"><i className="bi bi-person"></i><span className="hidden">SignIn</span></Link></li>
+                        <li onClick={toggleSidebar}><Link to={"#"}><i className="bi bi-list"></i><span className="hidden">sidebar</span></Link></li>
                         {/* Add more links as needed */}
                     </ul>
                 </nav>
