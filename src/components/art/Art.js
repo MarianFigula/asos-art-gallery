@@ -7,7 +7,8 @@ import {useCart} from "../cartProvider/CartProvider";
 
 export function Art({art}) {
     const { incrementCartCount } = useCart();
-    const [isArtImageModalOpen, setIsArtImageModalOpen] = useState(false)
+    const [isArtImageModalOpen, setIsArtImageModalOpen] = useState(false);
+    const [isAddedToCart, setIsAddedToCart] = useState(false);
 
     async function handleAddToCartClick() {
         const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -27,14 +28,14 @@ export function Art({art}) {
             const result = response.data;
             if (result.success) {
                 console.log("success");
-                incrementCartCount()
+                incrementCartCount();
+                setIsAddedToCart(true); // Disable the button
             }
         } catch (error) {
             console.error("Error adding art to cart:", error);
             alert("An error occurred while adding art to cart.");
         }
     }
-
 
     return (
         <>
@@ -53,8 +54,7 @@ export function Art({art}) {
 
             <div className="art-wrapper">
                 <div className="img-wrapper" onClick={() => setIsArtImageModalOpen(true)}>
-                    <ArtImage imgUrl={art.img_url}/>
-
+                    <ArtImage imgUrl={art.img_url} />
                 </div>
                 <div className="img-info">
                     <div className="space-between-for-two-components">
@@ -67,15 +67,22 @@ export function Art({art}) {
                 </div>
                 <div className="space-between-for-two-components">
                     <p className="price">{art.price}€</p>
-                    <button
-                        className="button-add-to-cart"
-                        onClick={handleAddToCartClick}
-                    >
-                        <i className="bi bi-cart"></i>
-                        Add to cart
-                    </button>
+                    {isAddedToCart ? (
+                        <button className="button-disabled" disabled>
+                            <i className="bi bi-check-circle"></i>
+                            Added
+                        </button>
+                    ) : (
+                        <button
+                            className="button-add-to-cart"
+                            onClick={handleAddToCartClick}
+                        >
+                            <i className="bi bi-cart"></i>
+                            Add to cart
+                        </button>
+                    )}
                 </div>
             </div>
         </>
-    )
+    );
 }

@@ -5,7 +5,7 @@ const CartContext = createContext();
 
 // Cart Provider Component
 export function CartProvider({ children }) {
-    const [cartCount, setCartCount] = useState(1);
+    const [cartCount, setCartCount] = useState(0);
 
     const incrementCartCount = () => setCartCount(prev => prev + 1);
     const decrementCartCount = () => setCartCount(prev => Math.max(prev - 1, 0));

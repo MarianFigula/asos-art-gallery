@@ -102,7 +102,7 @@ textarea {
 }
 
 
-.button-add-to-cart {
+.button-add-to-cart, .button-disabled {
     width: max(10vw, 130px);
     padding: 10px;
     font-size: 1rem;
@@ -114,11 +114,15 @@ textarea {
     i {
         margin-right: 10px;
     }
-    &:hover {
-        background-color: var(--grey);
-    }
 }
 
+.button-add-to-cart:hover {
+    background-color: var(--grey);
+}
+
+.button-disabled {
+    cursor: default;
+}
 
 .links{
     margin-top: 1rem;
