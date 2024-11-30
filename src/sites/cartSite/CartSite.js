@@ -10,7 +10,7 @@ import {useCart} from "../../components/cartProvider/CartProvider";
 import {redirect, useNavigate} from "react-router-dom";
 
 export default function CartSite() {
-    const { cartArtDetails } = useCart(); // Use cartArtDetails from context
+    const { cartArtDetails, removeFromCart } = useCart(); // Use cartArtDetails from context
     const [isCartModalOpen, setIsCartModalOpen] = useState(false)
     const [totalToPay, setTotalToPay ] = useState()
 
@@ -27,21 +27,26 @@ export default function CartSite() {
         setIsCartModalOpen(true)
     }
 
+    console.log("cd", cartArtDetails)
+
     return (
         <>
-            <Modal
-                isOpen={isCartModalOpen}
-                title="Art Title"
-                onClose={() => setIsCartModalOpen(false)}
-            >
-                <div className="cart-modal-img">
-                    <ArtImage imgUrl={cartArtDetails[0]?.img_url} />
-                </div>
-                <div className="space-between-for-two-components">
-                    <p>by {cartArtDetails[0]?.author_name}</p>
-                    <p className="price">{cartArtDetails[0]?.price}€</p>
-                </div>
-            </Modal>
+            {cartArtDetails && cartArtDetails.length > 0 ? (
+                <Modal
+                    isOpen={isCartModalOpen}
+                    title="Art Title"
+                    onClose={() => setIsCartModalOpen(false)}
+                >
+                    <div className="cart-modal-img">
+                        <ArtImage imgUrl={cartArtDetails[0]?.img_url} />
+                    </div>
+                    <div className="space-between-for-two-components">
+                        <p>by {cartArtDetails[0]?.author_name}</p>
+                        <p className="price">{cartArtDetails[0]?.price}€</p>
+                    </div>
+                </Modal>
+            ): <></>}
+
 
             <div className="cart-payment-wrapper">
                 <div className="cart-payment-header">
@@ -58,7 +63,8 @@ export default function CartSite() {
                                 imgUrl={art.img_url}
                                 authorName={art.author_name}
                                 price={art.price}
-                                onClick={showArtModal}
+                                onClickDisplayImage={showArtModal}
+                                onClickDeleteArtFromCart={() => removeFromCart(art.art_id)} // Call removeFromCart
                             />
                         ))}
                     </section>

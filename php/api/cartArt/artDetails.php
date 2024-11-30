@@ -56,14 +56,6 @@ $artIds = implode(",", array_map('intval', $data['art_ids'])); // Sanitize and j
 $stmt = $art->getArtByIds($artIds); // Assuming you have a method in Art class to handle this
 $arts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if (empty($arts)) {
-    http_response_code(404);
-    echo json_encode([
-        "success" => false,
-        "message" => "No artworks found for the specified IDs."
-    ]);
-    exit();
-}
 
 http_response_code(200);
 echo json_encode([
