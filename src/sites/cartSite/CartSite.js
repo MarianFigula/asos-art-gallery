@@ -12,15 +12,16 @@ import {redirect, useNavigate} from "react-router-dom";
 export default function CartSite() {
     const { cartArtDetails, removeFromCart } = useCart(); // Use cartArtDetails from context
     const [isCartModalOpen, setIsCartModalOpen] = useState(false)
-    const [totalToPay, setTotalToPay ] = useState()
+    const [totalToPay, setTotalToPay ] = useState(0)
 
     const navigate = useNavigate()
 
     useEffect(() => {
         const total = cartArtDetails.reduce((sum, art) => {
-            return sum + (art.price || 0); // Add price for each art
+            return parseInt(sum) + (parseInt(art.price) || 0); // Add price for each art
         }, 0);
         setTotalToPay(total); // Set the calculated total
+        console.log("totaltopay", totalToPay)
     }, [cartArtDetails]); // Recalculate total if cartArtDetails changes
 
     function showArtModal() {
