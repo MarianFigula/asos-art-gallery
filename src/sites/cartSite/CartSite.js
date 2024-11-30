@@ -6,74 +6,67 @@ import Camera2 from "../../assets/user-pictures/camera-2.png"
 import {Modal} from "../../components/modal/Modal";
 import {ArtImage} from "../../components/artImage/artImage";
 import {useState} from "react";
+import {useCart} from "../../components/cartProvider/CartProvider";
 
 export default function CartSite() {
-
+    const { cartArtDetails } = useCart(); // Use cartArtDetails from context
     const [isCartModalOpen, setIsCartModalOpen] = useState(false)
 
     function showArtModal() {
         setIsCartModalOpen(true)
     }
 
-    const test = 1;
     return (
         <>
             <Modal
                 isOpen={isCartModalOpen}
-                title="arttitle"
-                onClose={() => setIsCartModalOpen(false)}>
+                title="Art Title"
+                onClose={() => setIsCartModalOpen(false)}
+            >
                 <div className="cart-modal-img">
-                    <ArtImage imgUrl={Camera}></ArtImage>
+                    <ArtImage imgUrl={cartArtDetails[0]?.img_url} />
                 </div>
                 <div className="space-between-for-two-components">
-                    <p>by artauthor</p>
-                    <p className="price">100€</p>
+                    <p>by {cartArtDetails[0]?.author_name}</p>
+                    <p className="price">{cartArtDetails[0]?.price}€</p>
                 </div>
             </Modal>
+
             <div className="cart-payment-wrapper">
                 <div className="cart-payment-header">
                     <h1>Shopping Cart</h1>
                     <p className="mb-3">Your Items</p>
                 </div>
-                {test === 1 ?
-                    <>
-                        <section className="cart-items">
+
+                {cartArtDetails.length > 0 ? (
+                    <section className="cart-items">
+                        {cartArtDetails.map((art, index) => (
                             <CartItem
-                                artTitle={"arttitle"}
-                                imgUrl={Camera}
-                                authorName={"authorname"}
-                                price={"100"}
+                                key={index}
+                                artTitle={art.title}
+                                imgUrl={art.img_url}
+                                authorName={art.author_name}
+                                price={art.price}
                                 onClick={showArtModal}
                             />
-                            <CartItem
-                                artTitle={"arttitle"}
-                                imgUrl={Camera}
-                                authorName={"authorname"}
-                                price={"100"}
-                            />
-                            <CartItem
-                                artTitle={"arttitle"}
-                                imgUrl={Camera2}
-                                authorName={"authorname"}
-                                price={"100"}
-                            />
-                        </section>
-                    </>
-                    :
-                    <h1 className="text-center">
-                        Your shopping cart is empty
-                    </h1>
-                }
+                        ))}
+                    </section>
+                ) : (
+                    <h1 className="text-center">Your shopping cart is empty</h1>
+                )}
             </div>
-            {test === 1 ?
+
+            {cartArtDetails.length > 0 && (
                 <section className="order-summary">
                     <div>
                         <button className="button-light">Continue shopping</button>
                     </div>
-                    <h3 className="mb-0 mt-0">To Pay: <span className="price">300 €</span></h3>
+                    <h3 className="mb-0 mt-0">
+                        To Pay: <span className="price">300 €</span>
+                    </h3>
                     <button className="button-confirm">Continue</button>
-                </section> : <></>}
+                </section>
+            )}
         </>
-
-    )
+    );
 }

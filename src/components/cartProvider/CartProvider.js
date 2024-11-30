@@ -8,6 +8,8 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
     const [cartCount, setCartCount] = useState(0);
     const [cartArtIds, setCartArtIds] = useState([])
+    const [cartArtDetails, setCartArtDetails] = useState([]); // Store full art details
+
     const serverUrl = process.env.REACT_APP_SERVER_URL
 
     async function fetchCartArtIds() {
@@ -23,10 +25,25 @@ export function CartProvider({ children }) {
             const cartArtIds = response.data.data;
             setCartArtIds(cartArtIds);
             setCartCount(cartArtIds.length)
+            await fetchArtDetails(cartArtIds);
         } catch (error) {
             console.error("Error fetching cart art IDs:", error);
         }
         
+    }
+
+    async function fetchArtDetails(artIds) {
+        try {
+            const response = await axios.post(`${serverUrl}/api/cartArt/artDetails.php`, {
+                art_ids: artIds,
+            });
+
+            // Assuming the response contains an array of art details
+            setCartArtDetails(response.data.data);
+
+        } catch (error) {
+            console.error("Error fetching art details:", error);
+        }
     }
 
     useEffect(() => {
@@ -37,7 +54,7 @@ export function CartProvider({ children }) {
     const decrementCartCount = () => setCartCount(prev => Math.max(prev - 1, 0));
 
     return (
-        <CartContext.Provider value={{ cartArtIds, cartCount, incrementCartCount, decrementCartCount }}>
+        <CartContext.Provider value={{ cartArtIds, cartCount, cartArtDetails, incrementCartCount, decrementCartCount }}>
             {children}
         </CartContext.Provider>
     );

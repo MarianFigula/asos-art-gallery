@@ -207,6 +207,35 @@ class Art {
         return $stmt;
     }
 
+    public function getArtByIds($artIds) {
+        // Ensure that the $artIds is sanitized to prevent SQL injection
+        $artIds = implode(',', array_map('intval', explode(',', $artIds))); // sanitize the input
+
+        // Update query to join with user table and get the author's name (username)
+        $query = "
+        SELECT 
+            a.id AS art_id,
+            a.user_id,
+            a.img_url,
+            a.title,
+            a.description,
+            a.price,
+            a.upload_date,
+            u.username AS author_name  -- Retrieve the username of the author
+        FROM 
+            " . $this->table_name . " a
+        JOIN 
+            user u ON a.user_id = u.id  -- Join with the user table to get the author's data
+        WHERE 
+            a.id IN ($artIds)";  // Use sanitized art IDs
+
+        // Prepare and execute the query
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        return $stmt;
+    }
+
     /**
      * Retrieves an artwork by its ID
      * @return PDOStatement Result set containing the artwork data
