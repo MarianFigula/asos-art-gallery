@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Cart art create
+ */
+
 header("Content-Type: application/json");
 
 include_once '../../config/Database.php';
@@ -30,7 +34,7 @@ if ($method !== "POST") {
 $data = json_decode(file_get_contents("php://input"));
 
 
-$session_user_id = 8; // TODO ziskat cez session
+$session_user_id = $data->user_id; // TODO ziskat cez session
 
 if (empty($session_user_id) || empty($data->art_id)){
     http_response_code(404);

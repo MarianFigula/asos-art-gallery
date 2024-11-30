@@ -72,17 +72,15 @@ class Cart {
 
     public function getCartByUserId()
     {
-        // Define the SQL query with proper formatting for readability
-        $query = "SELECT art.* FROM {$this->table_name} AS cart
-        JOIN cart_art AS cart_art_bridge ON cart.id = cart_art_bridge.cart_id
-        JOIN art ON cart_art_bridge.art_id = art.id
-        WHERE cart.user_id = :user_id";
+
+        $query = "SELECT * FROM " . $this->table_name . " WHERE user_id = :user_id";
+
 
         // Prepare the SQL statement
         $stmt = $this->conn->prepare($query);
 
         // Bind the user ID parameter
-        $stmt->bindParam(":user_id", $this->userId);
+        $stmt->bindParam(":user_id", $this->user_id);
 
         // Execute the query
         $stmt->execute();
