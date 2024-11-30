@@ -1,9 +1,12 @@
 <?php
 
-
+/**
+ * Cart art read
+ */
 header("Content-Type: application/json");
 include_once '../../config/Database.php';
 include_once '../../classes/CartArt.php';
+include_once '../../classes/Cart.php';
 include_once "../../config/cors.php";
 
 $database = new Database();
@@ -39,13 +42,14 @@ if (isset($_GET["user_id"])){
         exit();
     }
 
-    $cartArt->setCartId($row["cart_id"]);
+    $cartArt->setCartId($row["id"]);
 
     $stmt = $cartArt->getCartArtsByCartId();
     $cartArts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $artIds = array_column($cartArts, "art_id");
 
     echo json_encode([
         "success" => true,
-        "data" => $cartArts
+        "data" => $artIds
     ]);
 }
