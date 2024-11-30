@@ -5,12 +5,21 @@ import Camera from "../../assets/user-pictures/camera.png"
 import Camera2 from "../../assets/user-pictures/camera-2.png"
 import {Modal} from "../../components/modal/Modal";
 import {ArtImage} from "../../components/artImage/artImage";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useCart} from "../../components/cartProvider/CartProvider";
 
 export default function CartSite() {
     const { cartArtDetails } = useCart(); // Use cartArtDetails from context
     const [isCartModalOpen, setIsCartModalOpen] = useState(false)
+    const [totalToPay, setTotalToPay ] = useState()
+
+
+    useEffect(() => {
+        const total = cartArtDetails.reduce((sum, art) => {
+            return sum + (art.price || 0); // Add price for each art
+        }, 0);
+        setTotalToPay(total); // Set the calculated total
+    }, [cartArtDetails]); // Recalculate total if cartArtDetails changes
 
     function showArtModal() {
         setIsCartModalOpen(true)
@@ -62,7 +71,7 @@ export default function CartSite() {
                         <button className="button-light">Continue shopping</button>
                     </div>
                     <h3 className="mb-0 mt-0">
-                        To Pay: <span className="price">300 €</span>
+                        To Pay: <span className="price">{totalToPay}€</span>
                     </h3>
                     <button className="button-confirm">Continue</button>
                 </section>
