@@ -7,30 +7,35 @@ import { LoginSite } from '../../sites/loginSite/LoginSite.js';
 import { MainSite } from '../../sites/mainSite/MainSite.js';
 import '@testing-library/jest-dom';
 
+import { CartProvider } from '../cartProvider/CartProvider'; // Import CartProvider
+
 test('navigates to CartSite when bi bi-cart is clicked', () => {
     render(
         <MemoryRouter initialEntries={['/']}>
-            <Routes>
-                <Route path="/" element={<Header />} />
-                <Route path="/cart" element={<CartSite />} />
-            </Routes>
+            <CartProvider>  {/* Wrap with CartProvider */}
+                <Routes>
+                    <Route path="/" element={<Header />} />
+                    <Route path="/cart" element={<CartSite />} />
+                </Routes>
+            </CartProvider>
         </MemoryRouter>
     );
 
     const cartLink = screen.getByRole('link', { name: /cart/i });
-
-
     fireEvent.click(cartLink);
 
     expect(screen.getByText(/Shopping Cart/i)).toBeInTheDocument();
 });
 
+
 test('open sidebar when click on sidebar icon', () => {
     render(
         <MemoryRouter initialEntries={['/']}>
-            <Routes>
-                <Route path="/" element={<Header />} />
-            </Routes>
+            <CartProvider>
+                <Routes>
+                    <Route path="/" element={<Header />} />
+                </Routes>
+            </CartProvider>
         </MemoryRouter>
     );
 
@@ -45,10 +50,12 @@ test('open sidebar when click on sidebar icon', () => {
 test('navigates to SignIn when bi bi-person is clicked', () => {
     render(
         <MemoryRouter initialEntries={['/']}>
-            <Routes>
-                <Route path="/" element={<Header />} />
-                <Route path="/login" element={<LoginSite />} />
-            </Routes>
+            <CartProvider>
+                <Routes>
+                    <Route path="/" element={<Header />} />
+                    <Route path="/login" element={<LoginSite />} />
+                </Routes>
+            </CartProvider>
         </MemoryRouter>
     );
 
@@ -65,14 +72,16 @@ test('navigates to SignIn when bi bi-person is clicked', () => {
 test('navigates to MainSite when the link is clicked', () => {
     render(
         <MemoryRouter initialEntries={['/']}>
-            <Routes>
-                {/* Render both Header and MainSite at the root path */}
-                <Route path="/" element={<><Header /><MainSite /></>} />
-            </Routes>
+            <CartProvider>
+                <Routes>
+                    {/* Render both Header and MainSite at the root path */}
+                    <Route path="/" element={<><Header /><MainSite /></>} />
+                </Routes>
+            </CartProvider>
         </MemoryRouter>
     );
 
-    const link = screen.getByLabelText(/MainSite/i);
+    const link = screen.getByRole('link', { name: /MainSite/ });
 
     fireEvent.click(link);
     expect(screen.getByText(/Discover new Arts/i)).toBeInTheDocument();
