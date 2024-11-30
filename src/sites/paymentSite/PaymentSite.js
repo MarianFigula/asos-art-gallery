@@ -16,7 +16,7 @@ export default function PaymentSite(){
     const location = useLocation();
     const { totalToPay } = location.state || {}; // Access the totalToPay from the state
     const navigate = useNavigate()
-    const { cartCount, cartArtIds, clearCart } = useCart(); // Include clearCart
+    const { cartArtIds, clearCart } = useCart(); // Include clearCart
     const serverUrl = process.env.REACT_APP_SERVER_URL
 
     // Validation functions
