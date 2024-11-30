@@ -1,16 +1,77 @@
+#Test1 LoadTest
+
+#config:
+#  target: 'http://localhost:3000/'
+#  phases:
+#    - duration: 60  # The test will run for 60 seconds
+#      arrivalRate: 10  # Simulate 10 users per second
+#    - duration: 120  # Then sustain this load for 120 seconds
+#      arrivalRate: 10  # Simulate 20 users per second
+#
+#scenarios:
+#  - flow:
+#      - get:
+#          url: '/'  # Simulate clicking the homepage URL
+#      - think: 5  # Wait for 5 seconds before simulating the next action (e.g., clicking a link, loading new content)
+#      - get:
+#          url: '/login'  # Simulate a user navigating to another page
+#
+
+
+#Test2 LoadTest
+#config:
+#  target: 'http://localhost:3000/'
+#  phases:
+#    - duration: 60
+#      arrivalRate: 10  # 10 users per second for 60 seconds
+#    - duration: 120
+#      arrivalRate: 10  # Continue with 10 users per second
+#    - duration: 30
+#      arrivalRate: 100  # Spike: Simulate 100 users per second for 30 seconds
+#    - duration: 60
+#      arrivalRate: 10  # Drop back down to normal traffic
+#
+#scenarios:
+#  - flow:
+#      - get:
+#          url: '/'  # Simulate user accessing the homepage
+#      - think: 5  # Wait for 5 seconds before next action
+#      - get:
+#          url: '/cart'  # Simulate user going to cart page
+#      - think: 3
+#      - post:
+#          url: '/login'  # Simulate a login action
+#          json:
+#            username: 'user'
+#            password: 'password'
+#      - think: 5
+#      - get:
+#          url: '/profile'  # Simulate a user visiting the profile page
+
+#Test3 LoadTest
 config:
   target: 'http://localhost:3000/'
   phases:
-    - duration: 60  # The test will run for 60 seconds
-      arrivalRate: 10  # Simulate 10 users per second
-    - duration: 120  # Then sustain this load for 120 seconds
-      arrivalRate: 10  # Simulate 20 users per second
+    - duration: 60
+      arrivalRate: 10  # 10 users per second
+    - duration: 60
+      arrivalRate: 20  # Increase to 20 users per second
+    - duration: 60
+      arrivalRate: 40  # Increase to 40 users per second
+    - duration: 60
+      arrivalRate: 80  # Increase to 80 users per second
+    - duration: 60
+      arrivalRate: 160  # Ramp up to 160 users per second
 
 scenarios:
   - flow:
       - get:
-          url: 'http://localhost:3000/'  # Simulate clicking the homepage URL
-      - think: 5  # Wait for 5 seconds before simulating the next action (e.g., clicking a link, loading new content)
+          url: '/'
+      - think: 3
       - get:
-          url: 'http://localhost:3000/cart'  # Simulate a user navigating to another page
+          url: '/register'
+      - think: 5
+      - get:
+          url: '/cart'
+      - think: 5
 
