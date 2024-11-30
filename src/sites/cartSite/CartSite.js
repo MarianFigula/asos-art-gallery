@@ -75,7 +75,8 @@ export default function CartSite() {
                     <h3 className="mb-0 mt-0">
                         Total: <span className="price">{totalToPay}€</span>
                     </h3>
-                    <button className="button-confirm" onClick={() => navigate("/payment")}>Continue</button>
+                    <button className="button-confirm" onClick={() => navigate("/payment", { state: { totalToPay } })}
+                    >Continue</button>
                 </section>
             )}
         </>
