@@ -43,9 +43,9 @@ class CartArt
 
     public function getCartArtsByCartId()
     {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE cart_id = :user_id";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE cart_id = :cart_id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":user_id", $this->user_id);
+        $stmt->bindParam(":cart_id", $this->cartId);
         $stmt->execute();
         return $stmt;
     }

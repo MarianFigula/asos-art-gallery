@@ -1,21 +1,24 @@
 import {ArtImage} from "../artImage/artImage";
 import {Modal} from "../modal/Modal";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import {useCart} from "../cartProvider/CartProvider";
 
 
 export function Art({art}) {
-    const { incrementCartCount } = useCart();
+    const { cartArtIds, incrementCartCount } = useCart();
     const [isArtImageModalOpen, setIsArtImageModalOpen] = useState(false);
-    const [isAddedToCart, setIsAddedToCart] = useState(false);
+    const [isAddedToCart, setIsAddedToCart] = useState(cartArtIds.includes(art.art_id)); // Initialize based on cart state
+
+    useEffect(() => {
+        setIsAddedToCart(cartArtIds.includes(art.art_id));  // Update state when cartArtIds change
+    }, [cartArtIds, art.art_id]);
 
     async function handleAddToCartClick() {
         const serverUrl = process.env.REACT_APP_SERVER_URL;
 
         try {
-            // Replace with session logic to get user_id
-            const userId = 2;
+            const userId = 2; // Replace with session logic to get user_id
             const response = await axios.post(`${serverUrl}/api/cartArt/create.php`, {
                 art_id: art.art_id,
                 user_id: userId
@@ -27,9 +30,8 @@ export function Art({art}) {
 
             const result = response.data;
             if (result.success) {
-                console.log("success");
                 incrementCartCount();
-                setIsAddedToCart(true); // Disable the button
+                setIsAddedToCart(true); // Disable the button and mark as added
             }
         } catch (error) {
             console.error("Error adding art to cart:", error);

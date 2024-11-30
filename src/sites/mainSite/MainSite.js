@@ -10,9 +10,12 @@ import {Form} from "../../components/form/Form";
 import {FormInput} from "../../components/formInput/FormInput";
 import {StarRating} from "../../components/starRating/StarRating";
 import axios from "axios";
+import {useCart} from "../../components/cartProvider/CartProvider";
 
 export function MainSite() {
     // State to store arts and search term
+    const {cartArtIds} = useCart()
+
     const [initialArtData, setInitialArtData] = useState([])
     const [arts, setArts] = useState([]);
     const [activeButton, setActiveButton] = useState(null); // Track the active button
