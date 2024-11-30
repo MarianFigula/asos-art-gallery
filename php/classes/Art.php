@@ -340,7 +340,7 @@ class Art {
      * @param array $ids Array of artwork IDs
      * @return bool True on success, false on failure
      */
-    public function deleteArtsByIds($ids) {
+    public function deleteArtsByIds(array $ids) {
         try {
             $ids = array_values(array_filter($ids, function($id) {
                 return filter_var($id, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]) !== false;

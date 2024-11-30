@@ -99,9 +99,8 @@ class CartArt
 
     /**
      * Remove all rows when the user will buy the arts
-     * @return void
      */
-    public function clearCartArt(array $artIds): void
+    public function clearCartArt(array $artIds)
     {
         try {
             // Build a parameterized query with placeholders for the art IDs
@@ -121,7 +120,7 @@ class CartArt
             }
 
             // Execute the statement
-            $stmt->execute();
+            return $stmt->execute();
         } catch (Exception $e) {
             throw $e; // Rethrow the exception for error handling
         }

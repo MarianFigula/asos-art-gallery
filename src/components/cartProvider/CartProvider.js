@@ -69,6 +69,11 @@ export function CartProvider({children}) {
         }
     }
 
+    const clearCart = () => {
+        setCartArtIds([]); // Clear all art IDs
+        setCartCount(0); // Reset count
+    };
+
 
     useEffect(() => {
         fetchCartArtIds()
@@ -86,6 +91,7 @@ export function CartProvider({children}) {
                     cartCount,
                     cartArtDetails,
                     removeFromCart,
+                    clearCart,
                     incrementCartCount,
                     decrementCartCount
                 }}>

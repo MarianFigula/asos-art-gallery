@@ -2,6 +2,8 @@ import {Form} from "../../components/form/Form";
 import React, {useState} from "react";
 import {FormInput} from "../../components/formInput/FormInput";
 import {useLocation, useNavigate} from "react-router-dom";
+import axios from "axios";
+import {useCart} from "../../components/cartProvider/CartProvider";
 
 
 export default function PaymentSite(){
@@ -14,11 +16,13 @@ export default function PaymentSite(){
     const location = useLocation();
     const { totalToPay } = location.state || {}; // Access the totalToPay from the state
     const navigate = useNavigate()
+    const { cartCount, cartArtIds, clearCart } = useCart(); // Include clearCart
+    const serverUrl = process.env.REACT_APP_SERVER_URL
 
     // Validation functions
     const validateFullName = (name) => /^[a-zA-Z]+ [a-zA-Z]+$/.test(name); // Requires a first and last name
     const validateCardNumber = (number) => /^\d{16}$/.test(number.replace(/\s/g, "")); // 4*4 digits
-    const validateExpirationDate = (date) => /^(0[1-9]|1[0-2])\/\d{2}$/.test(date); // MM/YY format
+    const validateExpirationDate = (date) => /^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(date); // MM/YY format
     const validateCVC = (cvc) => /^\d{3}$/.test(cvc);
 
     const handleNameChange = (e) => {
@@ -38,7 +42,7 @@ export default function PaymentSite(){
         if (value.length > 4) value = value.slice(0, 4);
 
         if (value.length >= 2) {
-            value = `${value.slice(0, 2)} / ${value.slice(2)}`;
+            value = `${value.slice(0, 2)}/${value.slice(2)}`;
         }
         setExpirationDate(value);
     };
@@ -49,7 +53,7 @@ export default function PaymentSite(){
         setCVC(value);
     };
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
         if (!validateFullName(name)) {
             setError("Please enter your full name without diacritics (e.g., Jon Doe).");
@@ -59,6 +63,9 @@ export default function PaymentSite(){
             setError("Please enter a valid 16-digit card number.");
             return;
         }
+
+        console.log(expirationDate)
+        console.log(validateExpirationDate(expirationDate))
         if (!validateExpirationDate(expirationDate)) {
             setError("Please enter a valid expiration date (MM/YY).");
             return;
@@ -68,7 +75,21 @@ export default function PaymentSite(){
             return;
         }
 
-        // TODO fetch data
+        try {
+            await axios.post(`${serverUrl}/api/cartArt/buy.php`, {
+                user_id: 2, // Replace with actual user authentication
+                art_ids: cartArtIds,
+            });
+
+            setError("");
+            console.log("Payment successful. Cart cleared.");
+            clearCart();
+            navigate("/payment-accepted");
+        } catch (error) {
+            console.error("Error processing payment:", error);
+            clearCart();
+            navigate("/payment-denied");
+        }
 
         setError("");
         console.log("Payment details are valid. Proceeding to payment...");
