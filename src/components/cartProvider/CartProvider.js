@@ -48,7 +48,7 @@ export function CartProvider({ children }) {
 
     useEffect(() => {
         fetchCartArtIds()
-    }, []);
+    }, [cartCount]);
 
     const incrementCartCount = () => setCartCount(prev => prev + 1);
     const decrementCartCount = () => setCartCount(prev => Math.max(prev - 1, 0));

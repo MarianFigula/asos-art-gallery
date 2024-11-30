@@ -7,12 +7,14 @@ import {Modal} from "../../components/modal/Modal";
 import {ArtImage} from "../../components/artImage/artImage";
 import {useEffect, useState} from "react";
 import {useCart} from "../../components/cartProvider/CartProvider";
+import {redirect, useNavigate} from "react-router-dom";
 
 export default function CartSite() {
     const { cartArtDetails } = useCart(); // Use cartArtDetails from context
     const [isCartModalOpen, setIsCartModalOpen] = useState(false)
     const [totalToPay, setTotalToPay ] = useState()
 
+    const navigate = useNavigate()
 
     useEffect(() => {
         const total = cartArtDetails.reduce((sum, art) => {
@@ -68,12 +70,12 @@ export default function CartSite() {
             {cartArtDetails.length > 0 && (
                 <section className="order-summary">
                     <div>
-                        <button className="button-light">Continue shopping</button>
+                        <button className="button-light" onClick={() => navigate("/")}>Continue shopping</button>
                     </div>
                     <h3 className="mb-0 mt-0">
-                        To Pay: <span className="price">{totalToPay}€</span>
+                        Total: <span className="price">{totalToPay}€</span>
                     </h3>
-                    <button className="button-confirm">Continue</button>
+                    <button className="button-confirm" onClick={() => navigate("/payment")}>Continue</button>
                 </section>
             )}
         </>
