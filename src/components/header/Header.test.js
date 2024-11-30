@@ -24,7 +24,7 @@ test('navigates to CartSite when bi bi-cart is clicked', () => {
     const cartLink = screen.getByRole('link', { name: /cart/i });
     fireEvent.click(cartLink);
 
-    expect(screen.getByText(/Shopping Cart/i)).toBeInTheDocument();
+    expect(screen.getByText(/Your items/i)).toBeInTheDocument();
 });
 
 
