@@ -52,7 +52,7 @@ if ($method !== "POST") {
     exit();
 }
 
-if ($data->password !== $data->repeatedPassword) {
+if ($data->password !== $data->repeated_password) {
     http_response_code(400);
     echo json_encode([
         "success" => false,
@@ -65,8 +65,8 @@ try {
     $user->setUsername($data->username);
     $user->setEmail($data->email);
     $user->setPassword($data->password);
-    $user->setSecurityQuestion($data->securityQuestion);
-    $user->setSecurityAnswer($data->securityAnswer);
+    $user->setSecurityQuestion($data->security_question);
+    $user->setSecurityAnswer($data->security_answer);
     $user->setRole('U');
 
     if ($user->createUser()) {
