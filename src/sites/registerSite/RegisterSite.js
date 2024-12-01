@@ -39,9 +39,9 @@ export function RegisterSite() {
                 email,
                 username,
                 password,
-                repeatedPassword,
-                selectedSecurityQuestion,
-                securityAnswer
+                repeated_password: repeatedPassword,
+                security_question: selectedSecurityQuestion,
+                security_answer: securityAnswer
             }, {
                 headers: {
                     'Content-Type': 'application/json',
