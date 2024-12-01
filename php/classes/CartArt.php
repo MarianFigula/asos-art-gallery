@@ -40,6 +40,15 @@ class CartArt
         $this->artId = $artId;
     }
 
+    /**
+     * Retrieves cart items based on the cart ID.
+     *
+     * This method fetches all records from the database table corresponding to the cart ID.
+     * The query uses a prepared statement for security.
+     *
+     * @return PDOStatement The statement containing the fetched cart items.
+     * @throws PDOException If the query fails to execute.
+     */
 
     public function getCartArtsByCartId()
     {
@@ -49,6 +58,18 @@ class CartArt
         $stmt->execute();
         return $stmt;
     }
+
+    /**
+     * Creates a new record in the cart_art table.
+     *
+     * This method inserts a new association between a cart and an art piece
+     * into the database using the provided cart ID and art ID. The query uses
+     * prepared statements to ensure security.
+     *
+     * @return bool True if the record is successfully inserted, false otherwise.
+     * @throws Exception If an error occurs during the execution of the query.
+     */
+
 
     public function createCartArt()
     {
@@ -67,6 +88,18 @@ class CartArt
             throw $e;
         }
     }
+
+    /**
+     * Deletes a record from the cart_art table based on the art ID.
+     *
+     * This method removes the association between a cart and an art piece
+     * from the database using the specified art ID. The query uses a prepared
+     * statement to enhance security.
+     *
+     * @return bool True if the record is successfully deleted, false otherwise.
+     * @throws PDOException If an error occurs during the execution of the query.
+     */
+
 
     public function deleteCartArtByArtId()
     {

@@ -6,12 +6,11 @@ error_reporting(E_ALL);
 error_reporting(E_WARNING);
 
 class Database {
-    private $hostname = 'mysql';
+    private $hostname = 'localhost';
     private $dbname = 'pkrim-art-gallery';
     private $username = 'root';
-    private $password = 'root';
+    private $password = '';
     public $conn;
-
     public function getConnection() {
         $this->conn = null;
 

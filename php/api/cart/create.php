@@ -1,5 +1,33 @@
 <?php
 
+/**
+ * Description:
+ * This endpoint is designed to handle the creation of a new cart entry for a user.
+ * It accepts a JSON payload in the request body and processes the data only if the HTTP method is POST.
+ * The `user_id` is a mandatory field, and failure to provide it results in a 400 Bad Request error.
+ *
+ * Method: POST
+ * URL: /api/cart/create.php
+ *
+ * Request Body:
+ * {
+ *   "user_id": 1  (int, required)
+ * }
+ *
+ * Response Codes:
+ * - 201 Created: Cart and associated art were successfully created.
+ * - 400 Bad Request: Invalid input or missing required fields.
+ * - 405 Method Not Allowed: The endpoint only supports the POST method.
+ * - 500 Internal Server Error: An error occurred during the creation process.
+ *
+ * Notes:
+ * - This endpoint interacts with the `Cart`, `User`, and `Art` classes to perform operations.
+ * - It first validates the HTTP method and required an input (`user_id`).
+ * - If the cart and art creation succeeds, it returns a success response with a 201 status code.
+ * - Proper error handling is implemented for invalid input and server-side exceptions.
+ */
+
+
 header("Content-Type: application/json");
 
 include_once '../../config/Database.php';

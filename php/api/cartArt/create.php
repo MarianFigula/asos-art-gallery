@@ -1,7 +1,32 @@
 <?php
 
 /**
- * Cart art create
+ * Description:
+ * This endpoint allows adding a specific art item to a user's cart.
+ * It requires the POST method and a JSON request body containing the `user_id` and `art_id`.
+ *
+ * Method: POST
+ * URL: /api/cart_art/create.php
+ *
+ * Request Body:
+ * {
+ *   "user_id": 1,   (int, required) - The ID of the user whose cart is being updated.
+ *   "art_id": 123   (int, required) - The ID of the art to add to the cart.
+ * }
+ *
+ * Response Codes:
+ * - 201 Created: Art successfully added to the cart.
+ * - 400 Bad Request: Missing or invalid `user_id` or `art_id` in the request body.
+ * - 404 Not Found: Cart not found for the specified user.
+ * - 405 Method Not Allowed: The endpoint only supports the POST method.
+ * - 500 Internal Server Error: Failed to add the art due to a server-side error.
+ *
+ * Notes:
+ * - The HTTP method must be POST; any other method results in a 405 response.
+ * - Both `user_id` and `art_id` are required in the request body.
+ * - The script uses the `Cart` and `CartArt` classes to locate the user's cart and add the specified art item.
+ * - If the cart is not found, an appropriate error message is returned.
+ * - Proper error handling is implemented for invalid input, not found cases, and server-side errors.
  */
 
 header("Content-Type: application/json");

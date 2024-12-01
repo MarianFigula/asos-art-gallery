@@ -1,5 +1,32 @@
 <?php
 
+/**
+ * Description:
+ * This endpoint allows for the deletion of a cart entry based on the provided `cart_id`.
+ * It only supports the DELETE method and requires the `cart_id` to be included in the request body as a JSON payload.
+ *
+ * Method: DELETE
+ * URL: /api/cart/delete.php
+ *
+ * Request Body:
+ * {
+ *   "cart_id": 123  (int, required)
+ * }
+ *
+ * Response Codes:
+ * - 200 OK: Cart was successfully deleted.
+ * - 400 Bad Request: Missing or invalid `cart_id` in the request.
+ * - 405 Method Not Allowed: The endpoint only supports the DELETE method.
+ * - 500 Internal Server Error: Failed to delete the cart due to a server error.
+ *
+ * Notes:
+ * - The HTTP method must be a DELETE; any other method results in a 405 response.
+ * - The `cart_id` is mandatory and must be a valid integer.
+ * - The script uses the `Cart` class to perform the deletion operation.
+ * - Proper error handling is implemented for invalid input and server-side errors.
+ */
+
+
 header("Content-Type: application/json");
 include_once '../../config/Database.php';
 include_once '../../classes/Cart.php';

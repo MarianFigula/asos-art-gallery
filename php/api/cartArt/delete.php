@@ -1,8 +1,34 @@
 <?php
 
 /**
- * Cart Art delete
+ * Description:
+ * This endpoint allows removing a specific art item from a user's cart.
+ * It requires the DELETE method and a JSON request body containing the `user_id` and `art_id`.
+ *
+ * Method: DELETE
+ * URL: /api/cart_art/delete.php
+ *
+ * Request Body:
+ * {
+ *   "user_id": 1,   (int, required) - The ID of the user whose cart is being modified.
+ *   "art_id": 123   (int, required) - The ID of the art to remove from the cart.
+ * }
+ *
+ * Response Codes:
+ * - 200 OK: Art successfully removed from the cart.
+ * - 400 Bad Request: Missing or invalid `user_id` or `art_id` in the request body.
+ * - 404 Not Found: Cart not found for the specified user.
+ * - 405 Method Not Allowed: The endpoint only supports the DELETE method.
+ * - 500 Internal Server Error: Failed to remove the art due to a server-side error.
+ *
+ * Notes:
+ * - The HTTP method must be a DELETE; any other method results in a 405 response.
+ * - Both `user_id` and `art_id` are required in the request body.
+ * - The script uses the `Cart` and `CartArt` classes to locate the user's cart and remove the specified art item.
+ * - If the cart or art is not found, appropriate error messages are returned.
+ * - Proper error handling is implemented for invalid input, not found cases, and server-side errors.
  */
+
 
 header("Content-Type: application/json");
 include_once '../../config/Database.php';
