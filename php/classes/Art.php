@@ -123,17 +123,15 @@ class Art {
     }
 
     /**
-     * Binds common parameters to a prepared statement
-     * @param PDOStatement $stmt The prepared statement to bind parameters to
+     * Dynamically binds parameters to a prepared statement
+     *
+     * @param PDOStatement $stmt The prepared statement
+     * @param array $params Associative array of parameters to bind (e.g., ['id' => 1])
      */
-    private function bindParams(&$stmt) {
-        if ($this->id) $stmt->bindParam(':id', $this->id);
-        if ($this->user_id) $stmt->bindParam(':user_id', $this->user_id);
-        if ($this->img_url) $stmt->bindParam(':img_url', $this->img_url);
-        if ($this->title) $stmt->bindParam(':title', $this->title);
-        if ($this->description) $stmt->bindParam(':description', $this->description);
-        if ($this->price) $stmt->bindParam(':price', $this->price);
-        if ($this->upload_date) $stmt->bindParam(':upload_date', $this->upload_date);
+    private function bindParams(PDOStatement &$stmt, array $params) {
+        foreach ($params as $key => $value) {
+            $stmt->bindValue(':' . $key, $value);
+        }
     }
 
     /**
@@ -143,19 +141,28 @@ class Art {
     public function createArt() {
         try {
             $this->upload_date = date('Y-m-d H:i:s');
-            
+    
             $query = "INSERT INTO " . $this->table_name . " 
-                    (user_id, img_url, title, description, price, upload_date)
-                    VALUES (:user_id, :img_url, :title, :description, :price, :upload_date)";
-
+                      (user_id, img_url, title, description, price, upload_date)
+                      VALUES (:user_id, :img_url, :title, :description, :price, :upload_date)";
+    
             $stmt = $this->conn->prepare($query);
-            $this->bindParams($stmt);
-            
+    
+            $params = [
+                'user_id' => $this->user_id,
+                'img_url' => $this->img_url,
+                'title' => $this->title,
+                'description' => $this->description,
+                'price' => $this->price,
+                'upload_date' => $this->upload_date,
+            ];
+            $this->bindParams($stmt, $params);
+    
             return $stmt->execute();
         } catch (Exception $e) {
             throw $e;
         }
-    }
+    }    
 
     // IDEA - too complex for the RESTful standard?
     /**
@@ -242,13 +249,15 @@ class Art {
      */
     public function getArtById() {
         $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";
-        
         $stmt = $this->conn->prepare($query);
-        $this->bindParams($stmt);
+    
+        $params = ['id' => $this->id];
+        $this->bindParams($stmt, $params);
+    
         $stmt->execute();
         return $stmt;
     }
-
+    
     /**
      * Retrieves artworks by user ID
      * @return PDOStatement Result set containing the artworks created by the user
@@ -269,59 +278,32 @@ class Art {
     public function updateArtById() {
         $query = "UPDATE " . $this->table_name . " SET ";
         $fieldsToUpdate = [];
-        $params = [];
+        $params = ['id' => $this->id];
     
         if (!empty($this->title)) {
             $fieldsToUpdate[] = "title = :title";
-            $params[':title'] = $this->title;
+            $params['title'] = $this->title;
         }
         if (!empty($this->description)) {
             $fieldsToUpdate[] = "description = :description";
-            $params[':description'] = $this->description;
+            $params['description'] = $this->description;
         }
         if ($this->price !== null) {
             $fieldsToUpdate[] = "price = :price";
-            $params[':price'] = $this->price;
+            $params['price'] = $this->price;
         }
     
         if (empty($fieldsToUpdate)) {
             throw new Exception("No fields to update.");
         }
     
-        $query .= implode(", ", $fieldsToUpdate);
-        $query .= ", upload_date = CURRENT_TIMESTAMP() WHERE id = :id";
-        $params[':id'] = $this->id;
+        $query .= implode(", ", $fieldsToUpdate) . ", upload_date = CURRENT_TIMESTAMP() WHERE id = :id";
     
         $stmt = $this->conn->prepare($query);
-    
-        foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
-        }
+        $this->bindParams($stmt, $params);
     
         return $stmt->execute();
-    }    
-
-    // WARNING: userId can have multiple artworks associated, reconsider
-     /*
-    public function updateArtByUserId() {
-        $query = "UPDATE " . $this->table_name . "
-                  SET title = :title,
-                  description = :description,
-                  price = :price,
-                  upload_date = CURRENT_TIMESTAMP()
-                  WHERE user_id = :user_id";
-
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(':title', $this->getTitle());
-        $stmt->bindParam(':description', $this->getDescription());
-        $stmt->bindParam(':price', $this->getPrice());
-        $stmt->bindParam(':user_id', $this->getUserId());
-
-        $stmt->execute();
-        return $stmt;
-    }*/
-
+    }
 
     /**
      * Deletes an artwork by its ID
@@ -329,11 +311,14 @@ class Art {
      */
     public function deleteArtById() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-        
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $this->id);
+    
+        $params = ['id' => $this->id];
+        $this->bindParams($stmt, $params);
+    
         return $stmt->execute();
     }
+    
 
     /**
      * Deletes multiple artworks by their IDs
@@ -342,30 +327,29 @@ class Art {
      */
     public function deleteArtsByIds(array $ids) {
         try {
-            $ids = array_values(array_filter($ids, function($id) {
+            $ids = array_values(array_filter($ids, function ($id) {
                 return filter_var($id, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]) !== false;
             }));
-            
+    
             if (empty($ids)) {
                 return false;
             }
     
             $this->conn->beginTransaction();
             $placeholders = rtrim(str_repeat('?,', count($ids)), ',');
-            
+    
             $query = "DELETE FROM " . $this->table_name . " WHERE id IN ($placeholders)";
             $stmt = $this->conn->prepare($query);
-            
+    
             foreach ($ids as $index => $id) {
                 $stmt->bindValue($index + 1, $id, PDO::PARAM_INT);
             }
-            
+    
             if (!$stmt->execute() || $stmt->rowCount() === 0) {
-                // If no rows were affected or execution failed, rollback and return false
                 $this->conn->rollBack();
                 return false;
             }
-            
+    
             $this->conn->commit();
             return true;
         } catch (Exception $e) {
@@ -374,5 +358,5 @@ class Art {
             }
             throw $e;
         }
-    }
+    }    
 }

@@ -57,7 +57,6 @@ if (!$data) {
     exit;
 }
 
-// TODO: security question/answer should should not be a junk value here or in the DB setup.
 // NOTE: but role may remain U by default
 try {
     $user->setUsername($data['username']);

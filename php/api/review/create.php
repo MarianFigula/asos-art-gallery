@@ -73,10 +73,10 @@ try {
     $user = new User($db);
     $user->setEmail($email);
 
-    $stmt = $user->getUserByEmail();
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $userStmt = $user->getUserByEmail();
+    $userRow = $userStmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$row) {
+    if (!$userRow) {
         http_response_code(404);
         echo json_encode([
             "success" => false,
@@ -85,14 +85,16 @@ try {
         exit();
     }
 
+    $reviewer_user_id = $userRow["id"];
+
     // Validate artwork existence
     $art = new Art($db);
     $art->setId($art_id);
 
-    $stmt = $art->getArtById();
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $artStmt = $art->getArtById();
+    $artRow = $artStmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$row) {
+    if (!$artRow) {
         http_response_code(404);
         echo json_encode([
             "success" => false,
@@ -101,7 +103,34 @@ try {
         exit();
     }
 
-    $reviewer_user_id = $row["id"];
+    $art_creator_user_id = $artRow["user_id"];
+
+    // Prevent self-reviews
+    if ($reviewer_user_id === $art_creator_user_id) {
+        http_response_code(400);
+        echo json_encode([
+            "success" => false,
+            "message" => "You cannot review your own artwork."
+        ]);
+        exit();
+    }
+
+    // Prevent duplicate reviews (user_id + art_id combination)
+    $existingReviewQuery = "SELECT id FROM review WHERE user_id = :user_id AND art_id = :art_id LIMIT 1";
+    $stmt = $db->prepare($existingReviewQuery);
+    $stmt->execute([
+        ':user_id' => $reviewer_user_id,
+        ':art_id' => $art_id,
+    ]);
+
+    if ($stmt->rowCount() > 0) {
+        http_response_code(400);
+        echo json_encode([
+            "success" => false,
+            "message" => "You have already reviewed this artwork."
+        ]);
+        exit();
+    }
 
     $review->setUserId($reviewer_user_id);
     $review->setArtId($art_id);

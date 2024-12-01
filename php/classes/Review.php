@@ -102,13 +102,16 @@ class Review {
         $this->review_creation_date = $date;
     }
 
-    private function bindParams(&$stmt) {
-        if ($this->id) $stmt->bindParam(':id', $this->id);
-        if ($this->user_id) $stmt->bindParam(':user_id', $this->user_id);
-        if ($this->art_id) $stmt->bindParam(':art_id', $this->art_id);
-        if ($this->review_text) $stmt->bindParam(':review_text', $this->review_text);
-        if ($this->rating) $stmt->bindParam(':rating', $this->rating);
-        if ($this->review_creation_date) $stmt->bindParam(':review_creation_date', $this->review_creation_date);
+    /**
+     * Dynamically binds parameters to a prepared statement
+     *
+     * @param PDOStatement $stmt The prepared statement
+     * @param array $params Associative array of parameters to bind (e.g., ['id' => 1])
+     */
+    private function bindParams(PDOStatement &$stmt, array $params) {
+        foreach ($params as $key => $value) {
+            $stmt->bindValue(':' . $key, $value);
+        }
     }
 
     /**
@@ -118,14 +121,22 @@ class Review {
     public function createReview() {
         try {
             $this->review_creation_date = date('Y-m-d H:i:s');
-            
+    
             $query = "INSERT INTO " . $this->table_name . " 
-                    (user_id, art_id, review_text, rating, review_creation_date)
-                    VALUES (:user_id, :art_id, :review_text, :rating, :review_creation_date)";
-
+                      (user_id, art_id, review_text, rating, review_creation_date)
+                      VALUES (:user_id, :art_id, :review_text, :rating, :review_creation_date)";
+    
             $stmt = $this->conn->prepare($query);
-            $this->bindParams($stmt);
-            
+    
+            $params = [
+                'user_id' => $this->user_id,
+                'art_id' => $this->art_id,
+                'review_text' => $this->review_text,
+                'rating' => $this->rating,
+                'review_creation_date' => $this->review_creation_date,
+            ];
+            $this->bindParams($stmt, $params);
+    
             return $stmt->execute();
         } catch (Exception $e) {
             error_log("Error creating review: " . $e->getMessage());
@@ -154,15 +165,19 @@ class Review {
      */
     public function getReviewById() {
         $query = "SELECT r.*, u.username 
-                 FROM " . $this->table_name . " r
-                 JOIN user u ON r.user_id = u.id
-                 WHERE r.id = :id";
-
+                  FROM " . $this->table_name . " r
+                  JOIN user u ON r.user_id = u.id
+                  WHERE r.id = :id";
+    
         $stmt = $this->conn->prepare($query);
-        $this->bindParams($stmt);
+    
+        $params = ['id' => $this->id];
+        $this->bindParams($stmt, $params);
+    
         $stmt->execute();
         return $stmt;
     }
+    
 
     /**
      * Retrieves reviews by user ID
@@ -170,17 +185,21 @@ class Review {
      */
     public function getReviewsByUserId() {
         $query = "SELECT r.*, u.username, a.title as art_title
-                 FROM " . $this->table_name . " r
-                 JOIN user u ON r.user_id = u.id
-                 JOIN art a ON r.art_id = a.id
-                 WHERE r.user_id = :user_id
-                 ORDER BY r.review_creation_date DESC";
-
+                  FROM " . $this->table_name . " r
+                  JOIN user u ON r.user_id = u.id
+                  JOIN art a ON r.art_id = a.id
+                  WHERE r.user_id = :user_id
+                  ORDER BY r.review_creation_date DESC";
+    
         $stmt = $this->conn->prepare($query);
-        $this->bindParams($stmt);
+    
+        $params = ['user_id' => $this->user_id];
+        $this->bindParams($stmt, $params);
+    
         $stmt->execute();
         return $stmt;
     }
+    
 
     /**
      * Retrieves reviews by art ID
@@ -188,16 +207,20 @@ class Review {
      */
     public function getReviewsByArtId() {
         $query = "SELECT r.*, u.username 
-                 FROM " . $this->table_name . " r
-                 JOIN user u ON r.user_id = u.id
-                 WHERE r.art_id = :art_id
-                 ORDER BY r.review_creation_date DESC";
-
+                  FROM " . $this->table_name . " r
+                  JOIN user u ON r.user_id = u.id
+                  WHERE r.art_id = :art_id
+                  ORDER BY r.review_creation_date DESC";
+    
         $stmt = $this->conn->prepare($query);
-        $this->bindParams($stmt);
+    
+        $params = ['art_id' => $this->art_id];
+        $this->bindParams($stmt, $params);
+    
         $stmt->execute();
         return $stmt;
     }
+    
 
     /**
      * Retrieves all reviews
@@ -222,68 +245,28 @@ class Review {
     public function updateReviewById() {
         $query = "UPDATE " . $this->table_name . " SET ";
         $fieldsToUpdate = [];
-        $params = [];
+        $params = ['id' => $this->id];
     
         if (!empty($this->review_text)) {
             $fieldsToUpdate[] = "review_text = :review_text";
-            $params[':review_text'] = $this->review_text;
+            $params['review_text'] = $this->review_text;
         }
         if ($this->rating !== null) {
             $fieldsToUpdate[] = "rating = :rating";
-            $params[':rating'] = $this->rating;
+            $params['rating'] = $this->rating;
         }
     
         if (empty($fieldsToUpdate)) {
             throw new Exception("No fields to update.");
         }
     
-        $query .= implode(", ", $fieldsToUpdate);
-        $query .= ", review_creation_date = CURRENT_TIMESTAMP WHERE id = :id";
-        $params[':id'] = $this->id;
+        $query .= implode(", ", $fieldsToUpdate) . ", review_creation_date = CURRENT_TIMESTAMP WHERE id = :id";
     
         $stmt = $this->conn->prepare($query);
-    
-        foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
-        }
+        $this->bindParams($stmt, $params);
     
         return $stmt->execute();
-    }
-
-    // WARNING: again, multiple reviews can be tied to one user/art
-    /*public function updateReviewByUserId() {
-        $query = "UPDATE " . $this->table_name . "
-                  SET review_text = :review_text,
-                  rating = :rating,
-                  review_creation_date = CURRENT_TIMESTAMP()
-                  WHERE user_id = :user_id";
-
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(':review_text', $this->getReviewText());
-        $stmt->bindParam(':rating', $this->getRating());
-        $stmt->bindParam(':user_id', $this->getUserId());
-
-        $stmt->execute();
-        return $stmt;
-    }
-
-    public function updateReviewByArtId() {
-        $query = "UPDATE " . $this->table_name . "
-                  SET review_text = :review_text,
-                  rating = :rating,
-                  review_creation_date = CURRENT_TIMESTAMP()
-                  WHERE art_id = :art_id";
-
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(':review_text', $this->getReviewText());
-        $stmt->bindParam(':rating', $this->getRating());
-        $stmt->bindParam(':art_id', $this->getArtId());
-
-        $stmt->execute();
-        return $stmt;
-    }*/
+    }    
 
     /**
      * Deletes a review by ID
@@ -292,15 +275,19 @@ class Review {
     public function deleteReviewById() {
         try {
             $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-            
+
             $stmt = $this->conn->prepare($query);
-            $this->bindParams($stmt);
+
+            $params = ['id' => $this->id];
+            $this->bindParams($stmt, $params);
+
             return $stmt->execute();
         } catch (Exception $e) {
             error_log("Error deleting review: " . $e->getMessage());
             throw $e;
         }
     }
+
 
     /**
      * Deletes multiple reviews by their IDs
@@ -309,20 +296,28 @@ class Review {
      * @throws InvalidArgumentException if any ID is not a positive integer
      */
     public function deleteReviewsByIds($ids) {
-        // Validate each ID in the array
-        foreach ($ids as $id) {
-            if (!filter_var($id, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]])) {
-                throw new InvalidArgumentException("Invalid ID: must be a positive integer.");
+        try {
+            $validIds = array_values(array_filter($ids, function ($id) {
+                return filter_var($id, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]) !== false;
+            }));
+    
+            if (empty($validIds)) {
+                return false;
             }
+    
+            $placeholders = rtrim(str_repeat('?,', count($validIds)), ',');
+    
+            $query = "DELETE FROM " . $this->table_name . " WHERE id IN ($placeholders)";
+            $stmt = $this->conn->prepare($query);
+    
+            foreach ($validIds as $index => $id) {
+                $stmt->bindValue($index + 1, $id, PDO::PARAM_INT);
+            }
+    
+            return $stmt->execute();
+        } catch (Exception $e) {
+            error_log("Error deleting reviews: " . $e->getMessage());
+            throw $e;
         }
-
-        // Convert IDs array to a comma-separated string for SQL IN clause
-        $ids_string = implode(",", array_map('intval', $ids));
-
-        $query = "DELETE FROM " . $this->table_name . " WHERE id IN ($ids_string)";
-
-        $stmt = $this->conn->prepare($query);
-
-        return $stmt->execute();
-    }
+    }    
 }

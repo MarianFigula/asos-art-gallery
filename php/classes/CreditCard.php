@@ -118,12 +118,16 @@ class CreditCard {
         return password_verify($cvc, $hashedCVC);
     }
 
-    private function bindParams(&$stmt) {
-        if ($this->id) $stmt->bindParam(':id', $this->id);
-        if ($this->user_id) $stmt->bindParam(':user_id', $this->user_id);
-        if ($this->card_number) $stmt->bindParam(':card_number', $this->card_number);
-        if ($this->expiration_date) $stmt->bindParam(':expiration_date', $this->expiration_date);
-        if ($this->cvc) $stmt->bindParam(':cvc', $this->cvc);
+    /**
+     * Dynamically binds parameters to a prepared statement
+     *
+     * @param PDOStatement $stmt The prepared statement
+     * @param array $params Associative array of parameters to bind (e.g., ['id' => 1])
+     */
+    private function bindParams(PDOStatement &$stmt, array $params) {
+        foreach ($params as $key => $value) {
+            $stmt->bindValue(':' . $key, $value);
+        }
     }
 
     /**
@@ -135,16 +139,23 @@ class CreditCard {
             if ($this->isCardNumberDuplicate($this->card_number)) {
                 throw new InvalidArgumentException("Credit card number already exists.");
             }
-
+    
             $this->conn->beginTransaction();
-
+    
             $query = "INSERT INTO " . $this->table_name . " 
-                    (user_id, card_number, expiration_date, cvc)
-                    VALUES (:user_id, :card_number, :expiration_date, :cvc)";
-
+                      (user_id, card_number, expiration_date, cvc)
+                      VALUES (:user_id, :card_number, :expiration_date, :cvc)";
+    
             $stmt = $this->conn->prepare($query);
-            $this->bindParams($stmt);
-            
+    
+            $params = [
+                'user_id' => $this->user_id,
+                'card_number' => $this->card_number,
+                'expiration_date' => $this->expiration_date,
+                'cvc' => $this->cvc
+            ];
+            $this->bindParams($stmt, $params);
+    
             if ($stmt->execute()) {
                 $this->conn->commit();
                 return true;
@@ -169,7 +180,10 @@ class CreditCard {
     public function doesUserExist($user_id) {
         $query = "SELECT COUNT(*) as count FROM user WHERE id = :user_id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    
+        $params = ['user_id' => $user_id];
+        $this->bindParams($stmt, $params);
+    
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['count'] > 0;
@@ -181,9 +195,10 @@ class CreditCard {
      * @return bool True if card number exists, false otherwise
      */
     public function isCardNumberDuplicate($card_number) {
-        $query = "SELECT COUNT(*) as count FROM " . $this->table_name . " WHERE card_number = :card_number";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':card_number', $card_number);
+        $query = "SELECT COUNT(*) as count FROM " . $this->table_name . " WHERE card_number = :card_number"; $stmt = $this->conn->prepare($query);
+        $params = ['card_number' => $card_number];
+        $this->bindParams($stmt, $params);
+
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['count'] > 0;
@@ -195,30 +210,37 @@ class CreditCard {
      */
     public function getCardById() {
         $query = "SELECT id, user_id, card_number, expiration_date, card_creation_date 
-                 FROM " . $this->table_name . " 
-                 WHERE id = :id";
-
+                  FROM " . $this->table_name . " 
+                  WHERE id = :id";
+    
         $stmt = $this->conn->prepare($query);
-        $this->bindParams($stmt);
+    
+        $params = ['id' => $this->id];
+        $this->bindParams($stmt, $params);
+    
         $stmt->execute();
         return $stmt;
     }
-
+    
     /**
      * Retrieves all credit cards for a user
      * @return PDOStatement All credit cards for the specified user
      */
     public function getCardsByUserId() {
         $query = "SELECT id, card_number, expiration_date, card_creation_date 
-                 FROM " . $this->table_name . " 
-                 WHERE user_id = :user_id 
-                 ORDER BY card_creation_date DESC";
-
+                  FROM " . $this->table_name . " 
+                  WHERE user_id = :user_id 
+                  ORDER BY card_creation_date DESC";
+    
         $stmt = $this->conn->prepare($query);
-        $this->bindParams($stmt);
+    
+        $params = ['user_id' => $this->user_id];
+        $this->bindParams($stmt, $params);
+    
         $stmt->execute();
         return $stmt;
     }
+    
 
     /**
      * Updates a credit card's basic information
@@ -228,17 +250,23 @@ class CreditCard {
     public function updateCard() {
         try {
             $query = "UPDATE " . $this->table_name . "
-                     SET expiration_date = :expiration_date
-                     WHERE id = :id";
-
+                      SET expiration_date = :expiration_date
+                      WHERE id = :id";
+    
             $stmt = $this->conn->prepare($query);
-            $this->bindParams($stmt);
+    
+            $params = [
+                'id' => $this->id,
+                'expiration_date' => $this->expiration_date
+            ];
+            $this->bindParams($stmt, $params);
+    
             return $stmt->execute();
         } catch (Exception $e) {
             error_log("Error updating credit card: " . $e->getMessage());
             throw $e;
         }
-    }
+    }    
 
     /**
      * Deletes a credit card by ID
@@ -247,15 +275,18 @@ class CreditCard {
     public function deleteCard() {
         try {
             $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-            
+    
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':id', $this->id);
+    
+            $params = ['id' => $this->id];
+            $this->bindParams($stmt, $params);
+    
             return $stmt->execute();
         } catch (Exception $e) {
             error_log("Error deleting credit card: " . $e->getMessage());
             throw $e;
         }
-    }
+    }    
 
     /**
      * Deletes multiple credit cards by their IDs
@@ -264,30 +295,30 @@ class CreditCard {
      */
     public function deleteCardsByIds($ids) {
         try {
-            $validIds = array_values(array_filter($ids, function($id) {
+            $validIds = array_values(array_filter($ids, function ($id) {
                 return filter_var($id, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]) !== false;
             }));
-            
+    
             if (empty($validIds)) {
                 return false;
             }
-
+    
             $this->conn->beginTransaction();
-            
+    
             $placeholders = rtrim(str_repeat('?,', count($validIds)), ',');
-
+    
             $query = "DELETE FROM " . $this->table_name . " WHERE id IN ($placeholders)";
             $stmt = $this->conn->prepare($query);
-
-            foreach ($ids as $index => $id) {
+    
+            foreach ($validIds as $index => $id) {
                 $stmt->bindValue($index + 1, $id, PDO::PARAM_INT);
             }
-
+    
             if (!$stmt->execute() || $stmt->rowCount() === 0) {
                 $this->conn->rollBack();
                 return false;
             }
-            
+    
             $this->conn->commit();
             return true;
         } catch (Exception $e) {
@@ -296,7 +327,7 @@ class CreditCard {
             }
             throw $e;
         }
-    }
+    }    
 
     /**
      * Retrieves all credit cards (Admin only)

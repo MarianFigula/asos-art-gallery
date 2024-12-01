@@ -90,6 +90,9 @@ if (!$user->verifyPassword($data->password, $row['password'])) {
     exit();
 }
 
+// prevents session fixation
+session_regenerate_id(true);
+
 $_SESSION['email'] = $row['email'];
 $_SESSION['role'] = $row['role'];
 $_SESSION['logged_in'] = true;

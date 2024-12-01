@@ -130,15 +130,17 @@ class User {
     public function getSecurityQuestion() {return $this->security_question;}
     public function getSecurityAnswer() {return $this->security_answer;}
 
-    private function bindParams(&$stmt) {
-        if ($this->email) $stmt->bindParam(':email', $this->email);
-        if ($this->username) $stmt->bindParam(':username', $this->username);
-        if ($this->password) $stmt->bindParam(':password', $this->password);
-        if ($this->security_question) $stmt->bindParam(':security_question', $this->security_question);
-        if ($this->security_answer) $stmt->bindParam(':security_answer', $this->security_answer);
-        if ($this->id) $stmt->bindParam(':id', $this->id);
-        if ($this->role) $stmt->bindParam(':role', $this->role);
-    }    
+    /**
+     * Dynamically binds parameters to a prepared statement
+     * 
+     * @param PDOStatement $stmt The prepared statement
+     * @param array $params Associative array of parameters to bind (e.g., ['email' => 'test@example.com'])
+     */
+    private function bindParams(PDOStatement &$stmt, array $params) {
+        foreach ($params as $key => $value) {
+            $stmt->bindValue(':' . $key, $value);
+        }
+    }
 
     /**
      * Creates a new user record in the database
@@ -164,7 +166,16 @@ class User {
                     VALUES (:email, :username, :password, :security_question, :security_answer, :role)";
     
             $stmt = $this->conn->prepare($query);
-            $this->bindParams($stmt);
+            
+            $params = [
+                'email' => $this->email,
+                'username' => $this->username,
+                'password' => $this->password,
+                'security_question' => $this->security_question,
+                'security_answer' => $this->security_answer,
+                'role' => $this->role,
+            ];
+            $this->bindParams($stmt, $params);
             
             $result = $stmt->execute();
             
@@ -201,15 +212,15 @@ class User {
      * @return PDOStatement User data for the specified ID
      */
     public function getUserById() {
-        $query = "SELECT id, username, email, security_question
-         FROM " . $this->table_name .  " WHERE id = :id";
-
+        $query = "SELECT id, username, email, security_question FROM " . $this->table_name . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);
-        $this->bindParams($stmt);
-
+    
+        $params = ['id' => $this->id];
+        $this->bindParams($stmt, $params);
+    
         $stmt->execute();
         return $stmt;
-    }
+    }    
 
     /**
      * Retrieves a user by email
@@ -217,16 +228,16 @@ class User {
      * IDEA: password has to be retrieved for login.php - better way possible?
      */
     public function getUserByEmail() {
-        $query = "SELECT id, username, password, email, security_question, security_answer
-         FROM " . $this->table_name .  " WHERE email = :email";
-
+        $query = "SELECT id, username, password, email, security_question, security_answer FROM " . $this->table_name . " WHERE email = :email";
         $stmt = $this->conn->prepare($query);
-        $this->bindParams($stmt);
-
+    
+        $params = ['email' => $this->email];
+        $this->bindParams($stmt, $params);
+    
         $stmt->execute();
         return $stmt;
     }
-
+    
     /**
      * Checks if a user exists with the specified email
      * @return bool True if user exists, false otherwise
@@ -263,40 +274,35 @@ class User {
      */
     public function updateUserById() {
         // Validate fields before updating
+        $fields = [];
+        $params = ['id' => $this->id];
+
         if ($this->email) {
             if ($this->userExistsByEmail()) {
                 throw new InvalidArgumentException("Email already in use.");
             }
             $this->setEmail($this->email);
+            $fields[] = "email = :email";
+            $params['email'] = $this->email;
         }
-    
+
         if ($this->username) {
             if ($this->userExistsByUsername()) {
                 throw new InvalidArgumentException("Username already taken.");
             }
             $this->setUsername($this->username);
-        }
-    
-        $query = "UPDATE " . $this->table_name . " SET ";
-        $fields = [];
-    
-        if ($this->email) {
-            $fields[] = "email = :email";
-        }
-        if ($this->username) {
             $fields[] = "username = :username";
+            $params['username'] = $this->username;
         }
-    
-        // If no fields are set for updating, return without action
+
         if (empty($fields)) {
             throw new InvalidArgumentException("No valid fields provided for update.");
         }
-    
-        $query .= implode(", ", $fields) . " WHERE id = :id";
-    
+
+        $query = "UPDATE " . $this->table_name . " SET " . implode(", ", $fields) . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);
-    
-        $this->bindParams($stmt);
+
+        $this->bindParams($stmt, $params);
         return $stmt->execute();
     }
 
@@ -324,15 +330,14 @@ class User {
      */
     public function deleteUserById() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-
         $stmt = $this->conn->prepare($query);
-
-        $this->id = htmlspecialchars(strip_tags($this->id));
-        $this->bindParams($stmt);
-
+    
+        $params = ['id' => $this->id];
+        $this->bindParams($stmt, $params);
+    
         return $stmt->execute();
     }
-
+    
     /**
      * Deletes multiple users by their IDs
      * @param array $ids Array of user IDs
@@ -340,34 +345,29 @@ class User {
      */
     public function deleteUsersByIds($ids) {
         try {
-            // Ensure we have a non-empty array of valid IDs
-            $ids = array_values(array_filter($ids, function($id) {
+            $ids = array_values(array_filter($ids, function ($id) {
                 return filter_var($id, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]) !== false;
             }));
-            
+    
             if (empty($ids)) {
                 return false;
             }
     
             $this->conn->beginTransaction();
-            
-            // Create the correct number of placeholders based on filtered IDs
+    
             $placeholders = rtrim(str_repeat('?,', count($ids)), ',');
-            
             $query = "DELETE FROM " . $this->table_name . " WHERE id IN ($placeholders)";
             $stmt = $this->conn->prepare($query);
-            
-            // Bind all parameters using 1-based index
+    
             foreach ($ids as $index => $id) {
                 $stmt->bindValue($index + 1, $id, PDO::PARAM_INT);
             }
-            
+    
             if (!$stmt->execute() || $stmt->rowCount() === 0) {
-                // If no rows were affected or execution failed, rollback and return false
                 $this->conn->rollBack();
                 return false;
             }
-            
+    
             $this->conn->commit();
             return true;
         } catch (Exception $e) {
@@ -376,5 +376,5 @@ class User {
             }
             throw $e;
         }
-    }
+    }    
 }
