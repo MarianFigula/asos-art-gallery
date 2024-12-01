@@ -1,6 +1,5 @@
 import React from "react";
 
-
 export function FormInput({
                               label,
                               type = "text",
@@ -11,11 +10,17 @@ export function FormInput({
                               ...props
                           }) {
 
+
+    const id = `form-input-${label.replace(/\s+/g, '-').toLowerCase()}`;
+
     return (
         <div>
-            <label className="label mb-0-25">{label}</label>
+            <label htmlFor={id} className="label mb-0-25">
+                {label}
+            </label>
             {type === 'select' ? (
                 <select
+                    id={id}
                     value={value}
                     onChange={onChange}
                     className="input"
@@ -32,6 +37,7 @@ export function FormInput({
                 </select>
             ) : type === "textarea" ? (
                 <textarea
+                    id={id}
                     value={value}
                     onChange={onChange}
                     className="input"
@@ -40,6 +46,7 @@ export function FormInput({
                 />
             ) : (
                 <input
+                    id={id}
                     type={type}
                     value={value}
                     onChange={onChange}
@@ -49,5 +56,5 @@ export function FormInput({
                 />
             )}
         </div>
-    )
+    );
 }

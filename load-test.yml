@@ -12,10 +12,10 @@
 #  - flow:
 #      - get:
 #          url: '/'  # Simulate clicking the homepage URL
-#      - think: 5  # Wait for 5 seconds before simulating the next action (e.g., clicking a link, loading new content)
+#      - think: 10  # Wait for 5 seconds before simulating the next action
 #      - get:
 #          url: '/login'  # Simulate a user navigating to another page
-#
+
 
 
 #Test2 LoadTest
@@ -49,29 +49,48 @@
 #          url: '/profile'  # Simulate a user visiting the profile page
 
 #Test3 LoadTest
+#config:
+#  target: 'http://localhost:3000/'
+#  phases:
+#    - duration: 60
+#      arrivalRate: 10  # 10 users per second
+#    - duration: 60
+#      arrivalRate: 20  # Increase to 20 users per second
+#    - duration: 60
+#      arrivalRate: 40  # Increase to 40 users per second
+#    - duration: 60
+#      arrivalRate: 80  # Increase to 80 users per second
+#    - duration: 60
+#      arrivalRate: 160  # Ramp up to 160 users per second
+#
+#scenarios:
+#  - flow:
+#      - get:
+#          url: '/'
+#      - think: 3
+#      - get:
+#          url: '/register'
+#      - think: 5
+#      - get:
+#          url: '/cart'
+#      - think: 5
+
+
+#Test4 LoadTest
+
 config:
   target: 'http://localhost:3000/'
   phases:
     - duration: 60
-      arrivalRate: 10  # 10 users per second
-    - duration: 60
-      arrivalRate: 20  # Increase to 20 users per second
-    - duration: 60
-      arrivalRate: 40  # Increase to 40 users per second
-    - duration: 60
-      arrivalRate: 80  # Increase to 80 users per second
-    - duration: 60
-      arrivalRate: 160  # Ramp up to 160 users per second
+      arrivalRate: 10
 
 scenarios:
   - flow:
       - get:
-          url: '/'
+          url: '/'  # User 1 accesses the homepage
+      - think: 2
+      - get:
+          url: '/login'  # User 2 views the products page
       - think: 3
       - get:
-          url: '/register'
-      - think: 5
-      - get:
-          url: '/cart'
-      - think: 5
-
+          url: '/cart'  # User 3 views the cart page
