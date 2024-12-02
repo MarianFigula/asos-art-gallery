@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getArtColumns } from "../../assets/table-columns/tableArtColumns";
-import { Form } from "../../components/form/Form";
-import { FormInput } from "../../components/formInput/FormInput";
-import { Modal } from "../../components/modal/Modal";
-import { Table } from "../../components/table/Table";
+import React, {useEffect, useState} from "react";
+import {getArtColumns} from "../../assets/table-columns/tableArtColumns";
+import {Form} from "../../components/form/Form";
+import {FormInput} from "../../components/formInput/FormInput";
+import {Modal} from "../../components/modal/Modal";
+import {Table} from "../../components/table/Table";
 import axios from "axios";
+import {useAuth} from "../../components/auth/AuthContext";
 
 export function UserArtsSite() {
-    const navigate = useNavigate();
-
-    //todo: dodat nejaky # pre zobrazenie ze neni prihlaseny
-
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
     const [userArtData, setUserArtData] = useState([]);
     const [userArtRecords, setUserArtRecords] = useState(userArtData);
     const [error, setError] = useState("");
-
+    const {token} = useAuth();
     const [isArtModalOpen, setIsArtModalOpen] = useState(false);
 
     const [artEditData, setArtEditData] = useState({
@@ -33,17 +29,16 @@ export function UserArtsSite() {
             const response = await axios.get(`${serverUrl}/api/art/read.php`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`, // Include JWT for authentication
-                },
-                params: {
-                    user_id: "Y",
-                },
+                    Authorization: `Bearer ${token}`, // Include JWT for authentication
+                }
             });
 
             const result = response.data;
             console.log(result);
-            setUserArtData(result.data);
-            setUserArtRecords(result.data);
+            if (result.success) {
+                setUserArtData(result.data);
+                setUserArtRecords(result.data);
+            }
         } catch (error) {
             console.error("Error fetching art data: ", error);
         }
@@ -96,17 +91,15 @@ export function UserArtsSite() {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "jwtToken"
-                        )}`, // Add JWT for authentication
+                        Authorization: `Bearer ${token}`, // Add JWT for authentication
                     },
                 }
             );
 
             const result = response.data;
             if (result.success) {
-                window.location.reload();
                 alert("Artwork successfully updated.");
+                window.location.reload();
             }
         } catch (error) {
             setError(error.message || "An error occurred.");
