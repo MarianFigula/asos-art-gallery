@@ -31,6 +31,7 @@ header("Content-Type: application/json");
 
 require __DIR__ . '/../../vendor/autoload.php';
 include_once '../../config/Database.php';
+include_once '../../classes/Cart.php';
 include_once '../../classes/User.php';
 include_once '../../config/cors.php';
 
@@ -78,21 +79,29 @@ try {
     $user->setRole('U');
 
     if ($user->createUser()) {
-        $payload = [
-            "id" => $user->getId(),
-            "email" => $user->getEmail(),
-            "role" => 'U',
-            "exp" => time() + 3600000
-        ];
 
-        $jwt = JWT::encode($payload, $key, 'HS256');
+        $cart = new Cart($db);
+        $cart->setUserId($user->getId());
 
-        http_response_code(201);
-        echo json_encode([
-            "success" => true,
-            "message" => "User created successfully.",
-            "token" => $jwt // Include the token in the response
-        ]);
+        if ($cart->createCart()){
+            $payload = [
+                "id" => $user->getId(),
+                "email" => $user->getEmail(),
+                "role" => 'U',
+                "exp" => time() + 3600000
+            ];
+
+            $jwt = JWT::encode($payload, $key, 'HS256');
+
+            http_response_code(201);
+            echo json_encode([
+                "success" => true,
+                "message" => "User created successfully.",
+                "token" => $jwt // Include the token in the response
+            ]);
+        } else {
+            throw new Exception("Unable to create user and cart.");
+        }
     } else {
         throw new Exception("Unable to create user.");
     }

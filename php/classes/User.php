@@ -180,6 +180,7 @@ class User {
             $result = $stmt->execute();
             
             if ($result) {
+                $this->id = $this->conn->lastInsertId();
                 $this->conn->commit();
                 return true;
             } else {
