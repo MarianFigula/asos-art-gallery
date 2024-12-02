@@ -29,7 +29,7 @@
 
 header("Content-Type: application/json");
 
-require '../../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 include_once '../../config/Database.php';
 include_once '../../classes/User.php';
 include_once '../../config/cors.php';

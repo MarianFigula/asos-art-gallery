@@ -36,7 +36,7 @@ include_once '../../classes/Cart.php';
 include_once '../../classes/Art.php';
 include_once '../../classes/CartArt.php';
 include_once "../../config/cors.php";
-include_once '../../config/auth.php';
+include_once '../../config/Auth.php';
 
 $database = new Database();
 $db = $database->getConnection();

@@ -32,7 +32,7 @@ include_once '../../config/Database.php';
 include_once '../../classes/CartArt.php';
 include_once '../../classes/Cart.php';
 include_once "../../config/cors.php";
-include_once '../../config/auth.php';
+include_once '../../config/Auth.php';
 
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;

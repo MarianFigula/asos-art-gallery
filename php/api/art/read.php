@@ -24,7 +24,7 @@ include_once '../../classes/Art.php';
 // NOTE: don't think this import is necessary
 include_once '../../classes/User.php';
 include_once "../../config/cors.php";
-include_once '../../config/auth.php';
+include_once '../../config/Auth.php';
 
 $database = new Database();
 $db = $database->getConnection();

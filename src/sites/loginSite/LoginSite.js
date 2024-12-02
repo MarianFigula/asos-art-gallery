@@ -44,7 +44,7 @@ export function LoginSite() {
                 setError(data.message);
             }
         } catch (error) {
-            setError("Login failed. Please try again");
+            setError("Wrong email or password.");
         }
     }
 

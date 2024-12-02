@@ -29,7 +29,7 @@ header("Content-Type: application/json");
 include_once '../../config/Database.php';
 include_once '../../classes/Art.php';
 include_once "../../config/cors.php";
-include_once '../../config/auth.php';
+include_once '../../config/Auth.php';
 
 $database = new Database();
 $db = $database->getConnection();

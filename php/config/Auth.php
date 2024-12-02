@@ -1,5 +1,5 @@
 <?php
-require '../../vendor/autoload.php'; // Load JWT library
+require __DIR__ . '/../vendor/autoload.php'; // Load JWT library
 
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
