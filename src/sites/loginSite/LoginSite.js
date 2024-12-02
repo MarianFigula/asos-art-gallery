@@ -5,6 +5,7 @@ import "../../spacing.css";
 import { FormInput } from "../../components/formInput/FormInput";
 import { Form } from "../../components/form/Form";
 import axios from "axios";
+import {useAuth} from "../../components/auth/AuthContext";
 
 export function LoginSite() {
     const [email, setEmail] = useState("");
@@ -12,6 +13,8 @@ export function LoginSite() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const serverUrl = process.env.REACT_APP_SERVER_URL;
+    const { login } = useAuth(); // Access the login function from AuthContext
+
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -32,17 +35,7 @@ export function LoginSite() {
 
             // NEW WAY
             const data = response.data;
-            if (data.success) {
-                localStorage.setItem("jwtToken", data.token); // Save the JWT token
-                console.log(
-                    "Token saved in localStorage:",
-                    localStorage.getItem("jwtToken")
-                );
-
-                navigate("/");
-            } else {
-                setError(data.message);
-            }
+            data.success ? login(data.token) : setError(data.message);
         } catch (error) {
             setError("Wrong email or password.");
         }

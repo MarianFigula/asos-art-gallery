@@ -5,6 +5,7 @@ import "../../spacing.css"
 import {FormInput} from "../../components/formInput/FormInput";
 import {Form} from "../../components/form/Form";
 import axios from "axios";
+import {useAuth} from "../../components/auth/AuthContext";
 
 export function RegisterSite() {
     const [email, setEmail] = useState("")
@@ -23,6 +24,7 @@ export function RegisterSite() {
     const [securityAnswer, setSecurityAnswer] = useState("")
     const [error, setError] = useState("")
     const navigate = useNavigate()
+    const { login } = useAuth(); // Access the login function from AuthContext
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -49,7 +51,7 @@ export function RegisterSite() {
             });
 
             const data = response.data;
-            data.success ? navigate("/") : setError(data.message);
+            data.success ? login(data.token) : setError(data.message);
 
         } catch (error) {
             setError(error.message);
