@@ -24,6 +24,7 @@ include_once '../../classes/Art.php';
 // NOTE: don't think this import is necessary
 include_once '../../classes/User.php';
 include_once "../../config/cors.php";
+include_once '../../config/auth.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -40,68 +41,84 @@ if ($method !== "GET") {
     ]);
     exit();
 }
+try {
+    // Fetch art by ID
+    if (isset($_GET['id'])) {
+        $art_id = intval($_GET['id']);
+        $art->setId($art_id);
+        $stmt = $art->getArtById();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (isset($_GET['id'])) {
-    $art->setId($_GET['id']);
-    $stmt = $art->getArtById();
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    if (!$row) {
-        http_response_code(404);
+        if (!$row) {
+            http_response_code(404); // Not Found
+            echo json_encode([
+                "success" => false,
+                "message" => "Art not found."
+            ]);
+            exit();
+        }
+
+        http_response_code(200); // Success
         echo json_encode([
-            "success" => false,
-            "message" => "Art not found."
+            "success" => true,
+            "data" => $row
         ]);
         exit();
     }
 
-    http_response_code(200);
-    echo json_encode([
-        "success" => true,
-        "data" => $row
-    ]);
-    exit();
-}
+    // Fetch arts by authenticated user's ID
+    if (isset($_GET['user_id'])) {
+        $user_id = intval($_GET['user_id']);
+        $art->setUserId($user_id);
+        $stmt = $art->getArtsByUserId();
+        $arts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if (isset($_GET['user_id'])) {
-    $art->setUserId($_GET['user_id']);
-    $stmt = $art->getArtsByUserId();
+        if (empty($arts)) {
+            http_response_code(404); // Not Found
+            echo json_encode([
+                "success" => false,
+                "message" => "No artworks found for the specified user."
+            ]);
+            exit();
+        }
+
+        http_response_code(200); // Success
+        echo json_encode([
+            "success" => true,
+            "data" => $arts
+        ]);
+        exit();
+    }
+
+    // Fetch all arts with reviews and user details
+    if ($decoded->role !== 'A') { // Ensure only admins can fetch all data
+        http_response_code(403); // Forbidden
+        echo json_encode([
+            "success" => false,
+            "message" => "Access denied. Admin privileges required."
+        ]);
+        exit();
+    }
+
+    $stmt = $art->getArtWithReviewsAndUser();
     $arts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    if (empty($arts)) {
-        http_response_code(404);
-        echo json_encode([
-            "success" => false,
-            "message" => "No artworks found for the specified user."
-        ]);
-        exit();
-    }
 
-    http_response_code(200);
+    http_response_code(200); // Success
     echo json_encode([
         "success" => true,
         "data" => $arts
     ]);
-    exit();
-}
-
-// REVIEW - SHOULD WORK, COMMENTED FOR DEBUGGING PURPOSES 
-/*
-if ($_SESSION['role'] !== 'A') {
-    http_response_code(403);
+} catch (InvalidArgumentException $e) {
+    http_response_code(400);
     echo json_encode([
         "success" => false,
-        "message" => "Access denied. Admin privileges required to view all users."
+        "message" => $e->getMessage()
     ]);
     exit();
-}*/
-
-$stmt = $art->getArtWithReviewsAndUser();
-$arts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-http_response_code(200);
-echo json_encode([
-    "success" => true,
-    "data" => $arts
-]);
-exit();
+} catch (Exception $e) {
+    http_response_code(500); // Internal Server Error
+    echo json_encode([
+        "success" => false,
+        "message" => "An error occurred: " . $e->getMessage()
+    ]);
+}

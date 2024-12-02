@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from "react";
-import "../../table.css"
-import {getUserColumns} from "../../assets/table-columns/tableUserColumns";
-import {useNavigate} from "react-router-dom";
-import {Table} from "../../components/table/Table";
+import React, { useEffect, useState } from "react";
+import "../../table.css";
+import { getUserColumns } from "../../assets/table-columns/tableUserColumns";
+import { useNavigate } from "react-router-dom";
+import { Table } from "../../components/table/Table";
 import axios from "axios";
 
 export function AdminSite() {
-    const [data, setData] = useState([])
-    const [records, setRecords] = useState(data)
+    const [data, setData] = useState([]);
+    const [records, setRecords] = useState(data);
 
     const navigate = useNavigate();
 
     const editHandler = (row) => {
         navigate(`/admin-edit-user/${row.id}`, {
-            state: { username: row.username, email: row.email }
+            state: { username: row.username, email: row.email },
         });
     };
 
@@ -21,47 +21,49 @@ export function AdminSite() {
 
     const fetchData = async () => {
         const serverUrl = process.env.REACT_APP_SERVER_URL;
+        const token = localStorage.getItem("jwtToken");
 
         try {
             const response = await axios.get(`${serverUrl}/api/user/read.php`, {
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`, // Include JWT token for authentication
                 },
             });
 
             setData(response.data.data);
             setRecords(response.data.data);
         } catch (error) {
-            console.log(error);
+            console.error("Error fetching user data:", error);
         }
     };
 
     useEffect(() => {
-        fetchData()
-    }, [])
-
+        fetchData();
+    }, []);
 
     const refreshData = () => {
-        fetchData()
-    }
-    const handleChange = ({selectedRows}) => {
-        console.log('Selected Rows: ', selectedRows);
+        fetchData();
+    };
+    const handleChange = ({ selectedRows }) => {
+        console.log("Selected Rows: ", selectedRows);
     };
 
     // todo: dat eventValue hned toLowerCase()
     const handleFilter = (event) => {
-        const eventValue = event.target.value
-        const newData = data.filter(row => {
-            return row.id.toString().toLowerCase()
-                    .includes(eventValue) ||
-                row.username.toLowerCase()
+        const eventValue = event.target.value;
+        const newData = data.filter((row) => {
+            return (
+                row.id.toString().toLowerCase().includes(eventValue) ||
+                row.username.toLowerCase().includes(eventValue.toLowerCase()) ||
+                row.email.toLowerCase().includes(eventValue.toLowerCase()) ||
+                row.security_question
+                    .toLowerCase()
                     .includes(eventValue.toLowerCase()) ||
-                row.email.toLowerCase()
-                    .includes(eventValue.toLowerCase()) ||
-                row.security_question.toLowerCase()
-                    .includes(eventValue.toLowerCase()) ||
-                row.security_answer.toLowerCase()
-                    .includes(eventValue.toLowerCase());
+                row.security_answer
+                    .toLowerCase()
+                    .includes(eventValue.toLowerCase())
+            );
         });
         setRecords(newData);
     };
@@ -77,5 +79,5 @@ export function AdminSite() {
                 refreshData={refreshData}
             />
         </>
-    )
+    );
 }

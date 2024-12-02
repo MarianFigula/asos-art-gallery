@@ -27,6 +27,7 @@ header("Content-Type: application/json");
 include_once '../../config/Database.php';
 include_once '../../classes/User.php';
 include_once "../../config/cors.php";
+include_once '../../config/auth.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -43,83 +44,82 @@ if ($method !== "GET"){
     exit();
 }
 
-if (isset($_GET['id'])) {
-    try {
+try {
+    // Fetch user details by ID
+    if (isset($_GET['id'])) {
         $user->setId($_GET['id']);
-    } catch (InvalidArgumentException $e) {
-        http_response_code(400);
+        $stmt = $user->getUserById();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            http_response_code(404); // Not Found
+            echo json_encode([
+                "success" => false,
+                "message" => "User not found."
+            ]);
+            exit();
+        }
+
+        http_response_code(200); // Success
         echo json_encode([
-            "success" => false,
-            "message" => $e->getMessage()
-        ]);
-        exit();
-    }
-    $stmt = $user->getUserById();
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$row) {
-        http_response_code(404);
-        echo json_encode([
-            "success" => false,
-            "message" => "User not found."
+            "success" => true,
+            "data" => $row
         ]);
         exit();
     }
 
-    http_response_code(200); 
-    echo json_encode([
-        "success" => true,
-        "data" => $row
-    ]);
-    exit();
-}
-
-if (isset($_GET['email'])) {
-    try {
+    if (isset($_GET['email'])) {
         $user->setEmail($_GET['email']);
-    } catch (InvalidArgumentException $e) {
-        http_response_code(400);
+        $stmt = $user->getUserByEmail();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            http_response_code(404); // Not Found
+            echo json_encode([
+                "success" => false,
+                "message" => "User not found."
+            ]);
+            exit();
+        }
+
+        http_response_code(200); // Success
         echo json_encode([
-            "success" => false,
-            "message" => $e->getMessage()
-        ]);
-        exit();
-    }
-    $stmt = $user->getUserByEmail();
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$row) {
-        http_response_code(404);
-        echo json_encode([
-            "success" => false,
-            "message" => "User not found."
+            "success" => true,
+            "data" => $row
         ]);
         exit();
     }
 
-    http_response_code(200);
+    // Fetch all users (admin-only action)
+    if ($decoded->role !== 'A') { // JWT token's role field is validated
+        http_response_code(403); // Forbidden
+        echo json_encode([
+            "success" => false,
+            "message" => "Access denied. Admin privileges required to view all users."
+        ]);
+        exit();
+    }
+
+    $stmt = $user->getAllUsers();
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    http_response_code(200); // Success
     echo json_encode([
         "success" => true,
-        "data" => $row
+        "data" => $users
     ]);
-    exit();
-}
-
-// REVIEW - SHOULD WORK, COMMENTED FOR DEBUGGING PURPOSES 
-/*
-if ($_SESSION['role'] !== 'A') {
-    http_response_code(403);
+} catch (InvalidArgumentException $e) {
+    http_response_code(400);
     echo json_encode([
         "success" => false,
-        "message" => "Access denied. Admin privileges required to view all users."
+        "message" => $e->getMessage()
     ]);
     exit();
-}*/
-
-$stmt = $user->getAllUsers();
-$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-http_response_code(200);
-echo json_encode([
-    "success" => true,
-    "data" => $users
-]);
+} catch (Exception $e) {
+    http_response_code(500); // Internal Server Error
+    echo json_encode([
+        "success" => false,
+        "message" => "An error occurred: " . $e->getMessage()
+    ]);
+}
 

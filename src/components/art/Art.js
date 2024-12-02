@@ -1,32 +1,37 @@
-import {ArtImage} from "../artImage/artImage";
-import {Modal} from "../modal/Modal";
-import {useEffect, useState} from "react";
+import { ArtImage } from "../artImage/artImage";
+import { Modal } from "../modal/Modal";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import {useCart} from "../cartProvider/CartProvider";
+import { useCart } from "../cartProvider/CartProvider";
 
-
-export function Art({art}) {
+export function Art({ art }) {
     const { cartArtIds, incrementCartCount } = useCart();
     const [isArtImageModalOpen, setIsArtImageModalOpen] = useState(false);
-    const [isAddedToCart, setIsAddedToCart] = useState(cartArtIds.includes(art.art_id)); // Initialize based on cart state
+    const [isAddedToCart, setIsAddedToCart] = useState(
+        cartArtIds.includes(art.art_id)
+    ); // Initialize based on cart state
 
     useEffect(() => {
-        setIsAddedToCart(cartArtIds.includes(art.art_id));  // Update state when cartArtIds change
+        setIsAddedToCart(cartArtIds.includes(art.art_id)); // Update state when cartArtIds change
     }, [cartArtIds, art.art_id]);
 
     async function handleAddToCartClick() {
         const serverUrl = process.env.REACT_APP_SERVER_URL;
+        const token = localStorage.getItem("jwtToken");
 
         try {
-            const userId = 2; // Replace with session logic to get user_id
-            const response = await axios.post(`${serverUrl}/api/cartArt/create.php`, {
-                art_id: art.art_id,
-                user_id: userId
-            }, {
-                headers: {
-                    "Content-Type": "application/json",
+            const response = await axios.post(
+                `${serverUrl}/api/cartArt/create.php`,
+                {
+                    art_id: art.art_id,
                 },
-            });
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
             const result = response.data;
             if (result.success) {
@@ -44,7 +49,8 @@ export function Art({art}) {
             <Modal
                 isOpen={isArtImageModalOpen}
                 title={art.title}
-                onClose={() => setIsArtImageModalOpen(false)}>
+                onClose={() => setIsArtImageModalOpen(false)}
+            >
                 <div className="cart-modal-img">
                     <ArtImage imgUrl={art.img_url}></ArtImage>
                 </div>
@@ -55,7 +61,10 @@ export function Art({art}) {
             </Modal>
 
             <div className="art-wrapper">
-                <div className="img-wrapper" onClick={() => setIsArtImageModalOpen(true)}>
+                <div
+                    className="img-wrapper"
+                    onClick={() => setIsArtImageModalOpen(true)}
+                >
                     <ArtImage imgUrl={art.img_url} />
                 </div>
                 <div className="img-info">
@@ -63,9 +72,7 @@ export function Art({art}) {
                         <h3>{art.title}</h3>
                         <p>{art.username}</p>
                     </div>
-                    <p className="art-description">
-                        {art.description}
-                    </p>
+                    <p className="art-description">{art.description}</p>
                 </div>
                 <div className="space-between-for-two-components">
                     <p className="price">{art.price}€</p>

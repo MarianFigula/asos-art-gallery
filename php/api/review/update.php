@@ -29,7 +29,7 @@ header("Content-Type: application/json");
 
 include_once '../../config/Database.php';
 include_once '../../classes/Review.php';
-include_once "../../config/cors.php";
+include_once '../../config/auth.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -85,16 +85,28 @@ if (!$row) {
     exit();
 }
 
+// Verify ownership of the review
+if ($row['user_id'] !== $decoded->id && $decoded->role !== 'A') { // Allow admins to update any review
+    http_response_code(403); // Forbidden
+    echo json_encode([
+        "success" => false,
+        "message" => "You do not have permission to update this review."
+    ]);
+    exit();
+}
+
 try {
-    if (!empty($review_text)) {
+    // Set fields to update
+    if ($review_text !== null) {
         $review->setReviewText($review_text);
     }
-    if (!empty($rating)) {
+    if ($rating !== null) {
         $review->setRating($rating);
     }
 
+    // Update the review
     if ($review->updateReviewById()) {
-        http_response_code(200);
+        http_response_code(200); // Success
         echo json_encode([
             "success" => true,
             "message" => "Review successfully updated."

@@ -36,10 +36,10 @@ include_once '../../classes/CartArt.php';
 include_once '../../classes/Cart.php';
 include_once '../../classes/User.php';
 include_once "../../config/cors.php";
+include_once '../../config/auth.php';
 
 $database = new Database();
 $db = $database->getConnection();
-
 
 $cartArt = new CartArt($db);
 $cart = new Cart($db);
@@ -58,21 +58,17 @@ if ($method !== "POST") {
 
 $data = json_decode(file_get_contents("php://input"));
 
-
-$session_user_id = $data->user_id; // TODO ziskat cez session
-
-if (empty($session_user_id) || empty($data->art_id)){
-    http_response_code(404);
+if (empty($data->art_id)) {
+    http_response_code(400);
     echo json_encode([
         "success" => false,
-        "message" => "User or Art not found."
+        "message" => "Art ID is required."
     ]);
-    exit;
+    exit();
 }
 
-$user_id = $session_user_id;
+$user_id = $decoded->id; // `Auth.php` populates the $decoded variable
 $art_id = $data->art_id;
-
 
 try {
     $cart->setUserId($user_id);

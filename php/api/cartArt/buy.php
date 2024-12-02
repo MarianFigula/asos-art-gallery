@@ -36,7 +36,7 @@ include_once '../../classes/Cart.php';
 include_once '../../classes/Art.php';
 include_once '../../classes/CartArt.php';
 include_once "../../config/cors.php";
-
+include_once '../../config/auth.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -58,19 +58,14 @@ if ($method !== "POST") {
 
 $data = json_decode(file_get_contents("php://input"));
 
-$session_user_id = $data->user_id; // TODO ziskat cez session
-
-if (empty($session_user_id) || empty($data->art_ids)){
-    http_response_code(404);
-    echo json_encode([
-        "success" => false,
-        "message" => "User or Art not found."
-    ]);
-    exit;
+if (empty($data->art_ids) || !is_array($data->art_ids)) {
+    http_response_code(400); // Bad Request
+    echo json_encode(["success" => false, "message" => "Art IDs are required and must be an array."]);
+    exit();
 }
 
-$user_id = $session_user_id;
-$art_ids = $data->art_ids;
+$user_id = $decoded->id; // Extracted from JWT
+$art_ids = array_map('intval', $data->art_ids); // Sanitize art IDs
 
 try {
     $cart->setUserId($user_id);
@@ -78,24 +73,35 @@ try {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$row) {
-        http_response_code(404);
-        echo json_encode([
-            "success" => false,
-            "message" => "Cart not found."
-        ]);
+        http_response_code(404); // Not Found
+        echo json_encode(["success" => false, "message" => "Cart not found."]);
         exit();
     }
 
-    $cartArt->setCartId($row["id"]);
+    $cart_id = $row["id"];
+    $cartArt->setCartId($cart_id);
 
-    if ($cartArt->clearCartArt($art_ids) && $art->deleteArtsByIds($art_ids)) {
-        http_response_code(200);
-        echo json_encode([
-            "success" => true,
-            "message" => "Arts successfully bought"
-        ]);
-    } else {
-        throw new Exception("Failed to remove art from the cart.");
-    }
+    // Begin a transaction for atomic operations
+    $db->beginTransaction();
+
+    // Clear items from the cart and delete art records
+    $cartArt->clearCartArt($art_ids);
+    $art->deleteArtsByIds($art_ids);
+
+    // Commit the transaction if all operations succeed
+    $db->commit();
+
+    http_response_code(200); // Success
+    echo json_encode([
+        "success" => true,
+        "message" => "Arts successfully purchased and cart cleared."
+    ]);
 } catch (Exception $e) {
+    // Rollback the transaction on error
+    $db->rollBack();
+    http_response_code(500); // Internal Server Error
+    echo json_encode([
+        "success" => false,
+        "message" => "An error occurred while processing the purchase: " . $e->getMessage()
+    ]);
 }

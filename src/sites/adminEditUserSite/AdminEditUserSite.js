@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
-import {getArtColumns} from "../../assets/table-columns/tableArtColumns";
-import {getReviewColumns} from "../../assets/table-columns/tableReviewColumns";
-import {Table} from "../../components/table/Table";
-import {Form} from "../../components/form/Form";
-import {FormInput} from "../../components/formInput/FormInput";
-import "./AdminEditUserSite.css"
-import {Modal} from "../../components/modal/Modal";
-import {useLocation, useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { getArtColumns } from "../../assets/table-columns/tableArtColumns";
+import { getReviewColumns } from "../../assets/table-columns/tableReviewColumns";
+import { Table } from "../../components/table/Table";
+import { Form } from "../../components/form/Form";
+import { FormInput } from "../../components/formInput/FormInput";
+import "./AdminEditUserSite.css";
+import { Modal } from "../../components/modal/Modal";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 
 // admin page
@@ -18,91 +18,106 @@ import axios from "axios";
 export function AdminEditUserSite() {
     const { id } = useParams();
     const location = useLocation();
-    const {username: initialUsername, email: initialEmail } = location.state || {};
-    const serverUrl = process.env.REACT_APP_SERVER_URL
+    const { username: initialUsername, email: initialEmail } =
+        location.state || {};
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
 
+    const [artData, setArtData] = useState([]);
+    const [artRecords, setArtRecords] = useState(artData);
 
-    const [artData, setArtData] = useState([])
-    const [artRecords, setArtRecords] = useState(artData)
+    const [reviewData, setReviewData] = useState([]);
+    const [reviewRecords, setReviewRecords] = useState(reviewData);
+    const [error, setError] = useState("");
+    const [username, setUsername] = useState(initialUsername || "");
+    const [email, setEmail] = useState(initialEmail || "");
+    const [isArtModalOpen, setIsArtModalOpen] = useState(false);
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
-    const [reviewData, setReviewData] = useState([])
-    const [reviewRecords, setReviewRecords] = useState(reviewData)
-    const [error, setError] = useState("")
-    const [username, setUsername] = useState(initialUsername || "")
-    const [email, setEmail] = useState(initialEmail || "")
-    const [isArtModalOpen, setIsArtModalOpen] = useState(false)
-    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
+    const [artEditData, setArtEditData] = useState({
+        id: null,
+        title: "",
+        description: "",
+        price: 0,
+    });
 
-    const [artEditData, setArtEditData] = useState(
-        {
-            id: null,
-            title: "",
-            description: "",
-            price: 0
-        }
-    )
-
-    const [reviewEditData, setReviewEditData] = useState(
-        {
-            id: null,
-            review_text: "",
-            rating: ""
-        }
-    )
-
+    const [reviewEditData, setReviewEditData] = useState({
+        id: null,
+        review_text: "",
+        rating: "",
+    });
 
     const fetchArtData = async () => {
         try {
             const response = await axios.get(`${serverUrl}/api/art/read.php`, {
-                params: { user_id: id }, // Pass query parameters here
+                params: { user_id: id }, // Query user-specific artworks by ID
                 headers: {
                     "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`, // Add JWT token for authentication
                 },
             });
 
-            setArtData(response.data.data);
-            setArtRecords(response.data.data);
+            const result = response.data;
+
+            if (result.success) {
+                setArtData(result.data); // Set fetched art data into state
+                setArtRecords(result.data); // Optionally set into another state for records
+            } else {
+                console.error("Error: ", result.message);
+            }
         } catch (error) {
-            console.error('Error fetching art data:', error);
+            console.error("Error fetching art data:", error);
+            // Handle errors gracefully
         }
     };
 
     const fetchReviewData = async () => {
         try {
-            const response = await axios.get(`${serverUrl}/api/review/read.php`, {
-                params: { user_id: id }, // Pass query parameters here
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            const response = await axios.get(
+                `${serverUrl}/api/review/read.php`,
+                {
+                    params: { user_id: id }, // Fetch reviews for a specific user
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "jwtToken"
+                        )}`, // Include JWT for authentication
+                    },
+                }
+            );
 
-            setReviewData(response.data.data);
-            setReviewRecords(response.data.data);
+            const result = response.data;
+
+            if (result.success) {
+                setReviewData(result.data); // Store the fetched reviews in state
+                setReviewRecords(result.data); // Optionally store for records
+            } else {
+                console.error("Error: ", result.message);
+            }
         } catch (error) {
-            console.error('Error fetching review data:', error);
+            console.error("Error fetching review data:", error);
+            // Optionally handle errors in the UI, e.g., show an error message
         }
     };
 
     useEffect(() => {
         if (id) {
             fetchArtData();
-            fetchReviewData()
+            fetchReviewData();
         } else {
-            setError("No id provided")
+            setError("No id provided");
         }
     }, [id]);
 
-
     const editArtsHandler = (row) => {
-        console.log(row)
+        console.log(row);
         setArtEditData({
             id: row.id,
             title: row.title,
             description: row.description,
             price: Number(row.price),
-        })
-        setIsArtModalOpen(true)
-    }
+        });
+        setIsArtModalOpen(true);
+    };
 
     const editReviewsHandler = (row) => {
         console.log(row);
@@ -112,74 +127,83 @@ export function AdminEditUserSite() {
             rating: row.rating,
         });
         setIsReviewModalOpen(true);
-    }
+    };
 
-    const columnsArts = getArtColumns(editArtsHandler)
-    const columnsReviews = getReviewColumns(editReviewsHandler)
+    const columnsArts = getArtColumns(editArtsHandler);
+    const columnsReviews = getReviewColumns(editReviewsHandler);
 
-
-    const handleChange = ({selectedRows}) => {
-        console.log('Selected Rows: ', selectedRows);
+    const handleChange = ({ selectedRows }) => {
+        console.log("Selected Rows: ", selectedRows);
     };
 
     const handleArtFilter = (event) => {
-        const eventValue = event.target.value
-        const newData = artData.filter(row => {
-            return row.id.toString().toLowerCase()
-                    .includes(eventValue) ||
-                row.img_url.toLowerCase()
+        const eventValue = event.target.value;
+        const newData = artData.filter((row) => {
+            return (
+                row.id.toString().toLowerCase().includes(eventValue) ||
+                row.img_url.toLowerCase().includes(eventValue.toLowerCase()) ||
+                row.title.toLowerCase().includes(eventValue.toLowerCase()) ||
+                row.description
+                    .toLowerCase()
                     .includes(eventValue.toLowerCase()) ||
-                row.title.toLowerCase()
-                    .includes(eventValue.toLowerCase()) ||
-                row.description.toLowerCase()
-                    .includes(eventValue.toLowerCase()) ||
-                row.price.toString().toLowerCase()
-                    .includes(eventValue) ||
-                row.upload_date.toString().toLowerCase()
-                    .includes(eventValue)
+                row.price.toString().toLowerCase().includes(eventValue) ||
+                row.upload_date.toString().toLowerCase().includes(eventValue)
+            );
         });
         setArtRecords(newData);
-    }
+    };
 
     const handleReviewFilter = (event) => {
-        const eventValue = event.target.value.toLowerCase()
-        const newData = reviewData.filter(row => {
-            return row.id.toString()
-                    .includes(eventValue) ||
-                row.review_text.toLowerCase()
-                    .includes(eventValue) ||
-                row.rating.toString().toLowerCase()
-                    .includes(eventValue) ||
-                row.review_creation_date.toString().toLowerCase()
+        const eventValue = event.target.value.toLowerCase();
+        const newData = reviewData.filter((row) => {
+            return (
+                row.id.toString().includes(eventValue) ||
+                row.review_text.toLowerCase().includes(eventValue) ||
+                row.rating.toString().toLowerCase().includes(eventValue) ||
+                row.review_creation_date
+                    .toString()
+                    .toLowerCase()
                     .includes(eventValue)
+            );
         });
         setReviewRecords(newData);
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Submitting user edit");
 
         try {
-            const response = await axios.put(`${serverUrl}/api/user/update.php`, {
-                id, username, email,
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
+            const response = await axios.put(
+                `${serverUrl}/api/user/update.php`,
+                {
+                    id,
+                    username,
+                    email,
                 },
-            });
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "jwtToken"
+                        )}`, // Add JWT token for authentication
+                    },
+                }
+            );
 
             const result = response.data;
             console.log(result);
 
             if (result.success) {
-                setUsername(username);
+                setUsername(username); // Update the frontend state with new values
                 setEmail(email);
                 alert("Updated successfully");
             }
         } catch (error) {
-            setError(error);
-            console.warn(error);
+            setError(
+                error.message || "An error occurred while updating the user."
+            );
+            console.warn("Error updating user:", error);
         }
     };
 
@@ -187,26 +211,37 @@ export function AdminEditUserSite() {
         e.preventDefault();
 
         try {
-            const response = await axios.put(`${serverUrl}/api/art/update.php`, {
-                id: artEditData.id,
-                title: artEditData.title,
-                description: artEditData.description,
-                price: artEditData.price
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
+            const response = await axios.put(
+                `${serverUrl}/api/art/update.php`,
+                {
+                    id: artEditData.id,
+                    title: artEditData.title,
+                    description: artEditData.description,
+                    price: artEditData.price,
                 },
-            });
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "jwtToken"
+                        )}`, // Add JWT token for authentication
+                    },
+                }
+            );
 
             const result = response.data;
-            if (result.success) {
-                window.location.reload();
-                alert("Updated successfully");
-            }
 
+            if (result.success) {
+                alert("Artwork updated successfully.");
+                window.location.reload(); // Reload the page to reflect changes
+            } else {
+                console.error("Error:", result.message);
+            }
         } catch (error) {
-            setError(error);
-            console.warn(error);
+            setError(
+                error.message || "An error occurred while updating the artwork."
+            );
+            console.warn("Error updating artwork:", error);
         }
     };
 
@@ -214,25 +249,36 @@ export function AdminEditUserSite() {
         e.preventDefault();
 
         try {
-            const response = await axios.put(`${serverUrl}/api/review/update.php`, {
-                id: reviewEditData.id,
-                review_text: reviewEditData.review_text,
-                rating: reviewEditData.rating,
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
+            const response = await axios.put(
+                `${serverUrl}/api/review/update.php`,
+                {
+                    id: reviewEditData.id,
+                    review_text: reviewEditData.review_text,
+                    rating: reviewEditData.rating,
                 },
-            });
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "jwtToken"
+                        )}`, // Add JWT token for authentication
+                    },
+                }
+            );
 
             const result = response.data;
-            if (result.success) {
-                window.location.reload();
-                alert("Updated successfully");
-            }
 
+            if (result.success) {
+                alert("Review updated successfully.");
+                window.location.reload(); // Reload the page to reflect changes
+            } else {
+                console.error("Error:", result.message);
+            }
         } catch (error) {
-            setError(error);
-            console.warn(error);
+            setError(
+                error.message || "An error occurred while updating the review."
+            );
+            console.warn("Error updating review:", error);
         }
     };
     return (
@@ -252,12 +298,12 @@ export function AdminEditUserSite() {
                         label="Title"
                         type="text"
                         value={artEditData.title}
-                        onChange={(e) => setArtEditData(
-                            {
+                        onChange={(e) =>
+                            setArtEditData({
                                 ...artEditData,
-                                title: e.target.value
-                            }
-                        )}
+                                title: e.target.value,
+                            })
+                        }
                         required
                     />
                     <FormInput
@@ -265,31 +311,28 @@ export function AdminEditUserSite() {
                         type="textarea"
                         rows="7"
                         value={artEditData.description}
-                        onChange={(e) => setArtEditData(
-                            {
+                        onChange={(e) =>
+                            setArtEditData({
                                 ...artEditData,
-                                description: e.target.value
-                            }
-                        )}
+                                description: e.target.value,
+                            })
+                        }
                         required
                     />
                     <FormInput
                         label="Price (€)"
                         type="number"
                         value={artEditData.price}
-                        onChange={(e) => setArtEditData(
-                            {
+                        onChange={(e) =>
+                            setArtEditData({
                                 ...artEditData,
-                                price: Number(e.target.value)
-                            }
-                        )}
+                                price: Number(e.target.value),
+                            })
+                        }
                         required
                     />
-
                 </Form>
-
             </Modal>
-
 
             <Modal
                 isOpen={isReviewModalOpen}
@@ -307,12 +350,12 @@ export function AdminEditUserSite() {
                         type="textarea"
                         rows="7"
                         value={reviewEditData.review_text}
-                        onChange={(e) => setReviewEditData(
-                            {
+                        onChange={(e) =>
+                            setReviewEditData({
                                 ...reviewEditData,
-                                review_text: e.target.value
-                            }
-                        )}
+                                review_text: e.target.value,
+                            })
+                        }
                         required
                     />
                     {
@@ -329,15 +372,14 @@ export function AdminEditUserSite() {
                         max="5"
                         min="0"
                         value={reviewEditData.rating}
-                        onChange={(e) => setReviewEditData(
-                            {
+                        onChange={(e) =>
+                            setReviewEditData({
                                 ...reviewEditData,
-                                rating: Number(e.target.value)
-                            }
-                        )}
+                                rating: Number(e.target.value),
+                            })
+                        }
                         required
                     />
-
                 </Form>
             </Modal>
             <h1 className="text-center mb-2 mt-10">User - {username}</h1>
@@ -362,7 +404,6 @@ export function AdminEditUserSite() {
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
-
                 </Form>
             </div>
             <h1 className="text-center mb-1">Arts</h1>
@@ -383,9 +424,7 @@ export function AdminEditUserSite() {
                 handleChange={handleChange}
                 refreshData={fetchReviewData}
                 searchId="search-review-id"
-
             />
         </>
-    )
-
+    );
 }

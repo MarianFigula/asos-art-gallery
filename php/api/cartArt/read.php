@@ -32,6 +32,10 @@ include_once '../../config/Database.php';
 include_once '../../classes/CartArt.php';
 include_once '../../classes/Cart.php';
 include_once "../../config/cors.php";
+include_once '../../config/auth.php';
+
+use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 
 $database = new Database();
 $db = $database->getConnection();
@@ -50,10 +54,10 @@ if ($method !== "GET") {
     exit();
 }
 
-// zo session alebo z autentizacie treba zobrat
-if (isset($_GET["user_id"])){
-    $cart->setUserId($_GET["user_id"]);
+$user_id = $decoded->id;
 
+try {
+    $cart->setUserId($user_id);
     $stmt = $cart->getCartByUserId();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -61,19 +65,34 @@ if (isset($_GET["user_id"])){
         http_response_code(404);
         echo json_encode([
             "success" => false,
-            "message" => "Cart not found."
+            "message" => "Cart not found for the user."
         ]);
         exit();
     }
 
+    // Get all art IDs from the user's cart
     $cartArt->setCartId($row["id"]);
-
     $stmt = $cartArt->getCartArtsByCartId();
     $cartArts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (empty($cartArts)) {
+        echo json_encode([
+            "success" => true,
+            "data" => []
+        ]);
+        exit();
+    }
+
     $artIds = array_column($cartArts, "art_id");
 
     echo json_encode([
         "success" => true,
         "data" => $artIds
+    ]);
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        "success" => false,
+        "message" => "An error occurred while fetching cart art IDs: " . $e->getMessage()
     ]);
 }

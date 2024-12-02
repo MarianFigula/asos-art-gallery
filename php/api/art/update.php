@@ -29,6 +29,7 @@ header("Content-Type: application/json");
 include_once '../../config/Database.php';
 include_once '../../classes/Art.php';
 include_once "../../config/cors.php";
+include_once '../../config/auth.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -47,28 +48,28 @@ if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
 
 $data = json_decode(file_get_contents("php://input"));
 
-// Check for a valid ID
+// Validate the artwork ID
 if (!isset($data->id) || !filter_var($data->id, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]])) {
-    http_response_code(400);
+    http_response_code(400); // Bad Request
     echo json_encode([
         "success" => false,
         "message" => "A valid artwork ID is required to update artwork information."
     ]);
-    exit;
+    exit();
 }
 
-// Check for at least one parameter to update
-$title = isset($data->title) ? $data->title : null;
-$description = isset($data->description) ? $data->description : null;
-$price = isset($data->price) ? $data->price : null;
+// Validate input fields
+$title = isset($data->title) ? trim($data->title) : null;
+$description = isset($data->description) ? trim($data->description) : null;
+$price = isset($data->price) ? floatval($data->price) : null;
 
 if (empty($title) && empty($description) && $price === null) {
-    http_response_code(400);
+    http_response_code(400); // Bad Request
     echo json_encode([
         "success" => false,
         "message" => "At least one parameter ('title', 'description', or 'price') is required to update the artwork."
     ]);
-    exit;
+    exit();
 }
 
 // Set the artwork ID
@@ -78,16 +79,26 @@ $art->setId($data->id);
 $stmt = $art->getArtById();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$row) {
-    http_response_code(404);
+    http_response_code(404); // Not Found
     echo json_encode([
         "success" => false,
         "message" => "Artwork not found."
     ]);
-    exit;
+    exit();
+}
+
+// Verify ownership of the artwork
+if ($row['user_id'] !== $decoded->id && $decoded->role !== 'A') { // Allow admins to update any artwork
+    http_response_code(403); // Forbidden
+    echo json_encode([
+        "success" => false,
+        "message" => "You do not have permission to update this artwork."
+    ]);
+    exit();
 }
 
 try {
-    // Set fields if provided
+    // Set fields to update
     if (!empty($title)) {
         $art->setTitle($title);
     }
@@ -100,7 +111,7 @@ try {
 
     // Update the artwork
     if ($art->updateArtById()) {
-        http_response_code(200);
+        http_response_code(200); // Success
         echo json_encode([
             "success" => true,
             "message" => "Artwork successfully updated."
@@ -108,17 +119,16 @@ try {
     } else {
         throw new Exception("Failed to update artwork.");
     }
-    
 } catch (InvalidArgumentException $e) {
-    http_response_code(400);
+    http_response_code(400); // Bad Request
     echo json_encode([
         "success" => false,
         "message" => $e->getMessage()
     ]);
 } catch (Exception $e) {
-    http_response_code(500);
+    http_response_code(500); // Internal Server Error
     echo json_encode([
         "success" => false,
-        "message" => $e->getMessage()
+        "message" => "An error occurred: " . $e->getMessage()
     ]);
 }

@@ -30,6 +30,7 @@ include_once '../../classes/Review.php';
 include_once '../../classes/Art.php';
 include_once '../../classes/User.php';
 include_once "../../config/cors.php";
+include_once '../../config/auth.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -48,44 +49,24 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $data = json_decode(file_get_contents("php://input"));
 
-// Validate required parameters
-if (empty($data->email) ||
-    empty($data->art_id) ||
-    empty($data->review_text) ||
-    empty($data->rating))
-{
-    http_response_code(400);
+if (empty($data->art_id) || empty($data->review_text) || empty($data->rating)) {
+    http_response_code(400); // Bad Request
     echo json_encode([
         "success" => false,
-        "message" => "All fields (email, art_id, review_text, rating) are required."
+        "message" => "All fields (art_id, review_text, rating) are required."
     ]);
-    exit;
+    exit();
 }
 
-$email = $data->email;
-$art_id = $data->art_id;
-$review_text = $data->review_text;
-$rating = $data->rating;
+// Sanitize inputs
+$art_id = intval($data->art_id);
+$review_text = trim($data->review_text);
+$rating = intval($data->rating);
 
 // Validate user existence
 
 try {
-    $user = new User($db);
-    $user->setEmail($email);
-
-    $userStmt = $user->getUserByEmail();
-    $userRow = $userStmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$userRow) {
-        http_response_code(404);
-        echo json_encode([
-            "success" => false,
-            "message" => "User not found."
-        ]);
-        exit();
-    }
-
-    $reviewer_user_id = $userRow["id"];
+    $reviewer_user_id = $decoded->id; // Extract user ID from JWT token
 
     // Validate artwork existence
     $art = new Art($db);
@@ -95,7 +76,7 @@ try {
     $artRow = $artStmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$artRow) {
-        http_response_code(404);
+        http_response_code(404); // Not Found
         echo json_encode([
             "success" => false,
             "message" => "Art not found."
@@ -107,7 +88,7 @@ try {
 
     // Prevent self-reviews
     if ($reviewer_user_id === $art_creator_user_id) {
-        http_response_code(400);
+        http_response_code(400); // Bad Request
         echo json_encode([
             "success" => false,
             "message" => "You cannot review your own artwork."
@@ -124,7 +105,7 @@ try {
     ]);
 
     if ($stmt->rowCount() > 0) {
-        http_response_code(400);
+        http_response_code(400); // Bad Request
         echo json_encode([
             "success" => false,
             "message" => "You have already reviewed this artwork."
@@ -132,13 +113,14 @@ try {
         exit();
     }
 
+    // Create the review
     $review->setUserId($reviewer_user_id);
     $review->setArtId($art_id);
     $review->setReviewText($review_text);
     $review->setRating($rating);
 
     if ($review->createReview()) {
-        http_response_code(201);
+        http_response_code(201); // Created
         echo json_encode([
             "success" => true,
             "message" => "Review successfully created."
@@ -146,18 +128,17 @@ try {
     } else {
         throw new Exception("Failed to create review.");
     }
-    
 } catch (InvalidArgumentException $e) {
-    http_response_code(400);
+    http_response_code(400); // Bad Request
     echo json_encode([
         "success" => false,
         "message" => $e->getMessage()
     ]);
 } catch (Exception $e) {
-    http_response_code(500);
+    http_response_code(500); // Internal Server Error
     echo json_encode([
         "success" => false,
-        "message" => $e->getMessage()
+        "message" => "An error occurred: " . $e->getMessage()
     ]);
 }
 ?>

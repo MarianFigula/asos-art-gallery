@@ -34,11 +34,11 @@ include_once '../../config/Database.php';
 include_once '../../classes/Art.php';
 include_once '../../classes/User.php';
 include_once "../../config/cors.php";
+include_once '../../config/auth.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
-$user = new User($db);
 $art = new Art($db);
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -52,8 +52,6 @@ if ($method !== "POST") {
     exit();
 }
 
-$file = $_FILES['file'];
-
 if (!isset($_POST['email'], $_POST['title'], $_POST['description'], $_FILES['file'])) {
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Missing required fields."]);
@@ -65,37 +63,50 @@ $title = $_POST['title'];
 $description = $_POST['description'];
 $price = isset($_POST['price']) ? intval($_POST['price']) : null;
 
-// Store image in 'public/art/' directory
-$targetDir = '../../public/arts/';
-$targetFile = $targetDir . basename($_FILES["file"]["name"]);
-$img_url = "/arts/" . basename($_FILES["file"]["name"]);
+// File validation
+$file = $_FILES['file'];
+$allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+$maxFileSize = 5 * 1024 * 1024; // 5MB
 
-// Move the file to the public directory
-if (!move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
+if (!in_array($file['type'], $allowedTypes)) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Invalid file type. Only JPG, PNG, and GIF are allowed."]);
+    exit();
+}
+
+if ($file['size'] > $maxFileSize) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "File size exceeds the maximum limit of 5MB."]);
+    exit();
+}
+
+// Ensure target directory exists
+$targetDir = '../../public/arts/';
+if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true)) {
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Failed to create target directory."]);
+    exit();
+}
+
+// Generate a unique name for the file
+$uniqueFileName = uniqid() . "_" . basename($file["name"]);
+$targetFile = $targetDir . $uniqueFileName;
+$img_url = "/arts/" . $uniqueFileName;
+
+if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
     http_response_code(500);
     echo json_encode([
         "success" => false,
-        "message" => "Failed to upload image."
+        "message" => "Failed to upload the file."
     ]);
     exit();
 }
 
 try {
-    $user->setEmail($email);
-    $stmt = $user->getUserByEmail();
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$row) {
-        http_response_code(404);
-        echo json_encode([
-            "success" => false,
-            "message" => "User not found."
-        ]);
-        exit();
-    }
+    $user_id = $decoded->id;
 
     // Set the Art properties
-    $art->setUserId($row["id"]);
+    $art->setUserId($user_id);
     $art->setImgUrl($img_url);
     $art->setTitle($title);
     $art->setDescription($description);
@@ -103,10 +114,11 @@ try {
 
     // Insert the art
     if ($art->createArt()) {
-        http_response_code(201);
+        http_response_code(201); // Created
         echo json_encode([
             "success" => true,
-            "message" => "Art successfully created."
+            "message" => "Art successfully created.",
+            "img_url" => $img_url
         ]);
     } else {
         throw new Exception("Failed to create art.");

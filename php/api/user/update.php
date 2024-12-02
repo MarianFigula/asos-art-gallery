@@ -33,6 +33,7 @@ header("Content-Type: application/json");
 include_once '../../config/Database.php';
 include_once '../../classes/User.php';
 include_once "../../config/cors.php";
+include_once '../../config/auth.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -52,52 +53,69 @@ if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
 $data = json_decode(file_get_contents("php://input"));
 
 if (!isset($data->id) || !filter_var($data->id, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]])) {
-    http_response_code(400);
+    http_response_code(400); // Bad Request
     echo json_encode([
         "success" => false,
         "message" => "Valid user ID is required to update user information."
     ]);
-    exit;
+    exit();
 }
 
 // Check for at least one parameter to update
-$username = isset($data->username) ? $data->username : null;
-$email = isset($data->email) ? $data->email : null;
+$username = isset($data->username) ? trim($data->username) : null;
+$email = isset($data->email) ? trim($data->email) : null;
 
 if (empty($username) && empty($email)) {
-    http_response_code(400);
+    http_response_code(400); // Bad Request
     echo json_encode([
         "success" => false,
         "message" => "At least one parameter ('username' or 'email') is required to update the user."
-    ]);
-    exit;
-}
-
-// Set the user ID
-$user->setId($data->id);
-
-// Check if the user exists
-$stmt = $user->getUserById();
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$row) {
-    http_response_code(404);
-    echo json_encode([
-        "success" => false,
-        "message" => "User not found."
     ]);
     exit();
 }
 
 try {
+    $user_id = $decoded->id; // Get the authenticated user ID from the JWT
+    $is_admin = $decoded->role === 'A'; // Check if the user is an admin
+
+    // Allow admins to update any user, but restrict non-admins to their own profile
+    if (!$is_admin && $data->id != $user_id) {
+        http_response_code(403); // Forbidden
+        echo json_encode([
+            "success" => false,
+            "message" => "You do not have permission to update this user."
+        ]);
+        exit();
+    }
+
+    // Check if the user exists
+    $user->setId($data->id);
+    $stmt = $user->getUserById();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$row) {
+        http_response_code(404); // Not Found
+        echo json_encode([
+            "success" => false,
+            "message" => "User not found."
+        ]);
+        exit();
+    }
+
+    // Update fields
     if (!empty($username)) {
         $user->setUsername($username);
     }
     if (!empty($email)) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException("Invalid email format.");
+        }
         $user->setEmail($email);
     }
 
+    // Perform the update
     if ($user->updateUserById()) {
-        http_response_code(200);
+        http_response_code(200); // Success
         echo json_encode([
             "success" => true,
             "message" => "User successfully updated."
@@ -106,15 +124,15 @@ try {
         throw new Exception("Failed to update user.");
     }
 } catch (InvalidArgumentException $e) {
-    http_response_code(400);
+    http_response_code(400); // Bad Request
     echo json_encode([
         "success" => false,
         "message" => $e->getMessage()
     ]);
 } catch (Exception $e) {
-    http_response_code(500);
+    http_response_code(500); // Internal Server Error
     echo json_encode([
         "success" => false,
-        "message" => $e->getMessage()
+        "message" => "An error occurred: " . $e->getMessage()
     ]);
 }

@@ -36,40 +36,37 @@ include_once '../../classes/Cart.php';
 include_once '../../classes/Art.php';
 include_once '../../classes/CartArt.php';
 include_once "../../config/cors.php";
+include_once '../../config/auth.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
 $cart = new Cart($db);
 $cartArt = new CartArt($db);
-$art = new Art($db);
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+if ($method !== 'DELETE') {
     http_response_code(405); // Method Not Allowed
     echo json_encode([
         "success" => false,
         "message" => "Invalid request method."
     ]);
-    exit;
+    exit();
 }
 
 $data = json_decode(file_get_contents("php://input"));
 
-
-$session_user_id = $data->user_id; // TODO ziskat cez session
-
-if (empty($session_user_id) || empty($data->art_id)) {
-    http_response_code(400);
+if (empty($data->art_id)) {
+    http_response_code(400); // Bad Request
     echo json_encode([
         "success" => false,
-        "message" => "User id or Art id not provided."
+        "message" => "Art ID is required."
     ]);
-    exit;
+    exit();
 }
 
-$user_id = $session_user_id;
+$user_id = $decoded->id; // Populated by `auth.php`
 $art_id = $data->art_id;
 
 try {
@@ -103,7 +100,6 @@ try {
 
     // TODO volanie moze byt aj ine napr api/buy a tam sa zavola ta funkcia a na delete bude iba z kosika a mozno to dat do ls len
     // aby sa nemuselo refreshovat - alebo na button click sa odstrani
-
 
 } catch (Exception $e) {
     http_response_code(500);

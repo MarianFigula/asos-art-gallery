@@ -1,28 +1,28 @@
-import {Form} from "../../components/form/Form";
-import React, {useState} from "react";
-import {FormInput} from "../../components/formInput/FormInput";
-import {useLocation, useNavigate} from "react-router-dom";
+import { Form } from "../../components/form/Form";
+import React, { useState } from "react";
+import { FormInput } from "../../components/formInput/FormInput";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import {useCart} from "../../components/cartProvider/CartProvider";
+import { useCart } from "../../components/cartProvider/CartProvider";
 
-
-export default function PaymentSite(){
-
-    const [error, setError] = useState("")
-    const [cardNumber, setCardNumber] = useState("")
-    const [name, setName] = useState("")
-    const [expirationDate, setExpirationDate] = useState("")
-    const [cvc, setCVC] = useState("")
+export default function PaymentSite() {
+    const [error, setError] = useState("");
+    const [cardNumber, setCardNumber] = useState("");
+    const [name, setName] = useState("");
+    const [expirationDate, setExpirationDate] = useState("");
+    const [cvc, setCVC] = useState("");
     const location = useLocation();
     const { totalToPay } = location.state || {}; // Access the totalToPay from the state
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const { cartArtIds, clearCart } = useCart(); // Include clearCart
-    const serverUrl = process.env.REACT_APP_SERVER_URL
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
 
     // Validation functions
     const validateFullName = (name) => /^[a-zA-Z]+ [a-zA-Z]+$/.test(name); // Requires a first and last name
-    const validateCardNumber = (number) => /^\d{16}$/.test(number.replace(/\s/g, "")); // 4*4 digits
-    const validateExpirationDate = (date) => /^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(date); // MM/YY format
+    const validateCardNumber = (number) =>
+        /^\d{16}$/.test(number.replace(/\s/g, "")); // 4*4 digits
+    const validateExpirationDate = (date) =>
+        /^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(date); // MM/YY format
     const validateCVC = (cvc) => /^\d{3}$/.test(cvc);
 
     const handleNameChange = (e) => {
@@ -54,9 +54,11 @@ export default function PaymentSite(){
     };
 
     async function handleSubmit(e) {
-        e.preventDefault()
+        e.preventDefault();
         if (!validateFullName(name)) {
-            setError("Please enter your full name without diacritics (e.g., Jon Doe).");
+            setError(
+                "Please enter your full name without diacritics (e.g., Jon Doe)."
+            );
             return;
         }
         if (!validateCardNumber(cardNumber)) {
@@ -64,8 +66,8 @@ export default function PaymentSite(){
             return;
         }
 
-        console.log(expirationDate)
-        console.log(validateExpirationDate(expirationDate))
+        console.log(expirationDate);
+        console.log(validateExpirationDate(expirationDate));
         if (!validateExpirationDate(expirationDate)) {
             setError("Please enter a valid expiration date (MM/YY).");
             return;
@@ -76,10 +78,20 @@ export default function PaymentSite(){
         }
 
         try {
-            await axios.post(`${serverUrl}/api/cartArt/buy.php`, {
-                user_id: 2, // Replace with actual user authentication
-                art_ids: cartArtIds,
-            });
+            const response = await axios.post(
+                `${serverUrl}/api/cartArt/buy.php`,
+                {
+                    art_ids: cartArtIds,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "jwtToken"
+                        )}`,
+                    },
+                }
+            );
 
             setError("");
             console.log("Payment successful. Cart cleared.");
@@ -90,7 +102,6 @@ export default function PaymentSite(){
             clearCart();
             navigate("/payment-denied");
         }
-
         setError("");
         console.log("Payment details are valid. Proceeding to payment...");
     }
@@ -100,7 +111,9 @@ export default function PaymentSite(){
             <div className="cart-payment-wrapper mb-0">
                 <div className="cart-payment-header">
                     <h1>Payment</h1>
-                    <p className="mb-2">Please insert credit card information</p>
+                    <p className="mb-2">
+                        Please insert credit card information
+                    </p>
                 </div>
             </div>
             <div className="login-container mt-0 pb-2 pt-2">
@@ -148,14 +161,19 @@ export default function PaymentSite(){
             </div>
             <section className="order-summary pt-1 pb-1">
                 <div>
-                    <button className="button-light" onClick={() => navigate("/cart")}>Back to my order</button>
+                    <button
+                        className="button-light"
+                        onClick={() => navigate("/cart")}
+                    >
+                        Back to my order
+                    </button>
                 </div>
-                {totalToPay &&
+                {totalToPay && (
                     <h3 className="mb-0 mt-0">
                         Total: <span className="price">{totalToPay}€</span>
                     </h3>
-                }
+                )}
             </section>
         </>
-    )
+    );
 }
