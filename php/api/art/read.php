@@ -65,6 +65,18 @@ try {
         exit();
     }
 
+    if (isset($_GET["all"])){
+        $stmt = $art->getArtWithReviewsAndUser();
+        $arts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        http_response_code(200); // Success
+        echo json_encode([
+            "success" => true,
+            "data" => $arts
+        ]);
+        exit();
+    }
+
     $userId = $decoded->id;
     // Fetch arts by authenticated user's ID
     if ($decoded->id) {
@@ -91,14 +103,7 @@ try {
 //        exit();
 //    }
 
-    $stmt = $art->getArtWithReviewsAndUser();
-    $arts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    http_response_code(200); // Success
-    echo json_encode([
-        "success" => true,
-        "data" => $arts
-    ]);
 } catch (InvalidArgumentException $e) {
     http_response_code(400);
     echo json_encode([

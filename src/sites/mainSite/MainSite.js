@@ -43,6 +43,9 @@ export function MainSite() {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}` // Add token from context to headers
                 },
+                params: {
+                    all: "Y",
+                },
             });
 
             const result = response.data;
