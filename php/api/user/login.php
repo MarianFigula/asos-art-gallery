@@ -26,11 +26,19 @@
 
 header("Content-Type: application/json");
 
+require '../../vendor/autoload.php';
 include_once '../../config/Database.php';
 include_once '../../classes/User.php';
 include_once '../../config/cors.php';
 
-session_start(); // Start the session
+use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
+$dotenv->load();
+
+$key = $_ENV['JWT_SECRET'];
 
 $database = new Database();
 $db = $database->getConnection();
@@ -90,15 +98,20 @@ if (!$user->verifyPassword($data->password, $row['password'])) {
     exit();
 }
 
-// prevents session fixation
-session_regenerate_id(true);
+// JWT generation
+$payload = [
+    "id" => $row['id'],
+    "email" => $row['email'],
+    "role" => $row['role'],
+    // IDEA: automatic ,,,
+    "exp" => time() + 3600000 // Token expires in 1 hour
+];
+$jwt = JWT::encode($payload, $key, 'HS256');
 
-$_SESSION['email'] = $row['email'];
-$_SESSION['role'] = $row['role'];
-$_SESSION['logged_in'] = true;
-
+// Return the JWT
 http_response_code(200);
 echo json_encode([
     "success" => true,
     "message" => "Login successful."
+    "token" => $jwt
 ]);

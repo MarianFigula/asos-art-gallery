@@ -29,11 +29,19 @@
 
 header("Content-Type: application/json");
 
+require '../../vendor/autoload.php';
 include_once '../../config/Database.php';
 include_once '../../classes/User.php';
 include_once '../../config/cors.php';
 
-session_start(); // Start the session
+use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
+$dotenv->load();
+
+$key = $_ENV['JWT_SECRET'];
 
 $database = new Database();
 $db = $database->getConnection();
@@ -70,15 +78,20 @@ try {
     $user->setRole('U');
 
     if ($user->createUser()) {
-        // Set session variables for logged in user
-        $_SESSION['email'] = $user->getEmail();
-        $_SESSION['role'] = 'U';
-        $_SESSION['logged_in'] = true;
+        $payload = [
+            "id" => $user->getId(),
+            "email" => $user->getEmail(),
+            "role" => 'U',
+            "exp" => time() + 3600000
+        ];
+
+        $jwt = JWT::encode($payload, $key, 'HS256');
 
         http_response_code(201);
         echo json_encode([
             "success" => true,
-            "message" => "User created successfully."
+            "message" => "User created successfully.",
+            "token" => $jwt // Include the token in the response
         ]);
     } else {
         throw new Exception("Unable to create user.");
