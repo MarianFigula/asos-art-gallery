@@ -52,7 +52,7 @@ if ($method !== "POST") {
     exit();
 }
 
-if (!isset($_POST['email'], $_POST['title'], $_POST['description'], $_FILES['file'])) {
+if (!isset($_POST['title'], $_POST['description'], $_POST['price'], $_FILES['file'])) {
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Missing required fields."]);
     exit();
@@ -61,7 +61,7 @@ if (!isset($_POST['email'], $_POST['title'], $_POST['description'], $_FILES['fil
 $email = $_POST['email'];
 $title = $_POST['title'];
 $description = $_POST['description'];
-$price = isset($_POST['price']) ? intval($_POST['price']) : null;
+$price = intval($_POST['price']);
 
 // File validation
 $file = $_FILES['file'];

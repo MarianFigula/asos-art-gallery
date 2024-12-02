@@ -4,10 +4,10 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
+import {useAuth} from "../../components/auth/AuthContext";
 
 export function CreateArtSite() {
     const [error, setError] = useState("");
-    const email = localStorage.getItem("user-email") || "";
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState(0);
@@ -15,6 +15,8 @@ export function CreateArtSite() {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
     const navigate = useNavigate();
+
+    const { token } = useAuth(); // Access the token directly from the context
 
     const uploadArt = async (event) => {
         event.preventDefault();
@@ -38,9 +40,7 @@ export function CreateArtSite() {
                 {
                     headers: {
                         "Content-Type": "multipart/form-data",
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "jwtToken"
-                        )}`, // Add JWT token
+                        Authorization: `Bearer ${token}`, // Add JWT token
                     },
                 }
             );
