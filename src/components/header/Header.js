@@ -32,7 +32,7 @@ export function Header() {
                                 <span className="hidden">Cart</span>
                             </Link>
                         </li>
-                        <li><Link to="/login"><i className="bi bi-person"></i><span className="hidden">SignIn</span></Link></li>
+                        <li><Link to="/user-profile"><i className="bi bi-person"></i><span className="hidden">SignIn</span></Link></li>
                         <li onClick={toggleSidebar}><Link to={"#"}><i className="bi bi-list"></i><span className="hidden">sidebar</span></Link></li>
                         {/* Add more links as needed */}
                     </ul>
