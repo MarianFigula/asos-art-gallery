@@ -8,24 +8,24 @@ import {CartProvider} from "./components/cartProvider/CartProvider";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <CartProvider>
-            <BrowserRouter>
+        <BrowserRouter>
+            <CartProvider>
                 <App/>
-            </BrowserRouter>
-        </CartProvider>
+            </CartProvider>
+        </BrowserRouter>
     </React.StrictMode>
 );
 
 
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker
-            .register(`${process.env.PUBLIC_URL}/serviceWorker.js`)
-            .then((registration) => {
-                console.log('Service Worker registered with scope:', registration.scope);
-            })
-            .catch((error) => {
-                console.log('Service Worker registration failed:', error);
-            });
-    });
-}
+// if ('serviceWorker' in navigator) {
+//     window.addEventListener('load', () => {
+//         navigator.serviceWorker
+//             .register(`${process.env.PUBLIC_URL}/serviceWorker.js`)
+//             .then((registration) => {
+//                 console.log('Service Worker registered with scope:', registration.scope);
+//             })
+//             .catch((error) => {
+//                 console.log('Service Worker registration failed:', error);
+//             });
+//     });
+// }
