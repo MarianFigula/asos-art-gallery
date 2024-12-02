@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
     const login = (newToken) => {
         localStorage.setItem('jwtToken', newToken);
         setToken(newToken);
+        navigate('/')
     };
 
     const logout = () => {

@@ -88,7 +88,11 @@ try {
 
 
     $cartArt->setArtId($art_id);
-    if ($cartArt->deleteCartArtByArtId()) {
+
+    //echo json_encode($cart_id, $art_id);
+    //exit();
+
+    if ($cartArt->deleteCartArtByCartIdAndArtId()) {
         http_response_code(200);
         echo json_encode([
             "success" => true,

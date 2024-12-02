@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useAuth} from "../auth/AuthContext";
 
 // Create Cart Context
 const CartContext = createContext();
@@ -12,27 +13,33 @@ export function CartProvider({ children }) {
     const [cartArtDetails, setCartArtDetails] = useState([]); // Store full art details
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
-    const location = useLocation(); // Get current route location
+    const location = useLocation();
+    const { token } = useAuth();  // Get the token from the AuthContext
+    const navigate = useNavigate()
 
-
+    // useEffect(() => {
+    //     if (!token) {
+    //         navigate("/login"); // Redirect to login if token is not available
+    //     }
+    // }, [token, navigate]);
     async function fetchCartArtIds() {
-        const token = localStorage.getItem("jwtToken");
         try {
             const response = await axios.get(
                 `${serverUrl}/api/cartArt/read.php`,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`, // Use token from AuthContext
                     },
                 }
             );
-            console.log(response)
-
-            if (response.status == 200){
+            const data = response.data;
+            if (data.success) {
                 const cartArtIds = response.data.data;
                 setCartArtIds(cartArtIds);
                 setCartCount(cartArtIds.length);
                 await fetchArtDetails(cartArtIds);
+            } else {
+                console.error("Error response", response);
             }
         } catch (error) {
             console.error("Error fetching cart art IDs:", error);
@@ -49,7 +56,12 @@ export function CartProvider({ children }) {
             );
 
             // Assuming the response contains an array of art details
-            setCartArtDetails(response.data.data);
+            const data = response.data;
+            if (data.success) {
+                setCartArtDetails(response.data.data);
+            }else {
+                console.error("Error respnse art artDetails.php:", response);
+            }
         } catch (error) {
             console.error("Error fetching art details:", error);
         }
@@ -57,22 +69,25 @@ export function CartProvider({ children }) {
 
     async function removeFromCart(artId) {
         try {
-            await axios.delete(`${serverUrl}/api/cartArt/delete.php`, {
+            const response = await axios.delete(`${serverUrl}/api/cartArt/delete.php`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`, // Include JWT
+                    Authorization: `Bearer ${token}`, // Use token from AuthContext
                 },
                 data: {
                     art_id: artId,
                 },
             });
 
-            // Update local state after successful deletion
-            setCartArtIds((prevIds) => prevIds.filter((id) => id !== artId));
-            setCartArtDetails((prevDetails) =>
-                prevDetails.filter((art) => art.id !== artId)
-            );
-            decrementCartCount();
+            const data = response.data
+            if (data.success){
+                setCartArtIds((prevIds) => prevIds.filter((id) => id !== artId));
+                setCartArtDetails((prevDetails) =>
+                    prevDetails.filter((art) => art.art_id !== artId)
+                );
+                decrementCartCount();
+            }
+
         } catch (error) {
             console.error("Error removing item from cart:", error);
         }
