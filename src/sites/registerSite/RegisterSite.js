@@ -52,7 +52,7 @@ export function RegisterSite() {
             data.success ? navigate("/") : setError(data.message);
 
         } catch (error) {
-            setError("Register failed. Please try again");
+            setError(error.message);
         }
     }
 
