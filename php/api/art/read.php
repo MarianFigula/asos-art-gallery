@@ -21,7 +21,6 @@
 header("Content-Type: application/json");
 include_once '../../config/Database.php';
 include_once '../../classes/Art.php';
-// NOTE: don't think this import is necessary
 include_once '../../classes/User.php';
 include_once "../../config/cors.php";
 include_once '../../config/Auth.php';
@@ -66,21 +65,13 @@ try {
         exit();
     }
 
+    $userId = $decoded->id;
     // Fetch arts by authenticated user's ID
-    if (isset($_GET['user_id'])) {
-        $user_id = intval($_GET['user_id']);
+    if ($decoded->id) {
+        $user_id = $userId;
         $art->setUserId($user_id);
         $stmt = $art->getArtsByUserId();
         $arts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        if (empty($arts)) {
-            http_response_code(404); // Not Found
-            echo json_encode([
-                "success" => false,
-                "message" => "No artworks found for the specified user."
-            ]);
-            exit();
-        }
 
         http_response_code(200); // Success
         echo json_encode([
