@@ -6,19 +6,16 @@ import React, { useEffect, useState } from "react";
 import { Table } from "../../components/table/Table";
 import { getReviewColumns } from "../../assets/table-columns/tableReviewColumns";
 import axios from "axios";
+import {useAuth} from "../../components/auth/AuthContext";
 
 export function UserReviewsSite() {
-    const navigate = useNavigate();
 
     const [error, setError] = useState("");
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
     const [reviewData, setReviewData] = useState([]);
     const [reviewRecords, setReviewRecords] = useState(reviewData);
 
-    //todo: dodat nejaky # pre zobrazenie ze neni prihlaseny
-    const email = localStorage.getItem("user-email")
-        ? localStorage.getItem("user-email")
-        : navigate("/");
+    const { token } = useAuth();
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -30,24 +27,18 @@ export function UserReviewsSite() {
 
     const fetchReviewData = async () => {
         try {
-            const response = await axios.get(
-                `${serverUrl}/api/review/read.php`,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "jwtToken"
-                        )}`, // Add JWT for authentication
-                    },
-                    params: {
-                        user_email: email, // Use appropriate query parameter
-                    },
-                }
-            );
+            const response = await axios.get(`${serverUrl}/api/review/read.php`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}` // Add token from context to headers
+                },
+            });
 
             const result = response.data;
-            setReviewData(result.data);
-            setReviewRecords(result.data);
+            if (result.success){
+                setReviewData(result.data);
+                setReviewRecords(result.data);
+            }
         } catch (error) {
             console.error("Error fetching review data:", error);
         }
@@ -90,26 +81,28 @@ export function UserReviewsSite() {
     const handleEditReviewSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${serverUrl}/api/review/update.php`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
+            const response = await axios.put(`${serverUrl}/api/review/update.php`,
+                {
                     id: reviewEditData.id,
                     review_text: reviewEditData.review_text,
                     rating: reviewEditData.rating,
-                }),
-            });
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-            const result = await response.json();
+            const result = response.data
             if (result.success) {
-                window.location.reload();
-                alert("Successfully");
+                alert("Successfully updated review.");
+                window.location.reload(); // Reload the page
             }
         } catch (error) {
             setError(error);
-            console.warn(error);
+            console.error("Error updating review:", error);
         }
     };
 

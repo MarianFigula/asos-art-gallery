@@ -50,6 +50,18 @@ if ($method !== "GET") {
     exit();
 }
 try {
+    // Fetch all reviews (Admin-only)
+    if ($decoded->role === 'A') {
+        $stmt = $review->getAllReviews();
+        $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        http_response_code(200); // Success
+        echo json_encode([
+            "success" => true,
+            "data" => $reviews
+        ]);
+        exit();
+    }
     // Fetch reviews by review ID
     if (isset($_GET['id'])) {
         $review_id = intval($_GET['id']);
@@ -75,8 +87,8 @@ try {
     }
 
     // Fetch reviews by authenticated user's ID
-    if (isset($_GET['user_email'])) {
-        $user_email = $_GET['user_email'];
+    if (isset($decoded->email)) {
+        $user_email = $decoded->email;
         $user->setEmail($user_email);
         $stmt = $user->getUserByEmail();
         $user_row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -93,15 +105,6 @@ try {
         $review->setUserId($user_row['id']);
         $stmt = $review->getReviewsByUserId();
         $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        if (empty($reviews)) {
-            http_response_code(404); // Not Found
-            echo json_encode([
-                "success" => false,
-                "message" => "No reviews found for the specified user."
-            ]);
-            exit();
-        }
 
         http_response_code(200); // Success
         echo json_encode([
@@ -148,18 +151,6 @@ try {
         exit();
     }
 
-    // Fetch all reviews (Admin-only)
-    if ($decoded->role === 'A') {
-        $stmt = $review->getAllReviews();
-        $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        http_response_code(200); // Success
-        echo json_encode([
-            "success" => true,
-            "data" => $reviews
-        ]);
-        exit();
-    }
 
     http_response_code(400); // Bad Request
     echo json_encode([
