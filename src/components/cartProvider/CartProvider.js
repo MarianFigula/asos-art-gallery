@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import {useLocation} from "react-router-dom";
 
 // Create Cart Context
 const CartContext = createContext();
@@ -11,6 +12,8 @@ export function CartProvider({ children }) {
     const [cartArtDetails, setCartArtDetails] = useState([]); // Store full art details
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
+    const location = useLocation(); // Get current route location
+
 
     async function fetchCartArtIds() {
         const token = localStorage.getItem("jwtToken");
@@ -23,11 +26,14 @@ export function CartProvider({ children }) {
                     },
                 }
             );
+            console.log(response)
 
-            const cartArtIds = response.data.data;
-            setCartArtIds(cartArtIds);
-            setCartCount(cartArtIds.length);
-            await fetchArtDetails(cartArtIds);
+            if (response.status == 200){
+                const cartArtIds = response.data.data;
+                setCartArtIds(cartArtIds);
+                setCartCount(cartArtIds.length);
+                await fetchArtDetails(cartArtIds);
+            }
         } catch (error) {
             console.error("Error fetching cart art IDs:", error);
         }
@@ -78,8 +84,12 @@ export function CartProvider({ children }) {
     };
 
     useEffect(() => {
-        fetchCartArtIds();
-    }, [cartCount]);
+        // Fetch cart data on all routes except /login and /register
+        const excludedRoutes = ["/login", "/register", "/forgot-password"];
+        if (!excludedRoutes.includes(location.pathname)) {
+            fetchCartArtIds();
+        }
+    }, [location.pathname]); // Trigger when the route changes
 
     const incrementCartCount = () => setCartCount((prev) => prev + 1);
     const decrementCartCount = () =>
