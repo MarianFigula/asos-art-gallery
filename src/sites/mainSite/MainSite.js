@@ -230,6 +230,7 @@ export function MainSite() {
 
             if (result.success) {
                 console.log("Review successfully created.");
+                alert("Review added successfully.")
                 setIsArtModalOpen(false);
                 window.location.reload();
             }
