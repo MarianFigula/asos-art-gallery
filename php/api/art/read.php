@@ -91,14 +91,14 @@ try {
     }
 
     // Fetch all arts with reviews and user details
-    if ($decoded->role !== 'A') { // Ensure only admins can fetch all data
-        http_response_code(403); // Forbidden
-        echo json_encode([
-            "success" => false,
-            "message" => "Access denied. Admin privileges required."
-        ]);
-        exit();
-    }
+//    if ($decoded->role !== 'A') { // Ensure only admins can fetch all data
+//        http_response_code(403); // Forbidden
+//        echo json_encode([
+//            "success" => false,
+//            "message" => "Access denied. Admin privileges required."
+//        ]);
+//        exit();
+//    }
 
     $stmt = $art->getArtWithReviewsAndUser();
     $arts = $stmt->fetchAll(PDO::FETCH_ASSOC);

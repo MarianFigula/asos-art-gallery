@@ -11,10 +11,14 @@ import { FormInput } from "../../components/formInput/FormInput";
 import { StarRating } from "../../components/starRating/StarRating";
 import axios from "axios";
 import { useCart } from "../../components/cartProvider/CartProvider";
+import {getJwtToken} from "../../components/auth/AuthHelper";
+import {useAuth} from "../../components/auth/AuthContext";
 
 export function MainSite() {
     // State to store arts and search term
     const { cartArtIds } = useCart();
+    const { token } = useAuth(); // Access the token directly from the context
+
 
     const [initialArtData, setInitialArtData] = useState([]);
     const [arts, setArts] = useState([]);
@@ -28,8 +32,6 @@ export function MainSite() {
 
     const [selectedArtId, setSelectedArtId] = useState(null); // store the selected art id
 
-    const [email, setEmail] = useState(localStorage.getItem("user-email"));
-
     const navigate = useNavigate();
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -39,6 +41,7 @@ export function MainSite() {
             const response = await axios.get(`${serverUrl}/api/art/read.php`, {
                 headers: {
                     "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}` // Add token from context to headers
                 },
             });
 
@@ -116,7 +119,7 @@ export function MainSite() {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [token]);
 
     useEffect(() => {
         console.log("Current arts data:", arts);
@@ -189,8 +192,8 @@ export function MainSite() {
     };
 
     const redirectToUploadArt = () => {
-        email !== null || email === ""
-            ? navigate("upload-art", { state: { email } })
+        token !== null || token === ""
+            ? navigate("upload-art")
             : navigate("/login");
     };
 

@@ -78,14 +78,17 @@ try {
     $user->setSecurityAnswer($data->security_answer);
     $user->setRole('U');
 
-    if ($user->createUser()) {
+    $userId = $user->createUser();
 
+    if ($userId) {
+        // Create the cart for the new user
         $cart = new Cart($db);
-        $cart->setUserId($user->getId());
+        $cart->setUserId($userId);
 
-        if ($cart->createCart()){
+        if ($cart->createCart()) {
+            // Generate the JWT token for the user
             $payload = [
-                "id" => $user->getId(),
+                "id" => $userId,
                 "email" => $user->getEmail(),
                 "role" => 'U',
                 "exp" => time() + 3600000

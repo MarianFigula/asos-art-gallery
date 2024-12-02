@@ -33,19 +33,12 @@ class Cart {
         $this->user_id = $user_id;
     }
 
-    public function createCart() {
-        $this->conn->beginTransaction();
-
-        try {
+    public function createCart()
+    {
             $query = "INSERT INTO " . $this->table_name . " (user_id) VALUES (:user_id)";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':user_id', $this->user_id);
             return $stmt->execute();
-
-        } catch (Exception $e) {
-            $this->conn->rollBack();
-            throw $e;
-        }
     }
 
 
