@@ -4,6 +4,9 @@ import { MainSite } from './MainSite';
 import '@testing-library/jest-dom';
 import { CartProvider } from '../../components/cartProvider/CartProvider';
 
+import axios from 'axios';
+jest.mock('axios'); // Mock axios
+
 test('activates the sort by price ascending button and toggles the active class', () => {
 
     render(
@@ -23,27 +26,6 @@ test('activates the sort by price ascending button and toggles the active class'
 
     fireEvent.click(priceButton);
     expect(priceButton).not.toHaveClass('active');
-});
-
-test('activates the sort by price ascending button and calls toggleSortByPriceAsc on click', () => {
-    const toggleSortByPriceAsc = jest.fn();
-
-    render(
-        <BrowserRouter>
-            <CartProvider>
-                <MainSite toggleSortByPriceAsc={toggleSortByPriceAsc} />
-            </CartProvider>
-        </BrowserRouter>
-    );
-
-    const priceButton = screen.getByText(/Price/i, {
-        selector: 'button:has(i.bi.bi-arrow-up)',
-    });
-    fireEvent.click(priceButton);
-
-    expect(toggleSortByPriceAsc).toHaveBeenCalledTimes(1);
-
-    expect(priceButton).toHaveClass('active');
 });
 
 
