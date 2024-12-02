@@ -1,35 +1,60 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./UserProfile.css"
 import "../../components/form/form.css"
 import UserPhoto from "../../assets/user-pictures/22.png"
 import AdminPhoto from "../../assets/user-pictures/21.png"
 import {useNavigate} from "react-router-dom";
-
-// TODO: pozriet ci to je admin a ked hej podla
-//  toho menit fotku a zobrazit button pre administratora
-
-
-// TODO: nacitat data podla idecka alebo podla emailu
-//  ktore pride alebo ktore je niekde ulozene,
-//  alebo cez token to spravim, treba porozmyslat
-
-// TODO: pridat dalsim buttonom logiku - redirect
-//  na dalsiu stranku
+import {useAuth} from "../../components/auth/AuthContext";
+import axios from "axios";
 
 export function UserProfileSite() {
 
     const navigate = useNavigate();
-    const email = "alicebobova@gmail.com"
+    const [userData, setUserData] = useState(null); // Store user profile data
+    const [error, setError] = useState(null); // Handle errors
 
+    const { token } = useAuth();
 
-    // TODO mozno osdtranit tie states ked budem checkovat email cez ls
-    const handleMyPostsClick = () => {
-        navigate(`/my-arts`, { state: { email: email } });
+    const serverUrl = process.env.REACT_APP_SERVER_URL
+    // Fetch user profile data
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get(`${serverUrl}/api/user/read.php`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}` // Add token from context to headers
+                },
+            });
+
+            const data = await response.data
+            if (data.success) {
+                console.log(data.data)
+                setUserData(data.data); // Set user data
+                console.log(userData)
+            }
+        } catch (err) {
+            setError("Failed to fetch user profile data.");
+            console.error(err);
+        }
     };
 
-    // TODO mozno osdtranit tie states ked budem checkovat email cez ls
+    useEffect(() => {
+        fetchUserData();
+    }, []);
+
+    // Log changes to userData
+    useEffect(() => {
+        if (userData) {
+            console.log("Updated userData:", userData);
+        }
+    }, [userData]);
+
+    const handleMyPostsClick = () => {
+        navigate(`/my-arts`);
+    };
+
     const handleReviewHistoryClick = () => {
-        navigate(`/review-history`, { state: { email: email } });
+        navigate(`/review-history`);
     };
     return (
         <>
@@ -40,23 +65,30 @@ export function UserProfileSite() {
                 <div className="profile-details mb-1">
                     <div className="">
                         <h2 className="text-center">Your profile</h2>
-                        <form action="" className="mb-3">
-                            <div className="info">
-                                <label className="label mb-0-25">Username</label>
-                                <input type="text"
-                                       defaultValue="alice"
-                                       className="input"/>
-                            </div>
-                            <div className="info mb-1">
-                                <label className="label mb-0-25">Email</label>
-                                <input type="text"
-                                       defaultValue="alicebobova@gmail.com"
-                                       className="input"/>
-                            </div>
-                            <div className="submit-button-wrapper">
-                                <button className="button-confirm">Apply changes</button>
-                            </div>
-                        </form>
+                        {userData ? ( // Only render form when userData is not null
+                            <form className="mb-3">
+                                <div className="info">
+                                    <label className="label mb-0-25">Username</label>
+                                    <input
+                                        type="text"
+                                        defaultValue={userData.username} // Use fetched data
+                                        className="input"
+                                        readOnly
+                                    />
+                                </div>
+                                <div className="info mb-1">
+                                    <label className="label mb-0-25">Email</label>
+                                    <input
+                                        type="text"
+                                        defaultValue={userData.email} // Use fetched data
+                                        className="input"
+                                        readOnly
+                                    />
+                                </div>
+                            </form>
+                        ) : (
+                            <p>Loading profile...</p>
+                        )}
                         <div className="buttons">
                             {/*<button className="button-dark">order history</button>*/}
                             <button

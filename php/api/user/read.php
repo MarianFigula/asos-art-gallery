@@ -45,9 +45,10 @@ if ($method !== "GET"){
 }
 
 try {
+    $userId = $decoded->id;
     // Fetch user details by ID
-    if (isset($_GET['id'])) {
-        $user->setId($_GET['id']);
+    if ($userId) {
+        $user->setId($userId);
         $stmt = $user->getUserById();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
