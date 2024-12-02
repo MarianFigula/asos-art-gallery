@@ -218,9 +218,7 @@ export function MainSite() {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "jwtToken"
-                        )}`, // Add JWT for authentication
+                        Authorization: `Bearer ${token}`, // Add JWT for authentication
                     },
                 }
             );
