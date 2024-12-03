@@ -19,7 +19,6 @@ export function SideBar({show, closeSidebar }){
                 </h1>
                 <hr className="mb-2"/>
                 <div className="sidebar-content">
-                    <p>Login</p>
                     <p
                         onClick={handleLogout}
                         style={{ cursor: "pointer", textDecoration: "underline" }}
