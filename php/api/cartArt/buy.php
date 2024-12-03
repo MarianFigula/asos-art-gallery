@@ -81,21 +81,16 @@ try {
     $cart_id = $row["id"];
     $cartArt->setCartId($cart_id);
 
-    // Begin a transaction for atomic operations
-    $db->beginTransaction();
-
-    // Clear items from the cart and delete art records
-    $cartArt->clearCartArt($art_ids);
-    $art->deleteArtsByIds($art_ids);
-
-    // Commit the transaction if all operations succeed
-    $db->commit();
-
-    http_response_code(200); // Success
-    echo json_encode([
-        "success" => true,
-        "message" => "Arts successfully purchased and cart cleared."
-    ]);
+    if ($cartArt->clearCartArt($art_ids) && $art->deleteArtsByIds($art_ids)) {
+        http_response_code(200);
+        echo json_encode([
+            "success" => true,
+            "message" => "Arts successfully bought"
+        ]);
+        exit();
+    } else {
+        throw new Exception("Failed to remove art from the cart.");
+    }
 } catch (Exception $e) {
     // Rollback the transaction on error
     $db->rollBack();
