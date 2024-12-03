@@ -4,6 +4,7 @@ import { FormInput } from "../../components/formInput/FormInput";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCart } from "../../components/cartProvider/CartProvider";
+import {useAuth} from "../../components/auth/AuthContext";
 
 export default function PaymentSite() {
     const [error, setError] = useState("");
@@ -15,6 +16,7 @@ export default function PaymentSite() {
     const { totalToPay } = location.state || {}; // Access the totalToPay from the state
     const navigate = useNavigate();
     const { cartArtIds, clearCart } = useCart(); // Include clearCart
+    const {token} = useAuth()
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
     // Validation functions
@@ -86,17 +88,22 @@ export default function PaymentSite() {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "jwtToken"
-                        )}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
 
-            setError("");
-            console.log("Payment successful. Cart cleared.");
-            clearCart();
-            navigate("/payment-accepted");
+            const result = response.data
+            if (result.success){
+                setError("");
+                console.log("Payment successful. Cart cleared.");
+                clearCart();
+                navigate("/payment-accepted");
+            }else {
+                console.log(result)
+                console.log(result.message)
+                console.log("bad")
+            }
         } catch (error) {
             console.error("Error processing payment:", error);
             clearCart();
