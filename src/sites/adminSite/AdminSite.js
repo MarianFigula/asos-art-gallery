@@ -40,7 +40,7 @@ export function AdminSite() {
             }else {
                 console.log(result)
                 console.log(result.message)
-
+                navigate("/")
             }
         } catch (error) {
             console.error("Error fetching user data:", error);
