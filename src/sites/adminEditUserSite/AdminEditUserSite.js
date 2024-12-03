@@ -191,9 +191,7 @@ export function AdminEditUserSite() {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "jwtToken"
-                        )}`, // Add JWT token for authentication
+                        Authorization: `Bearer ${token}`, // Add JWT token for authentication
                     },
                 }
             );
@@ -229,9 +227,7 @@ export function AdminEditUserSite() {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "jwtToken"
-                        )}`, // Add JWT token for authentication
+                        Authorization: `Bearer ${token}`, // Add JWT token for authentication
                     },
                 }
             );
@@ -266,9 +262,7 @@ export function AdminEditUserSite() {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "jwtToken"
-                        )}`, // Add JWT token for authentication
+                        Authorization: `Bearer ${token}`, // Add JWT token for authentication
                     },
                 }
             );

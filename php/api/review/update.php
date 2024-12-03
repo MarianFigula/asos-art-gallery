@@ -87,7 +87,7 @@ if (!$row) {
 }
 
 // Verify ownership of the review
-if ($row['user_id'] !== $decoded->id && $decoded->role !== 'A') { // Allow admins to update any review
+if ($row['user_id'] !== $decoded->id && $decoded->role !== 'S') { // Allow admins to update any review
     http_response_code(403); // Forbidden
     echo json_encode([
         "success" => false,

@@ -76,7 +76,7 @@ if (empty($username) && empty($email)) {
 
 try {
     $user_id = $decoded->id; // Get the authenticated user ID from the JWT
-    $is_admin = $decoded->role === 'A'; // Check if the user is an admin
+    $is_admin = $decoded->role === 'S'; // Check if the user is an admin
 
     // Allow admins to update any user, but restrict non-admins to their own profile
     if (!$is_admin && $data->id != $user_id) {
@@ -102,16 +102,9 @@ try {
         exit();
     }
 
-    // Update fields
-    if (!empty($username)) {
-        $user->setUsername($username);
-    }
-    if (!empty($email)) {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException("Invalid email format.");
-        }
-        $user->setEmail($email);
-    }
+    $user->setId($data->id);
+    $user->setEmail($data->email);
+    $user->setUsername($data->username);
 
     // Perform the update
     if ($user->updateUserById()) {

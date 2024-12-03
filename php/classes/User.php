@@ -274,36 +274,17 @@ class User {
      * @return bool True on success, false on failure
      */
     public function updateUserById() {
-        // Validate fields before updating
-        $fields = [];
-        $params = ['id' => $this->id];
 
-        if ($this->email) {
-            if ($this->userExistsByEmail()) {
-                throw new InvalidArgumentException("Email already in use.");
-            }
-            $this->setEmail($this->email);
-            $fields[] = "email = :email";
-            $params['email'] = $this->email;
-        }
+        $query = "UPDATE " . $this->table_name . "
+                  SET email = :email,
+                  username = :username
+                  WHERE id = :id";
 
-        if ($this->username) {
-            if ($this->userExistsByUsername()) {
-                throw new InvalidArgumentException("Username already taken.");
-            }
-            $this->setUsername($this->username);
-            $fields[] = "username = :username";
-            $params['username'] = $this->username;
-        }
-
-        if (empty($fields)) {
-            throw new InvalidArgumentException("No valid fields provided for update.");
-        }
-
-        $query = "UPDATE " . $this->table_name . " SET " . implode(", ", $fields) . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);
 
-        $this->bindParams($stmt, $params);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':id', $this->id);
         return $stmt->execute();
     }
 
