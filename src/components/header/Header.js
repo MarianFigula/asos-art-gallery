@@ -57,7 +57,7 @@ export function Header() {
                 </nav>
             </header>
             <div className={`grey-zone ${sidebarVisible ? 'visible' : ''}`} onClick={closeSidebar}></div>
-            <SideBar show={sidebarVisible}/>
+            <SideBar show={sidebarVisible} closeSidebar={closeSidebar}/>
         </>
     );
 }

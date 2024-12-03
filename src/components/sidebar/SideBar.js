@@ -2,9 +2,14 @@ import React from "react";
 import "./SideBar.css"
 import {useAuth} from "../auth/AuthContext";
 
-export function SideBar({show}){
+export function SideBar({show, closeSidebar }){
 
     const {logout} = useAuth()
+
+    const handleLogout = () => {
+        logout(); // Log out the user
+        closeSidebar(); // Close the sidebar
+    };
 
     return(
         <>
@@ -15,10 +20,12 @@ export function SideBar({show}){
                 <hr className="mb-2"/>
                 <div className="sidebar-content">
                     <p>Login</p>
-                    {
-                    //TODO alebo account do loginSite
-                    }
-                    <p onClick={() => logout()} style={{cursor: "pointer", textDecoration: "underline"}}>Logout</p>
+                    <p
+                        onClick={handleLogout}
+                        style={{ cursor: "pointer", textDecoration: "underline" }}
+                    >
+                        Logout
+                    </p>
                 </div>
 
             </section>
