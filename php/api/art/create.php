@@ -52,52 +52,38 @@ if ($method !== "POST") {
     exit();
 }
 
-if (!isset($_POST['title'], $_POST['description'], $_POST['price'], $_FILES['file'])) {
+$file = $_FILES['file'];
+
+if (!isset($_POST['title'], $_POST['description'], $_FILES['file'])) {
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Missing required fields."]);
     exit();
 }
 
-$email = $_POST['email'];
+$allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+$fileMimeType = mime_content_type($_FILES['file']['tmp_name']);
+
+if (!in_array($fileMimeType, $allowedMimeTypes)) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Invalid file type."]);
+    exit();
+}
+
 $title = $_POST['title'];
 $description = $_POST['description'];
-$price = intval($_POST['price']);
+$price = isset($_POST['price']) ? intval($_POST['price']) : null;
 
-// File validation
-$file = $_FILES['file'];
-$allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-$maxFileSize = 5 * 1024 * 1024; // 5MB
-
-if (!in_array($file['type'], $allowedTypes)) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Invalid file type. Only JPG, PNG, and GIF are allowed."]);
-    exit();
-}
-
-if ($file['size'] > $maxFileSize) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "File size exceeds the maximum limit of 5MB."]);
-    exit();
-}
-
-// Ensure target directory exists
 $targetDir = '../../public/arts/';
-if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true)) {
-    http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Failed to create target directory."]);
-    exit();
-}
+$targetFile = $targetDir . basename($_FILES["file"]["name"]);
 
-// Generate a unique name for the file
-$uniqueFileName = uniqid() . "_" . basename($file["name"]);
-$targetFile = $targetDir . $uniqueFileName;
-$img_url = "/arts/" . $uniqueFileName;
+$img_url = "/arts/" . basename($_FILES["file"]["name"]);
 
-if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
+if (!move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
     http_response_code(500);
+
     echo json_encode([
         "success" => false,
-        "message" => "Failed to upload the file."
+        "message" => "Failed to upload image."
     ]);
     exit();
 }
