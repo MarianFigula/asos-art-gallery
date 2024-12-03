@@ -91,24 +91,6 @@ try {
         exit();
     }
 
-    // Fetch all users (admin-only action)
-    if ($decoded->role !== 'A') { // JWT token's role field is validated
-        http_response_code(403); // Forbidden
-        echo json_encode([
-            "success" => false,
-            "message" => "Access denied. Admin privileges required to view all users."
-        ]);
-        exit();
-    }
-
-    $stmt = $user->getAllUsers();
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    http_response_code(200); // Success
-    echo json_encode([
-        "success" => true,
-        "data" => $users
-    ]);
 } catch (InvalidArgumentException $e) {
     http_response_code(400);
     echo json_encode([
