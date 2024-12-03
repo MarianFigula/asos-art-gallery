@@ -11,7 +11,7 @@ export function FormInput({
                           }) {
 
 
-    const id = `form-input-${label.replace(/\s+/g, '-').toLowerCase()}`;
+    const id = `form-input-${label}`;
 
     return (
         <div>

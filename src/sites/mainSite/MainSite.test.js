@@ -43,6 +43,6 @@ test('button does not have "active" class when not clicked', () => {
     const priceButton = screen.getByText(/Price/i, {
         selector: 'button:has(i.bi.bi-arrow-up)',
     });
-y
+
     expect(priceButton).not.toHaveClass('active');
 });
