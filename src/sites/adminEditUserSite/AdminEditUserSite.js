@@ -8,6 +8,7 @@ import "./AdminEditUserSite.css";
 import { Modal } from "../../components/modal/Modal";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
+import {useAuth} from "../../components/auth/AuthContext";
 
 // admin page
 // TODO ked zmenim id v url a aj ked tam na zaciatku nic neni
@@ -33,6 +34,8 @@ export function AdminEditUserSite() {
     const [isArtModalOpen, setIsArtModalOpen] = useState(false);
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
+    const {token} = useAuth()
+
     const [artEditData, setArtEditData] = useState({
         id: null,
         title: "",
@@ -49,20 +52,23 @@ export function AdminEditUserSite() {
     const fetchArtData = async () => {
         try {
             const response = await axios.get(`${serverUrl}/api/art/read.php`, {
-                params: { user_id: id }, // Query user-specific artworks by ID
+                params: {
+                    user_id: id,
+                    admin_all: "Y"
+                },
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`, // Add JWT token for authentication
+                    Authorization: `Bearer ${token}`, // Add JWT token for authentication
                 },
             });
 
             const result = response.data;
-
+            console.log("result:", result)
             if (result.success) {
                 setArtData(result.data); // Set fetched art data into state
                 setArtRecords(result.data); // Optionally set into another state for records
             } else {
-                console.error("Error: ", result.message);
+                console.error("Error: ", result);
             }
         } catch (error) {
             console.error("Error fetching art data:", error);
@@ -75,23 +81,24 @@ export function AdminEditUserSite() {
             const response = await axios.get(
                 `${serverUrl}/api/review/read.php`,
                 {
-                    params: { user_id: id }, // Fetch reviews for a specific user
+                    params: {
+                        user_id: id,
+                        admin_all: "Y"
+                    },
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "jwtToken"
-                        )}`, // Include JWT for authentication
+                        Authorization: `Bearer ${token}`, // Include JWT for authentication
                     },
                 }
             );
 
             const result = response.data;
-
+            console.log("REVOEWS", result)
             if (result.success) {
                 setReviewData(result.data); // Store the fetched reviews in state
                 setReviewRecords(result.data); // Optionally store for records
             } else {
-                console.error("Error: ", result.message);
+                console.error("Error: ", result.message, result);
             }
         } catch (error) {
             console.error("Error fetching review data:", error);

@@ -50,43 +50,20 @@ if ($method !== "GET") {
     exit();
 }
 try {
-    // Fetch all reviews (Admin-only)
-    if ($decoded->role === 'A') {
-        $stmt = $review->getAllReviews();
+    if (isset($_GET["admin_all"]) && isset($_GET["user_id"]) && $decoded->role == "S"){
+        $userId = $_GET["user_id"];
+        $review->setUserId($userId);
+        $stmt = $review->getReviewsByUserId();
         $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         http_response_code(200); // Success
         echo json_encode([
             "success" => true,
-            "data" => $reviews
+            "data" => $reviews,
         ]);
         exit();
     }
-    // Fetch reviews by review ID
-    if (isset($_GET['id'])) {
-        $review_id = intval($_GET['id']);
-        $review->setId($review_id);
-        $stmt = $review->getReviewById();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$row) {
-            http_response_code(404); // Not Found
-            echo json_encode([
-                "success" => false,
-                "message" => "Review not found."
-            ]);
-            exit();
-        }
-
-        http_response_code(200); // Success
-        echo json_encode([
-            "success" => true,
-            "data" => $row
-        ]);
-        exit();
-    }
-
-    // Fetch reviews by authenticated user's ID
+    // Fetch reviews by authenticated user's ID - userove reviews
     if (isset($decoded->email)) {
         $user_email = $decoded->email;
         $user->setEmail($user_email);
@@ -109,7 +86,8 @@ try {
         http_response_code(200); // Success
         echo json_encode([
             "success" => true,
-            "data" => $reviews
+            "data" => $reviews,
+            "user" => $user_row
         ]);
         exit();
     }
@@ -146,7 +124,8 @@ try {
         http_response_code(200); // Success
         echo json_encode([
             "success" => true,
-            "data" => $reviews
+            "data" => $reviews,
+            "som tu review read get artid" => true
         ]);
         exit();
     }

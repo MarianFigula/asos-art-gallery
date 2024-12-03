@@ -41,6 +41,19 @@ if ($method !== "GET") {
     exit();
 }
 try {
+    if (isset($_GET["admin_all"]) && isset($_GET["user_id"]) && $decoded->role == "S"){
+        $userId = $_GET["user_id"];
+        $art->setUserId($userId);
+        $stmt = $art->getArtsByUserId();
+        $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        http_response_code(200); // Success
+        echo json_encode([
+            "success" => true,
+            "data" => $reviews,
+        ]);
+        exit();
+    }
     // Fetch art by ID
     if (isset($_GET['id'])) {
         $art_id = intval($_GET['id']);
@@ -92,16 +105,6 @@ try {
         ]);
         exit();
     }
-
-    // Fetch all arts with reviews and user details
-//    if ($decoded->role !== 'A') { // Ensure only admins can fetch all data
-//        http_response_code(403); // Forbidden
-//        echo json_encode([
-//            "success" => false,
-//            "message" => "Access denied. Admin privileges required."
-//        ]);
-//        exit();
-//    }
 
 
 } catch (InvalidArgumentException $e) {
