@@ -16,18 +16,18 @@ CREATE TABLE IF NOT EXISTS `user`
 -- Insert sample data into `user` table
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `security_question`, `security_answer`, `role`)
 VALUES
-    ('1', 'admin', 'adminGallery@admin.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b', 'S'), /*ZE47ZX0aCntutXiTc2NU+*/
-    ('2', 'alice', 'alicebobova@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b', 'U'),/*0QkbFaa3WbyWFCLLFdAT+*/
-    ('3', 'bob', 'bobalicovy@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'a', 'b', 'U'),/*Zgyv8tvUgZt7fGr4mQ6Q+*/
-    ('4', 'charlie', 'charliebrown@gmail.com', '$2y$10$N8dF1j5pTQvmlSLrU/3k8Q0dcLd5z9fJKSzUd3QZ9nPb8TcH6nNOe', 'a', 'b', 'U'),/*5Hjs8Tyt2WbwZgZZVfAR+*/
-    ('5', 'david', 'davidsmith@gmail.com', '$2y$10$3fnTlwXGJ7MkTq5K/QP/JKQJ4bKP5sHgRmchDwQh5Dq4vUOzmfNkK', 'a', 'b', 'U'),/*X7hdYlvUg7z8rJd8mS6P+*/
-    ('6', 'eva', 'evajones@gmail.com', '$2y$10$Tn8jPKlJZuN6L5kdrI/XjOxG9zZbThXgLyP5xFsMkl1O3oE5DQIXy', 'a', 'b', 'U'),/*9HfkVaa4XcyWFHL9LdFT+*/
-    ('7', 'frank', 'frankwilliams@gmail.com', '$2y$10$U9ldRj7qNz3dkSmXzQ/Hl1KQZRm2EPqfT3W4c7Zj9NpxnO7vBkM3A', 'a', 'b', 'U'),/*J8fkL6fUkQz4gGr9mQ5L+*/
-    ('8', 'sheldon', 'sheldoncooper@gmail.com', '$2y$10$3pn9LlNvT9Pq1dNmXzJ/BzOPq7YPdErfK9zd8WTZmMkPqv8NrYMQs', 'a', 'b', 'U'),/*Bazinga123!*/
-    ('9', 'george', 'georgewilson@gmail.com', '$2y$10$W9opSLvJZu3k9NmC4/DkEKOw4RMpzRdJ8ZTf9Zd6Gjk3mPbVvAXNa', 'a', 'b', 'U'),/*X9fvR6cVkTq7fFr6mS4Q+*/
-    ('10', 'anna', 'annakovacova@gmail.com', '$2y$10$Zj8F1p7rVlLs9nYzS/Hl9Z5eQfDkJ6Fs9Rtq0TpG9kLp5mCbLnZGK', 'a', 'b', 'U'),/*7KlfH3sLgQz5rDg7nS8A+*/
-    ('11', 'betty', 'bettysmith@gmail.com', '$2y$10$U8hkWm4tNx3p8LmVY/Xj7NQ4sQkL9mXfR5bR7TxHkQp4mD9nGnMqE', 'a', 'b', 'U'),/*3FgkR9pVbWp9cTl3mQ6D+*/
-    ('12', 'clara', 'claramiller@gmail.com', '$2y$10$P9qlRlMvT6Nq5kZnV/Hm7LQ3dKpJ7sKgS4qT5UwF9mPp9lCbLnFGA', 'a', 'b', 'U');/*8FglJ8nVkWp7sHf7lS5C+*/
+    ('1', 'admin', 'adminGallery@admin.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'What is your pet''s name?', 'Max', 'S'), /*ZE47ZX0aCntutXiTc2NU+*/
+    ('2', 'alice', 'alicebobova@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'What was your first car?', 'Honda Civic', 'U'),/*0QkbFaa3WbyWFCLLFdAT+*/
+    ('3', 'bob', 'bobalicovy@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'What was your first car?', 'Toyota Corolla', 'U'),/*Zgyv8tvUgZt7fGr4mQ6Q+*/
+    ('4', 'charlie', 'charliebrown@gmail.com', '$2y$10$N8dF1j5pTQvmlSLrU/3k8Q0dcLd5z9fJKSzUd3QZ9nPb8TcH6nNOe', 'What is your grandmother''s name?', 'Anna', 'U'),/*5Hjs8Tyt2WbwZgZZVfAR+*/
+    ('5', 'david', 'davidsmith@gmail.com', '$2y$10$3fnTlwXGJ7MkTq5K/QP/JKQJ4bKP5sHgRmchDwQh5Dq4vUOzmfNkK', 'What was the name of your first school?', 'Spojena škola Tilgnerova', 'U'),/*X7hdYlvUg7z8rJd8mS6P+*/
+    ('6', 'eva', 'evajones@gmail.com', '$2y$10$Tn8jPKlJZuN6L5kdrI/XjOxG9zZbThXgLyP5xFsMkl1O3oE5DQIXy', 'What was the name of your first school', 'Paneurópska súkromná základná škola', 'U'),/*9HfkVaa4XcyWFHL9LdFT+*/
+    ('7', 'frank', 'frankwilliams@gmail.com', '$2y$10$U9ldRj7qNz3dkSmXzQ/Hl1KQZRm2EPqfT3W4c7Zj9NpxnO7vBkM3A', 'What is your pet''s name?', 'Muro', 'U'),/*J8fkL6fUkQz4gGr9mQ5L+*/
+    ('8', 'sheldon', 'sheldoncooper@gmail.com', '$2y$10$3pn9LlNvT9Pq1dNmXzJ/BzOPq7YPdErfK9zd8WTZmMkPqv8NrYMQs', 'What is your pet''s name?', 'Simona', 'U'),/*Bazinga123!*/
+    ('9', 'george', 'georgewilson@gmail.com', '$2y$10$W9opSLvJZu3k9NmC4/DkEKOw4RMpzRdJ8ZTf9Zd6Gjk3mPbVvAXNa', 'What is your pet''s name?', 'Bella', 'U'),/*X9fvR6cVkTq7fFr6mS4Q+*/
+    ('10', 'anna', 'annakovacova@gmail.com', '$2y$10$Zj8F1p7rVlLs9nYzS/Hl9Z5eQfDkJ6Fs9Rtq0TpG9kLp5mCbLnZGK', 'What was your first car?', 'Skoda Felicia', 'U'),/*7KlfH3sLgQz5rDg7nS8A+*/
+    ('11', 'betty', 'bettysmith@gmail.com', '$2y$10$U8hkWm4tNx3p8LmVY/Xj7NQ4sQkL9mXfR5bR7TxHkQp4mD9nGnMqE', 'What is your grandmother''s name?', 'Sofia', 'U'),/*3FgkR9pVbWp9cTl3mQ6D+*/
+    ('12', 'clara', 'claramiller@gmail.com', '$2y$10$P9qlRlMvT6Nq5kZnV/Hm7LQ3dKpJ7sKgS4qT5UwF9mPp9lCbLnFGA', 'What is your pet''s name?', 'Rudolf', 'U');/*8FglJ8nVkWp7sHf7lS5C+*/
 
 
 -- Create the `art` table
