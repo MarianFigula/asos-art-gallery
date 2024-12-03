@@ -4,11 +4,12 @@ import { getUserColumns } from "../../assets/table-columns/tableUserColumns";
 import { useNavigate } from "react-router-dom";
 import { Table } from "../../components/table/Table";
 import axios from "axios";
+import {useAuth} from "../../components/auth/AuthContext";
 
 export function AdminSite() {
     const [data, setData] = useState([]);
     const [records, setRecords] = useState(data);
-
+    const {token} = useAuth()
     const navigate = useNavigate();
 
     const editHandler = (row) => {
@@ -21,18 +22,26 @@ export function AdminSite() {
 
     const fetchData = async () => {
         const serverUrl = process.env.REACT_APP_SERVER_URL;
-        const token = localStorage.getItem("jwtToken");
 
         try {
-            const response = await axios.get(`${serverUrl}/api/user/read.php`, {
+            const response = await axios.get(`${serverUrl}/api/user/adminRead.php`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`, // Include JWT token for authentication
                 },
             });
 
-            setData(response.data.data);
-            setRecords(response.data.data);
+            const result = response.data
+            if (result.success){
+                console.log(result)
+                console.log(result.message)
+                setData(result.data);
+                setRecords(result.data);
+            }else {
+                console.log(result)
+                console.log(result.message)
+
+            }
         } catch (error) {
             console.error("Error fetching user data:", error);
         }

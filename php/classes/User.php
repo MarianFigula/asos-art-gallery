@@ -182,7 +182,7 @@ class User {
             if ($result) {
                 $this->id = $this->conn->lastInsertId();
                 $this->conn->commit();
-                return true;
+                return $this->id;  // Return the ID of the created user
             } else {
                 $this->conn->rollBack();
                 return false;
@@ -229,7 +229,7 @@ class User {
      * IDEA: password has to be retrieved for login.php - better way possible?
      */
     public function getUserByEmail() {
-        $query = "SELECT id, username, password, email, security_question, security_answer FROM " . $this->table_name . " WHERE email = :email";
+        $query = "SELECT id, username, password, email, security_question, security_answer, role FROM " . $this->table_name . " WHERE email = :email";
         $stmt = $this->conn->prepare($query);
     
         $params = ['email' => $this->email];
