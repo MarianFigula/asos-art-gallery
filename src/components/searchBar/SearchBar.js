@@ -16,5 +16,3 @@ export function SearchBar({searchId,handleFilter, placeholder = "Search"}){
         </>
     )
 }
-
-export default SearchBar;
