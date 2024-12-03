@@ -38,6 +38,8 @@ export function UserArtsSite() {
             if (result.success) {
                 setUserArtData(result.data);
                 setUserArtRecords(result.data);
+            }else {
+                alert("Error fetching art data")
             }
         } catch (error) {
             console.error("Error fetching art data: ", error);
@@ -100,9 +102,11 @@ export function UserArtsSite() {
             if (result.success) {
                 alert("Artwork successfully updated.");
                 window.location.reload();
+            }else {
+                alert("Error updating artwork")
             }
         } catch (error) {
-            setError(error.message || "An error occurred.");
+            alert("Error updating artwork")
             console.warn("Error updating artwork:", error);
         }
     };

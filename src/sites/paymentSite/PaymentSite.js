@@ -100,9 +100,9 @@ export default function PaymentSite() {
                 clearCart();
                 navigate("/payment-accepted");
             }else {
-                console.log(result)
-                console.log(result.message)
-                console.log("bad")
+                alert("Error processing payment:");
+                clearCart();
+                navigate("/payment-denied");
             }
         } catch (error) {
             console.error("Error processing payment:", error);

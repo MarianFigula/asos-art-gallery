@@ -29,10 +29,19 @@
  */
 
 header("Content-Type: application/json");
-
+require __DIR__ . '/../../vendor/autoload.php';
 include_once '../../config/Database.php';
 include_once '../../classes/User.php';
 include_once "../../config/cors.php";
+
+use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
+$dotenv->load();
+
+$key = $_ENV['JWT_SECRET'];
 
 $database = new Database();
 $db = $database->getConnection();
@@ -79,7 +88,7 @@ if (!$row) {
 
 // Verify security answer
 // SECURITY: maybe an unsafe comparison for timed-attacks?
-if (!$user->verifySecurityAnswer($data->securityAnswer, $row['security_answer'])) {
+if (!$user->verifySecurityAnswer($data->security_answer, $row['security_answer'])) {
     http_response_code(401);
     echo json_encode([
         "success" => false,
@@ -90,17 +99,28 @@ if (!$user->verifySecurityAnswer($data->securityAnswer, $row['security_answer'])
 
 // Update the password
 $id = $row["id"];
-
+$role = $row["role"];
 $user->setId($id);
 $user->setPassword($data->password);
+$user->setRole($role);
 
 $result = $user->updateUserPassword();
 
 if ($result) {
+    $payload = [
+        "id" => $user->getId(),
+        "email" => $user->getEmail(),
+        "role" => $user->getRole(),
+        "exp" => time() + 3600000
+    ];
+
+    $jwt = JWT::encode($payload, $key, 'HS256');
+
     http_response_code(200);
     echo json_encode([
         "success" => true,
-        "message" => "Password reset successfully."
+        "message" => "Password reset successfully.",
+        "token" => $jwt
     ]);
 } else {
     http_response_code(500);

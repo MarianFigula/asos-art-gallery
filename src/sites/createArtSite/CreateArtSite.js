@@ -51,9 +51,11 @@ export function CreateArtSite() {
             if (data.success) {
                 alert("Art Successfully Created");
                 navigate("/");
+            }else {
+                alert("Failed to create art");
             }
         } catch (error) {
-            setError(error.message);
+            alert("Failed to create art");
             console.error("Error creating art: ", error);
         }
     };

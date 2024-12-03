@@ -88,7 +88,7 @@ try {
 
     // Prevent self-reviews
     if ($reviewer_user_id === $art_creator_user_id) {
-        http_response_code(400); // Bad Request
+        http_response_code(200);
         echo json_encode([
             "success" => false,
             "message" => "You cannot review your own artwork."

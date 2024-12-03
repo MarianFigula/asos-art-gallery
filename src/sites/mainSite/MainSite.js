@@ -114,8 +114,11 @@ export function MainSite() {
 
                 setArts(artData);
                 setInitialArtData(artData);
+            }else {
+                setError(result.message)
             }
         } catch (error) {
+            setError("Oops, something wrong happened")
             console.error("Error fetching art and reviews data: ", error);
         }
     };
@@ -233,9 +236,11 @@ export function MainSite() {
                 alert("Review added successfully.")
                 setIsArtModalOpen(false);
                 window.location.reload();
+            }else {
+                setError(result.message)
             }
         } catch (error) {
-            setError(error.message);
+            setError("Something failed")
             console.error("Error submitting review:", error);
         }
     };

@@ -38,9 +38,11 @@ export function UserReviewsSite() {
             if (result.success){
                 setReviewData(result.data);
                 setReviewRecords(result.data);
+            }else {
+                alert("Error updating artwork")
             }
         } catch (error) {
-            console.error("Error fetching review data:", error);
+            alert("Error updating artwork")
         }
     };
 
@@ -99,6 +101,8 @@ export function UserReviewsSite() {
             if (result.success) {
                 alert("Successfully updated review.");
                 window.location.reload(); // Reload the page
+            }else {
+                alert("Failed to update review, please try again")
             }
         } catch (error) {
             setError(error);

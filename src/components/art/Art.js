@@ -37,9 +37,11 @@ export function Art({ art }) {
             if (result.success) {
                 incrementCartCount();
                 setIsAddedToCart(true); // Disable the button and mark as added
+            }else {
+                alert("An error occurred while adding art to cart.");
             }
         } catch (error) {
-            console.error("Error adding art to cart:", error);
+            console.error("Error adding art to cart");
             alert("An error occurred while adding art to cart.");
         }
     }

@@ -68,6 +68,7 @@ export function AdminEditUserSite() {
                 setArtData(result.data); // Set fetched art data into state
                 setArtRecords(result.data); // Optionally set into another state for records
             } else {
+                alert("Error fetching art data:")
                 console.error("Error: ", result);
             }
         } catch (error) {
@@ -98,6 +99,7 @@ export function AdminEditUserSite() {
                 setReviewData(result.data); // Store the fetched reviews in state
                 setReviewRecords(result.data); // Optionally store for records
             } else {
+                alert("Error fetching review data")
                 console.error("Error: ", result.message, result);
             }
         } catch (error) {
@@ -203,11 +205,11 @@ export function AdminEditUserSite() {
                 setUsername(username); // Update the frontend state with new values
                 setEmail(email);
                 alert("Updated successfully");
+            }else {
+                setError("An error occurred while updating the user.");
             }
         } catch (error) {
-            setError(
-                error.message || "An error occurred while updating the user."
-            );
+            setError("An error occurred while updating the user.");
             console.warn("Error updating user:", error);
         }
     };
@@ -239,10 +241,11 @@ export function AdminEditUserSite() {
                 window.location.reload(); // Reload the page to reflect changes
             } else {
                 console.error("Error:", result.message);
+                setError("An error occurred while updating the artwork."
+                );
             }
         } catch (error) {
-            setError(
-                error.message || "An error occurred while updating the artwork."
+            setError("An error occurred while updating the artwork."
             );
             console.warn("Error updating artwork:", error);
         }
@@ -273,12 +276,11 @@ export function AdminEditUserSite() {
                 alert("Review updated successfully.");
                 window.location.reload(); // Reload the page to reflect changes
             } else {
+                setError("An error occurred while updating the review.");
                 console.error("Error:", result.message);
             }
         } catch (error) {
-            setError(
-                error.message || "An error occurred while updating the review."
-            );
+            setError("An error occurred while updating the review.");
             console.warn("Error updating review:", error);
         }
     };

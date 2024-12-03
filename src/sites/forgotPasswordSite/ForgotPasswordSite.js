@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import {FormInput} from "../../components/formInput/FormInput";
 import {Link} from "react-router-dom";
 import axios from "axios";
+import {useAuth} from "../../components/auth/AuthContext";
 
 export function ForgotPasswordSite() {
 
@@ -12,6 +13,7 @@ export function ForgotPasswordSite() {
     const [repeatedPassword, setRepeatedPassword] = useState("")
     const [securityAnswer, setSecurityAnswer] = useState("")
     const serverUrl = process.env.REACT_APP_SERVER_URL;
+    const {login} = useAuth()
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -33,9 +35,11 @@ export function ForgotPasswordSite() {
                 },
             });
             const data = response.data;
-            console.log(data);
 
-            if (!response.ok) {
+            if (data.success){
+                console.log(data);
+                login(data.token)
+            }else {
                 setError(data.message);
             }
 

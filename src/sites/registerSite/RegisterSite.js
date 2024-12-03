@@ -54,7 +54,7 @@ export function RegisterSite() {
             data.success ? login(data.token) : setError(data.message);
 
         } catch (error) {
-            setError(error.message);
+            setError("Some inputs are not filled");
         }
     }
 
