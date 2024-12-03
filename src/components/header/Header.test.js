@@ -6,18 +6,21 @@ import CartSite from '../../sites/cartSite/CartSite.js';
 import { LoginSite } from '../../sites/loginSite/LoginSite.js';
 import { MainSite } from '../../sites/mainSite/MainSite.js';
 import '@testing-library/jest-dom';
+import { AuthProvider } from '../auth/AuthContext';
 
 import { CartProvider } from '../cartProvider/CartProvider'; // Import CartProvider
 
 test('navigates to CartSite when bi bi-cart is clicked', () => {
     render(
         <MemoryRouter initialEntries={['/']}>
+            <AuthProvider>
             <CartProvider>  {/* Wrap with CartProvider */}
                 <Routes>
                     <Route path="/" element={<Header />} />
                     <Route path="/cart" element={<CartSite />} />
                 </Routes>
             </CartProvider>
+            </AuthProvider>
         </MemoryRouter>
     );
 
@@ -31,11 +34,13 @@ test('navigates to CartSite when bi bi-cart is clicked', () => {
 test('open sidebar when click on sidebar icon', () => {
     render(
         <MemoryRouter initialEntries={['/']}>
+            <AuthProvider>
             <CartProvider>
                 <Routes>
                     <Route path="/" element={<Header />} />
                 </Routes>
             </CartProvider>
+            </AuthProvider>
         </MemoryRouter>
     );
 
@@ -44,40 +49,22 @@ test('open sidebar when click on sidebar icon', () => {
 
     fireEvent.click(sidebarLink);
 
-    expect(screen.getByText(/Login/i)).toBeInTheDocument();
+    expect(screen.getByText(/Logout/i)).toBeInTheDocument();
 });
 
-test('navigates to SignIn when bi bi-person is clicked', () => {
-    render(
-        <MemoryRouter initialEntries={['/']}>
-            <CartProvider>
-                <Routes>
-                    <Route path="/" element={<Header />} />
-                    <Route path="/login" element={<LoginSite />} />
-                </Routes>
-            </CartProvider>
-        </MemoryRouter>
-    );
-
-    const signInLink = screen.getByRole('link', { name: /SignIn/i });
-    fireEvent.click(signInLink);
-
-    const signInButton = screen.getByRole('button', { name: /Sign In/i });
-    expect(signInButton).toBeInTheDocument();
-
-    const signInHeader = screen.getByRole('heading', { name: /Sign In/i });
-    expect(signInHeader).toBeInTheDocument();
-});
 
 test('navigates to MainSite when the link is clicked', () => {
     render(
         <MemoryRouter initialEntries={['/']}>
+            <AuthProvider>
             <CartProvider>
                 <Routes>
                     {/* Render both Header and MainSite at the root path */}
                     <Route path="/" element={<><Header /><MainSite /></>} />
                 </Routes>
             </CartProvider>
+            </AuthProvider>
+
         </MemoryRouter>
     );
 

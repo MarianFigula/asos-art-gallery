@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { MainSite } from './MainSite';
 import '@testing-library/jest-dom';
 import { CartProvider } from '../../components/cartProvider/CartProvider';
+import { AuthProvider } from '../../components/auth/AuthContext';
 
 import axios from 'axios';
 jest.mock('axios'); // Mock axios
@@ -11,9 +12,11 @@ test('activates the sort by price ascending button and toggles the active class'
 
     render(
         <BrowserRouter>
-            <CartProvider>
-                <MainSite />
-            </CartProvider>
+            <AuthProvider>
+                <CartProvider>
+                    <MainSite />
+                </CartProvider>
+            </AuthProvider>
         </BrowserRouter>
     );
 
@@ -34,9 +37,11 @@ test('button does not have "active" class when not clicked', () => {
 
     render(
         <BrowserRouter>
+            <AuthProvider>
             <CartProvider>
                 <MainSite toggleSortByPriceAsc={toggleSortByPriceAsc} />
             </CartProvider>
+            </AuthProvider>
         </BrowserRouter>
     );
 
