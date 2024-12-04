@@ -1,5 +1,5 @@
 #Test1 LoadTest
-
+#
 config:
   target: 'http://localhost:3000/'
   phases:
@@ -11,10 +11,10 @@ config:
 scenarios:
   - flow:
       - get:
-          url: '/'  # Simulate clicking the homepage URL
-      - think: 10  # Wait for 5 seconds before simulating the next action
+          url: '/?route=login'  # Mimics a navigation to /login via query param
+      - think: 5
       - get:
-          url: '/login'  # Simulate a user navigating to another page
+          url: '/?route=cart'  # Mimics navigation to /cart
 
 
 
@@ -37,16 +37,13 @@ scenarios:
 #          url: '/'  # Simulate user accessing the homepage
 #      - think: 5  # Wait for 5 seconds before next action
 #      - get:
-#          url: '/cart'  # Simulate user going to cart page
-#      - think: 3
-#      - post:
-#          url: '/login'  # Simulate a login action
-#          json:
-#            username: 'user'
-#            password: 'password'
+#          url: '/?route=cart'  # Simulate user going to cart page
 #      - think: 5
 #      - get:
-#          url: '/profile'  # Simulate a user visiting the profile page
+#          url: '/?route=forgot-password'  # Simulate a user visiting the profile page
+#      - think: 5
+#      - get:
+#          url: '/?route=my-arts'  # Simulate a user visiting the profile page
 
 #Test3 LoadTest
 #config:
@@ -69,10 +66,10 @@ scenarios:
 #          url: '/'
 #      - think: 3
 #      - get:
-#          url: '/register'
+#          url: '/?route=register'
 #      - think: 5
 #      - get:
-#          url: '/cart'
+#          url: '/?route=cart'
 #      - think: 5
 
 
@@ -90,7 +87,7 @@ scenarios:
 #          url: '/'  # User 1 accesses the homepage
 #      - think: 2
 #      - get:
-#          url: 'http://localhost:3000/login'  # User 2 views the products page
+#          url: '/?route=login'  # User 2 views the products page
 #      - think: 3
 #      - get:
-#          url: 'http://localhost:3000/cart'  # User 3 views the cart page
+#          url: '/?route=cart'  # User 3 views the cart page

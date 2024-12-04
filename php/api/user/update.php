@@ -108,10 +108,14 @@ try {
 
     // Perform the update
     if ($user->updateUserById()) {
-        http_response_code(200); // Success
+        http_response_code(200);
         echo json_encode([
             "success" => true,
-            "message" => "User successfully updated."
+            "message" => "User successfully updated.",
+            "data" => [
+                "username" => $user->getUsername(),
+                "email" => $user->getEmail()
+            ]
         ]);
     } else {
         throw new Exception("Failed to update user.");

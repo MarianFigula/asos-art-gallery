@@ -45,11 +45,9 @@ if ($method !== "GET"){
 }
 
 try {
-    $userId = $decoded->id;
-    // Fetch user details by ID
-    if ($userId) {
-        $user->setId($userId);
-        $stmt = $user->getUserById();
+    if (isset($_GET['email'])) {
+        $user->setEmail($_GET['email']);
+        $stmt = $user->getUserByEmail();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$row) {
@@ -69,9 +67,11 @@ try {
         exit();
     }
 
-    if (isset($_GET['email'])) {
-        $user->setEmail($_GET['email']);
-        $stmt = $user->getUserByEmail();
+    $userId = $decoded->id;
+    // Fetch user details by ID
+    if ($userId) {
+        $user->setId($userId);
+        $stmt = $user->getUserById();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$row) {

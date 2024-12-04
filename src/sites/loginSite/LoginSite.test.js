@@ -6,13 +6,16 @@ import { LoginSite } from "./LoginSite"; // Replace with the actual path to your
 import { MemoryRouter } from "react-router-dom";
 import { Form } from "../../components/form/Form";
 import { FormInput } from "../../components/formInput/FormInput";
+import { AuthProvider } from '../../components/auth/AuthContext';
 
 describe("Login Component", () => {
 
     test("renders the login form with inputs and submit button", () => {
         render(
             <MemoryRouter>
+                <AuthProvider>
                 <LoginSite />
+                    </AuthProvider>
             </MemoryRouter>
         );
 
@@ -36,7 +39,9 @@ describe("Login Component", () => {
     test("allows the user to input email and password", async () => {
         render(
             <MemoryRouter>
+                <AuthProvider>
                 <LoginSite />
+                    </AuthProvider>
             </MemoryRouter>
         );
 

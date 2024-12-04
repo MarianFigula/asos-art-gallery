@@ -29,6 +29,7 @@ export function AdminEditUserSite() {
     const [reviewData, setReviewData] = useState([]);
     const [reviewRecords, setReviewRecords] = useState(reviewData);
     const [error, setError] = useState("");
+    const [displayUsername, setDisplayUsername] = useState(initialUsername || "");
     const [username, setUsername] = useState(initialUsername || "");
     const [email, setEmail] = useState(initialEmail || "");
     const [isArtModalOpen, setIsArtModalOpen] = useState(false);
@@ -110,6 +111,7 @@ export function AdminEditUserSite() {
 
     useEffect(() => {
         if (id) {
+            fetchUserData();
             fetchArtData();
             fetchReviewData();
         } else {
@@ -202,8 +204,9 @@ export function AdminEditUserSite() {
             console.log(result);
 
             if (result.success) {
-                setUsername(username); // Update the frontend state with new values
-                setEmail(email);
+                setUsername(result.data.username);
+                setDisplayUsername(result.data.username);
+                setEmail(result.data.email);
                 alert("Updated successfully");
             }else {
                 setError("An error occurred while updating the user.");
@@ -211,6 +214,34 @@ export function AdminEditUserSite() {
         } catch (error) {
             setError("An error occurred while updating the user.");
             console.warn("Error updating user:", error);
+        }
+    };
+
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get(
+                `${serverUrl}/api/user/read.php`,
+                {
+                    params: { "email": email },
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+    
+            const result = response.data;
+    
+            if (result.success) {
+                setUsername(result.data.username);
+                setDisplayUsername(result.data.username);
+                setEmail(result.data.email);      
+            } else {
+                setError("Failed to fetch user data.");
+            }
+        } catch (error) {
+            setError("Error fetching user data.");
+            console.error("Fetch user data error:", error);
         }
     };
 
@@ -385,7 +416,7 @@ export function AdminEditUserSite() {
                     />
                 </Form>
             </Modal>
-            <h1 className="text-center mb-2 mt-10">User - {username}</h1>
+            <h1 className="text-center mb-2 mt-10">User - {displayUsername}</h1>
             <div className="edit-user-wrapper mb-4">
                 <Form
                     onSubmit={handleSubmit}
