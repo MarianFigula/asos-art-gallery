@@ -111,6 +111,7 @@ export function AdminEditUserSite() {
 
     useEffect(() => {
         if (id) {
+            window.scrollTo(0, 0);
             fetchUserData();
             fetchArtData();
             fetchReviewData();
