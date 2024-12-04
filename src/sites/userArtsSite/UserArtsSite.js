@@ -41,8 +41,8 @@ export function UserArtsSite() {
             }else {
                 alert("Error fetching art data")
             }
-        } catch (error) {
-            console.error("Error fetching art data: ", error);
+        }  catch (error) {
+            alert("Error fetching art data")
         }
     };
 
@@ -75,7 +75,8 @@ export function UserArtsSite() {
                 row.upload_date.toString().toLowerCase().includes(eventValue)
             );
         });
-        setUserArtData(newData);
+        console.log("new data:", newData)
+        setUserArtRecords(newData);
     };
 
     // TODO: code duplicate in AdminEditUserSite
