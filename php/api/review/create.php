@@ -50,10 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $data = json_decode(file_get_contents("php://input"));
 
 if (empty($data->art_id) || empty($data->review_text) || empty($data->rating)) {
-    http_response_code(400); // Bad Request
+    http_response_code(200); // Bad Request
     echo json_encode([
         "success" => false,
-        "message" => "All fields (art_id, review_text, rating) are required."
+        "message" => "All fields are required."
     ]);
     exit();
 }
