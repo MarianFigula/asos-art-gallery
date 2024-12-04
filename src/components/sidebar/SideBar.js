@@ -18,7 +18,7 @@ export function SideBar({show, closeSidebar }){
                     FEI Art Gallery
                 </h1>
                 <hr className="mb-2"/>
-                <div className="sidebar-content">
+                <div className="sidebar-content text-center">
                     <p
                         onClick={handleLogout}
                         style={{ cursor: "pointer", textDecoration: "underline" }}
