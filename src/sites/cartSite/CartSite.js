@@ -13,6 +13,7 @@ export default function CartSite() {
     const { cartArtDetails, removeFromCart } = useCart(); // Use cartArtDetails from context
     const [isCartModalOpen, setIsCartModalOpen] = useState(false)
     const [totalToPay, setTotalToPay ] = useState(0)
+    const [selectedArt, setSelectedArt] = useState(null); // State for the selected art
 
     const navigate = useNavigate()
 
@@ -24,29 +25,30 @@ export default function CartSite() {
         console.log("totaltopay", totalToPay)
     }, [cartArtDetails]); // Recalculate total if cartArtDetails changes
 
-    function showArtModal() {
-        setIsCartModalOpen(true)
+    function showArtModal(art) {
+        setSelectedArt(art); // Set the clicked art
+        setIsCartModalOpen(true);
     }
 
     console.log("cd", cartArtDetails)
 
     return (
         <>
-            {cartArtDetails && cartArtDetails.length > 0 ? (
+            {(selectedArt) && (
                 <Modal
                     isOpen={isCartModalOpen}
-                    title="Art Title"
+                    title={selectedArt.title}
                     onClose={() => setIsCartModalOpen(false)}
                 >
                     <div className="cart-modal-img">
-                        <ArtImage imgUrl={cartArtDetails[0]?.img_url} />
+                        <ArtImage imgUrl={selectedArt.img_url} />
                     </div>
                     <div className="space-between-for-two-components">
-                        <p>by {cartArtDetails[0]?.author_name}</p>
-                        <p className="price">{cartArtDetails[0]?.price}€</p>
+                        <p>by {selectedArt.author_name}</p>
+                        <p className="price">{selectedArt.price}€</p>
                     </div>
                 </Modal>
-            ): <></>}
+            )}
 
 
             <div className="cart-payment-wrapper">
@@ -64,7 +66,7 @@ export default function CartSite() {
                                 imgUrl={art.img_url}
                                 authorName={art.author_name}
                                 price={art.price}
-                                onClickDisplayImage={showArtModal}
+                                onClickDisplayImage={() => showArtModal(art)}
                                 onClickDeleteArtFromCart={() => removeFromCart(art.art_id)} // Call removeFromCart
                             />
                         ))}
