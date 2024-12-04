@@ -17,11 +17,6 @@ export function CartProvider({ children }) {
     const { token } = useAuth();  // Get the token from the AuthContext
     const navigate = useNavigate()
 
-    // useEffect(() => {
-    //     if (!token) {
-    //         navigate("/login"); // Redirect to login if token is not available
-    //     }
-    // }, [token, navigate]);
     async function fetchCartArtIds() {
         try {
             const response = await axios.get(
@@ -42,7 +37,7 @@ export function CartProvider({ children }) {
                 console.error("Error response", response);
             }
         } catch (error) {
-            console.error("Error fetching cart art IDs:", error);
+            console.log()
         }
     }
 
@@ -66,6 +61,15 @@ export function CartProvider({ children }) {
             console.error("Error fetching art details:", error);
         }
     }
+
+    useEffect(() => {
+        // Fetch cart data on all routes except /login and /register
+        const excludedRoutes = ["/login", "/register", "/forgot-password"];
+
+        if (token && !excludedRoutes.includes(location.pathname)) {
+            fetchCartArtIds();
+        }
+    }, [location.pathname, token, cartCount]);
 
     async function removeFromCart(artId) {
         try {
@@ -97,14 +101,6 @@ export function CartProvider({ children }) {
         setCartArtIds([]); // Clear all art IDs
         setCartCount(0); // Reset count
     };
-
-    useEffect(() => {
-        // Fetch cart data on all routes except /login and /register
-        const excludedRoutes = ["/login", "/register", "/forgot-password"];
-        if (!excludedRoutes.includes(location.pathname)) {
-            fetchCartArtIds();
-        }
-    }, [location.pathname]); // Trigger when the route changes
 
     const incrementCartCount = () => setCartCount((prev) => prev + 1);
     const decrementCartCount = () =>
