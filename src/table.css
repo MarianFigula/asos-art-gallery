@@ -18,10 +18,13 @@
     }
     .search-icon{
         position: absolute;
-        right: 0.75rem;
+        left: 10px;
         top: 8px;
         font-size: 1rem;
         color: var(--grey);
+    }
+    input {
+        padding-left: 40px;
     }
     .button-refresh{
         background-color: var(--blue);

@@ -290,6 +290,7 @@ export function MainSite() {
                         searchId="main-searchbar"
                         handleFilter={handleFilter}
                         placeholder="Search for art..."
+                        style={{paddingLeft: "40px"}}
                     />
                     <div className="button-wrapper">
                         <button
