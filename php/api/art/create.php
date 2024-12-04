@@ -111,7 +111,7 @@ try {
     }
 
 } catch (InvalidArgumentException $e) {
-    http_response_code(400);
+    http_response_code(200);
     echo json_encode(["success" => false, "message" => $e->getMessage()]);
 } catch (Exception $e) {
     http_response_code(500);

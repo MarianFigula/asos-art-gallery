@@ -22,9 +22,14 @@ export function CreateArtSite() {
         event.preventDefault();
         setError("");
 
-        if (title === "" || description === "" || price < 0 || !file) {
-            setError("Some inputs are filled incorrectly");
-            return;
+        if (title === "" || description === "" || !file){
+            setError("All fields are required");
+            return
+        }
+
+        if (price <= 0){
+            setError("Price should be more than 0");
+            return
         }
 
         try {
@@ -52,7 +57,7 @@ export function CreateArtSite() {
                 alert("Art Successfully Created");
                 navigate("/");
             }else {
-                alert("Failed to create art");
+                setError(data.message)
             }
         } catch (error) {
             alert("Failed to create art");

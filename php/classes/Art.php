@@ -103,7 +103,7 @@ class Art {
     public function setPrice($price) {
         if ($price !== null) {
             if (!filter_var($price, FILTER_VALIDATE_INT, ["options" => ["min_range" => 0]])) {
-                throw new InvalidArgumentException("Invalid Price: must be a positive integer or zero.");
+                throw new InvalidArgumentException("Price must be a more than 0.");
             }
             $this->price = $price;
         } else {
