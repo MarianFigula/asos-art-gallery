@@ -154,12 +154,13 @@ export function UserArtsSite() {
                         label="Price (€)"
                         type="number"
                         value={artEditData.price}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                            const value = e.target.value;
                             setArtEditData({
                                 ...artEditData,
-                                price: Number(e.target.value),
+                                price: value === "" ? value : Number(value),
                             })
-                        }
+                        }}
                         required
                     />
                 </Form>

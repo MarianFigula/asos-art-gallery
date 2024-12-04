@@ -358,12 +358,13 @@ export function AdminEditUserSite() {
                         label="Price (€)"
                         type="number"
                         value={artEditData.price}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                            const value = e.target.value;
                             setArtEditData({
                                 ...artEditData,
-                                price: Number(e.target.value),
+                                price: value === "" ? value : Number(value),
                             })
-                        }
+                        }}
                         required
                     />
                 </Form>
@@ -407,12 +408,13 @@ export function AdminEditUserSite() {
                         max="5"
                         min="0"
                         value={reviewEditData.rating}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                            const value = e.target.value;
                             setReviewEditData({
                                 ...reviewEditData,
-                                rating: Number(e.target.value),
+                                rating: value === "" ? value: Number(value),
                             })
-                        }
+                        }}
                         required
                     />
                 </Form>

@@ -150,12 +150,13 @@ export function UserReviewsSite() {
                         max="5"
                         min="0"
                         value={reviewEditData.rating}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                            const value = e.target.value;
                             setReviewEditData({
                                 ...reviewEditData,
-                                rating: Number(e.target.value),
-                            })
-                        }
+                                rating: value === "" ? value : Number(value), // Allow empty string
+                            });
+                        }}
                         required
                     />
                 </Form>
