@@ -245,11 +245,19 @@ export function MainSite() {
         }
     };
 
+    function resetReview(){
+        setError("")
+        setReviewText("")
+        setReviewRating(0)
+    }
     return (
         <>
             <Modal
                 isOpen={isArtModalOpen}
-                onClose={() => setIsArtModalOpen(false)}
+                onClose={() => {
+                    setIsArtModalOpen(false);
+                    resetReview()
+                }}
                 title="Add Review"
             >
                 <Form
