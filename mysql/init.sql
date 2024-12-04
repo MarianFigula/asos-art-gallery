@@ -20,8 +20,8 @@ VALUES
     ('2', 'alice', 'alicebobova@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'What was your first car?', 'Honda Civic', 'U'),/*0QkbFaa3WbyWFCLLFdAT+*/
     ('3', 'bob', 'bobalicovy@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'What was your first car?', 'Toyota Corolla', 'U'),/*Zgyv8tvUgZt7fGr4mQ6Q+*/
     ('4', 'charlie', 'charliebrown@gmail.com', '$2y$10$N8dF1j5pTQvmlSLrU/3k8Q0dcLd5z9fJKSzUd3QZ9nPb8TcH6nNOe', 'What is your grandmother''s name?', 'Anna', 'U'),/*5Hjs8Tyt2WbwZgZZVfAR+*/
-    ('5', 'david', 'davidsmith@gmail.com', '$2y$10$3fnTlwXGJ7MkTq5K/QP/JKQJ4bKP5sHgRmchDwQh5Dq4vUOzmfNkK', 'What was the name of your first school?', 'Spojena škola Tilgnerova', 'U'),/*X7hdYlvUg7z8rJd8mS6P+*/
-    ('6', 'eva', 'evajones@gmail.com', '$2y$10$Tn8jPKlJZuN6L5kdrI/XjOxG9zZbThXgLyP5xFsMkl1O3oE5DQIXy', 'What was the name of your first school', 'Paneurópska súkromná základná škola', 'U'),/*9HfkVaa4XcyWFHL9LdFT+*/
+    ('5', 'david', 'davidsmith@gmail.com', '$2y$10$3fnTlwXGJ7MkTq5K/QP/JKQJ4bKP5sHgRmchDwQh5Dq4vUOzmfNkK', 'What was the name of your first school?', 'Spojena skola Tilgnerova', 'U'),/*X7hdYlvUg7z8rJd8mS6P+*/
+    ('6', 'eva', 'evajones@gmail.com', '$2y$10$Tn8jPKlJZuN6L5kdrI/XjOxG9zZbThXgLyP5xFsMkl1O3oE5DQIXy', 'What was the name of your first school', 'Paneuropska sukromna zakladna skola', 'U'),/*9HfkVaa4XcyWFHL9LdFT+*/
     ('7', 'frank', 'frankwilliams@gmail.com', '$2y$10$U9ldRj7qNz3dkSmXzQ/Hl1KQZRm2EPqfT3W4c7Zj9NpxnO7vBkM3A', 'What is your pet''s name?', 'Muro', 'U'),/*J8fkL6fUkQz4gGr9mQ5L+*/
     ('8', 'sheldon', 'sheldoncooper@gmail.com', '$2y$10$3pn9LlNvT9Pq1dNmXzJ/BzOPq7YPdErfK9zd8WTZmMkPqv8NrYMQs', 'What is your pet''s name?', 'Simona', 'U'),/*Bazinga123!*/
     ('9', 'george', 'georgewilson@gmail.com', '$2y$10$W9opSLvJZu3k9NmC4/DkEKOw4RMpzRdJ8ZTf9Zd6Gjk3mPbVvAXNa', 'What is your pet''s name?', 'Bella', 'U'),/*X9fvR6cVkTq7fFr6mS4Q+*/
