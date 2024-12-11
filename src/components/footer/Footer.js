@@ -6,7 +6,7 @@ export function Footer(){
         <>
             <footer className="footer">
                 <p className="text-center footer-text">
-                    © Copyright 2024 ASOS | Pavol Polednák, Marián Figula, Ema Ševčíková, Tomáš Jenčík, Radka Kridlová
+                    © Copyright 2024 PKRIM | Marián Figula, Ema Ševčíková
                 </p>
             </footer>
         </>
