@@ -22,7 +22,7 @@ button {
     cursor: pointer;
     border: none;
     border-radius: 10px;
-    transition: background-color 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
 }
 
 .label {
@@ -70,15 +70,26 @@ textarea {
     }
 }
 
-.button-confirm {
+.button-confirm, .button-light {
     padding: 10px;
-    background-color: var(--green);
-    color: white;
     width: max(10vw, 130px);
     font-size: 0.9rem;
 
+}
+.button-confirm {
+    background-color: var(--green);
+    color: white;
     &:hover{
         background-color: var(--dark-green);
+    }
+}
+
+.button-light {
+    background-color: var(--light-grey);
+    color: var(--dark);
+    &:hover{
+        color: var(--white);
+        background-color: var(--grey);
     }
 }
 
@@ -91,7 +102,7 @@ textarea {
 }
 
 
-.button-add-to-cart {
+.button-add-to-cart, .button-disabled {
     width: max(10vw, 130px);
     padding: 10px;
     font-size: 1rem;
@@ -103,11 +114,16 @@ textarea {
     i {
         margin-right: 10px;
     }
-    &:hover {
-        background-color: var(--grey);
-    }
 }
 
+.button-add-to-cart:hover {
+    background-color: var(--grey);
+}
+
+.button-disabled {
+    opacity: 0.4;
+    cursor: default;
+}
 
 .links{
     margin-top: 1rem;

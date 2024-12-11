@@ -2,9 +2,13 @@
   "name": "pkrim-art-gallery",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8000",
+
+  "options": {
+    "allowedHosts": ["localhost", ".localhost"],
+    "proxy": "http://127.0.0.1:8000"
+  },
   "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
@@ -14,7 +18,7 @@
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "styled-components": "^6.1.12",
     "web-vitals": "^2.1.4"
   },
@@ -43,6 +47,19 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-transform-private-property-in-object": "^7.24.7"
+    "@babel/plugin-transform-private-property-in-object": "^7.24.7",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
+    "@testing-library/jest-dom": "^6.6.3",
+    "babel-jest": "^29.7.0",
+    "jest-mock-axios": "^4.8.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "^axios$": "axios/dist/node/axios.cjs"
+    }
   }
 }

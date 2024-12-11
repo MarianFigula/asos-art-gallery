@@ -6,7 +6,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./public/arts:/usr/src/app/public/arts  # Mounting local public folder
+      - ./src:/usr/src/app/src   # Mount your React source code for development
     depends_on:
      - php
      - mysql
@@ -14,10 +14,10 @@ services:
   php:
     build: ./php
     ports:
-      - "9000:80"
+      - "8000:80"
     volumes:
-      - ./public/arts:/var/www/html/public/arts  # Mounting same folder to PHP container
-    links:
+      - ./public/arts:/var/www/html/public/arts
+    depends_on:
       - mysql
 
   mysql:
